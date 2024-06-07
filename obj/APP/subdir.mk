@@ -25,6 +25,6 @@ C_DEPS += \
 
 # Each subdirectory must supply rules for building sources it contributes
 APP/%.o: ../APP/%.c
-	@	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized  -g -DCH32V20x_D8W -DCLK_OSC32K=0 -I"D:\ch32\CH32V208\CH32V208WBU6\APP\include" -I"D:\ch32\CH32V208\CH32V208WBU6\HAL\include" -I"D:\ch32\CH32V208\CH32V208WBU6\LIB" -I"D:\ch32\CH32V208\CH32V208WBU6\Profile\include" -I"D:\ch32\CH32V208\CH32V208WBU6\SRC\Core" -I"D:\ch32\CH32V208\CH32V208WBU6\SRC\Debug" -I"D:\ch32\CH32V208\CH32V208WBU6\SRC\Peripheral\inc" -I"D:\ch32\CH32V208\CH32V208WBU6\SRC\Startup" -std=gnu99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -c -o "$@" "$<"
+	@	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized  -g -DCH32V20x_D8W -DCLK_OSC32K=0 -I"D:\ch32\CH32V208\Central\APP\include" -I"D:\ch32\CH32V208\Central\HAL\include" -I"D:\ch32\CH32V208\Central\LIB" -I"D:\ch32\CH32V208\Central\Profile\include" -I"D:\ch32\CH32V208\Central\SRC\Core" -I"D:\ch32\CH32V208\Central\SRC\Debug" -I"D:\ch32\CH32V208\Central\SRC\Peripheral\inc" -I"D:\ch32\CH32V208\Central\SRC\Startup" -std=gnu99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -c -o "$@" "$<"
 	@	@
 

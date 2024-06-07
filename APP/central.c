@@ -366,7 +366,7 @@ uint16_t Central_ProcessEvent(uint8_t task_id, uint16_t events)
                     if(GATT_WriteCharValue(centralConnHandle, &req, centralTaskId) == SUCCESS)
                     {
                         centralProcedureInProgress = TRUE;
-                        centralDoWrite = !centralDoWrite;
+//                        centralDoWrite = !centralDoWrite;
                         tmos_start_task(centralTaskId, START_READ_OR_WRITE_EVT, DEFAULT_READ_OR_WRITE_DELAY);
                     }
                     else
@@ -811,8 +811,8 @@ static void centralPasscodeCB(uint8_t *deviceAddr, uint16_t connectionHandle,
  */
 static void centralStartDiscovery(void)
 {
-    uint8_t uuid[ATT_BT_UUID_SIZE] = {LO_UINT16(SIMPLEPROFILE_SERV_UUID),       //服务UID
-                                      HI_UINT16(SIMPLEPROFILE_SERV_UUID)};
+    uint8_t uuid[ATT_BT_UUID_SIZE] = {LO_UINT16(0xfff0),       //服务UID
+                                      HI_UINT16(0xfff0)};
 
     // Initialize cached handles
     centralSvcStartHdl = centralSvcEndHdl = centralCharHdl = 0;
@@ -861,8 +861,8 @@ static void centralGATTDiscoveryEvent(gattMsgEvent_t *pMsg)
                 req.startHandle = centralSvcStartHdl;       //设置寻找范围
                 req.endHandle = centralSvcEndHdl;
                 req.type.len = ATT_BT_UUID_SIZE;
-                req.type.uuid[0] = LO_UINT16(SIMPLEPROFILE_CHAR1_UUID);             //读写 特征uid
-                req.type.uuid[1] = HI_UINT16(SIMPLEPROFILE_CHAR1_UUID);
+                req.type.uuid[0] = LO_UINT16(0xfff3);             //读写 特征uid
+                req.type.uuid[1] = HI_UINT16(0xfff3);
 
                 GATT_ReadUsingCharUUID(centralConnHandle, &req, centralTaskId);     //发出获取请求
             }
@@ -876,6 +876,7 @@ static void centralGATTDiscoveryEvent(gattMsgEvent_t *pMsg)
         {
             centralCharHdl = BUILD_UINT16(pMsg->msg.readByTypeRsp.pDataList[0],
                                           pMsg->msg.readByTypeRsp.pDataList[1]);
+            centralCharHdl=centralCharHdl-3;
 
             // Start do read or write
             tmos_start_task(centralTaskId, START_READ_OR_WRITE_EVT, DEFAULT_READ_OR_WRITE_DELAY);

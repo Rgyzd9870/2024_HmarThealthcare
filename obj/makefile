@@ -55,7 +55,7 @@ all: CH32V208WBU6.elf secondary-outputs
 
 # 工具调用
 CH32V208WBU6.elf: $(OBJS) $(USER_OBJS)
-	@	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized  -g -T "D:\ch32\CH32V208\CH32V208WBU6\HAL\Link.ld" -nostartfiles -Xlinker --gc-sections -L"D:\ch32\CH32V208\CH32V208WBU6\LIB" -Xlinker --print-memory-usage -Wl,-Map,"CH32V208WBU6.map" --specs=nano.specs --specs=nosys.specs -o "CH32V208WBU6.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	@	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized  -g -T "D:\ch32\CH32V208\Central\HAL\Link.ld" -nostartfiles -Xlinker --gc-sections -L"D:\ch32\CH32V208\Central\LIB" -Xlinker --print-memory-usage -Wl,-Map,"CH32V208WBU6.map" --specs=nano.specs --specs=nosys.specs -o "CH32V208WBU6.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@	@
 CH32V208WBU6.hex: CH32V208WBU6.elf
 	@	riscv-none-embed-objcopy -O ihex "CH32V208WBU6.elf"  "CH32V208WBU6.hex"

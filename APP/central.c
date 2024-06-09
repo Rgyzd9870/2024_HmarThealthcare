@@ -811,19 +811,12 @@ static void centralPasscodeCB(uint8_t *deviceAddr, uint16_t connectionHandle,
  */
 static void centralStartDiscovery(void)
 {
-    uint8_t uuid[ATT_BT_UUID_SIZE] = {LO_UINT16(0xfff0),       //服务UID
-                                      HI_UINT16(0xfff0)};
-
-    // Initialize cached handles
     centralSvcStartHdl = centralSvcEndHdl = centralCharHdl = 0;
-
     centralDiscState = BLE_DISC_STATE_SVC;
 
-    // Discovery simple BLE service
-    GATT_DiscPrimaryServiceByUUID(centralConnHandle,
-                                  uuid,
-                                  ATT_BT_UUID_SIZE,
-                                  centralTaskId);
+    uint8_t ret = 0;
+    ret = GATT_DiscAllPrimaryServices(centralConnHandle, centralTaskId);
+    printf("GATT_DiscAllPrimaryServices ret = %x\n", ret);
 }
 
 /*********************************************************************
@@ -836,36 +829,43 @@ static void centralStartDiscovery(void)
 static void centralGATTDiscoveryEvent(gattMsgEvent_t *pMsg)
 {
     attReadByTypeReq_t req;
-
-    if(centralDiscState == BLE_DISC_STATE_SVC)      // Service discovery
+    if(centralDiscState == BLE_DISC_STATE_SVC)
     {
         // Service found, store handles
-        if(pMsg->method == ATT_FIND_BY_TYPE_VALUE_RSP &&
+        if(pMsg->method == ATT_READ_BY_GRP_TYPE_RSP &&//ATT_FIND_BY_TYPE_VALUE_RSP &&
            pMsg->msg.findByTypeValueRsp.numInfo > 0)
         {
-            centralSvcStartHdl = ATT_ATTR_HANDLE(pMsg->msg.findByTypeValueRsp.pHandlesInfo, 0);     //获取服务头尾句柄值
-            centralSvcEndHdl = ATT_GRP_END_HANDLE(pMsg->msg.findByTypeValueRsp.pHandlesInfo, 0);
+#if 0
+            for(uint16_t i = 0; i < pMsg->msg.readByGrpTypeRsp.numGrps; i++)
+            {
+              // uuid
+              printf("uuid = %x", BUILD_UINT16(
+                  pMsg->msg.readByGrpTypeRsp.pDataList[pMsg->msg.readByGrpTypeRsp.len * i +4], \
+                  pMsg->msg.readByGrpTypeRsp.pDataList[pMsg->msg.readByGrpTypeRsp.len * i +5]));
 
-            // Display Profile Service handle range
-            PRINT("Found Profile Service handle : %x ~ %x \n", centralSvcStartHdl, centralSvcEndHdl);
+              //Primary Service UUID Length
+              printf("%02d bit x",pMsg->msg.readByGrpTypeRsp.len - 4);
+
+              // printf("att len = %d\n", pMsg->msg.readByGrpTypeRsp.len);
+              printf("start handle:%04x",BUILD_UINT16(
+                          pMsg->msg.readByGrpTypeRsp.pDataList[pMsg->msg.readByGrpTypeRsp.len * i],\
+                          pMsg->msg.readByGrpTypeRsp.pDataList[pMsg->msg.readByGrpTypeRsp.len * i +1]));
+              // Attribute End Group Handle
+              printf("end handle:%04x\r\n",BUILD_UINT16(
+                          pMsg->msg.readByGrpTypeRsp.pDataList[pMsg->msg.readByGrpTypeRsp.len * i +2], \
+                          pMsg->msg.readByGrpTypeRsp.pDataList[pMsg->msg.readByGrpTypeRsp.len * i +3]));
+            }
+#endif
         }
-        // If procedure complete
-        if((pMsg->method == ATT_FIND_BY_TYPE_VALUE_RSP &&
+
+        if((pMsg->method == ATT_READ_BY_GRP_TYPE_RSP &&
             pMsg->hdr.status == bleProcedureComplete) ||
            (pMsg->method == ATT_ERROR_RSP))
         {
-            if(centralSvcStartHdl != 0)
-            {
-                // Discover characteristic
-                centralDiscState = BLE_DISC_STATE_CHAR;     // Characteristic discovery
-                req.startHandle = centralSvcStartHdl;       //设置寻找范围
-                req.endHandle = centralSvcEndHdl;
-                req.type.len = ATT_BT_UUID_SIZE;
-                req.type.uuid[0] = LO_UINT16(0xfff3);             //读写 特征uid
-                req.type.uuid[1] = HI_UINT16(0xfff3);
-
-                GATT_ReadUsingCharUUID(centralConnHandle, &req, centralTaskId);     //发出获取请求
-            }
+            // Discover characteristic
+            centralDiscState = BLE_DISC_STATE_CHAR;
+            uint8_t ret = GATT_DiscAllChars(centralConnHandle,0x01,0xFFFF,centralTaskId);
+            PRINT("GATT_DiscAllChars:%02x\r\n",ret);
         }
     }
     else if(centralDiscState == BLE_DISC_STATE_CHAR)
@@ -874,48 +874,42 @@ static void centralGATTDiscoveryEvent(gattMsgEvent_t *pMsg)
         if(pMsg->method == ATT_READ_BY_TYPE_RSP &&
            pMsg->msg.readByTypeRsp.numPairs > 0)
         {
-            centralCharHdl = BUILD_UINT16(pMsg->msg.readByTypeRsp.pDataList[0],
-                                          pMsg->msg.readByTypeRsp.pDataList[1]);
-            centralCharHdl=centralCharHdl-3;
+            for(unsigned char i = 0; i < pMsg->msg.readByTypeRsp.numPairs ; i++) {
 
-            // Start do read or write
-            tmos_start_task(centralTaskId, START_READ_OR_WRITE_EVT, DEFAULT_READ_OR_WRITE_DELAY);
+                //characteristic properties
+                uint8_t char_properties = pMsg->msg.readByTypeRsp.pDataList[pMsg->msg.readByTypeRsp.len * i + 2];
+                uint16_t char_value_handle = BUILD_UINT16(pMsg->msg.readByTypeRsp.pDataList[pMsg->msg.readByTypeRsp.len * i+3], \
+                                             pMsg->msg.readByTypeRsp.pDataList[pMsg->msg.readByTypeRsp.len * i + 4]);
+                //characteristic uuid length
+                uint8_t char_uuid_length = pMsg->msg.readByGrpTypeRsp.len - 5;
+                //uuid
+                uint8_t *char_uuid = &(pMsg->msg.readByGrpTypeRsp.pDataList[pMsg->msg.readByGrpTypeRsp.len * i + 5]);
+                PRINT("______________________________\n");
+                PRINT("char_uuid        :");
+                for(uint8_t i = 0; i < char_uuid_length; i++ ){
+                  printf("%02x ", char_uuid[i]);
+                }printf("\n");
+//                PRINT("char_properties  :%02x,%s\r\n",char_properties,(char_properties&(GATT_PROP_WRITE|GATT_PROP_WRITE_NO_RSP))?"wite handle":"");
+                PRINT("char_value_handle:%04x\r\n",char_value_handle);
+                PRINT("char_uuid        :%02d bit\r\n",char_uuid_length);
 
-            // Display Characteristic 1 handle
-            PRINT("Found Characteristic 1 handle : %x \n", centralCharHdl);
+                if(char_properties&(GATT_PROP_WRITE|GATT_PROP_WRITE_NO_RSP)) {
+                    centralCharHdl = char_value_handle;
+                    PRINT("Write handle:%04x\r\n",char_value_handle);
+                    tmos_start_task(centralTaskId, START_READ_OR_WRITE_EVT, 1600);
+                }
+                if(char_properties&GATT_PROP_NOTIFY) {
+                    centralCCCDHdl = char_value_handle+1;                //通过GATT_DiscAllChars或者handle，noti/indi的handle值需要+1
+                    PRINT("Notify handle:%04x\r\n",char_value_handle);
+                    tmos_start_task(centralTaskId, START_WRITE_CCCD_EVT, 16000);
+               }
+                if(char_properties&GATT_PROP_INDICATE) {
+                    centralCCCDHdl = char_value_handle+1;                //通过GATT_DiscAllChars或者handle，noti/indi的handle值需要+1
+                    PRINT("Indicate handle:%04x\r\n",char_value_handle);
+                    tmos_start_task(centralTaskId, START_WRITE_CCCD_EVT, 800);
+               }
+            }
         }
-        if((pMsg->method == ATT_READ_BY_TYPE_RSP &&
-            pMsg->hdr.status == bleProcedureComplete) ||
-           (pMsg->method == ATT_ERROR_RSP))
-        {
-            // Discover characteristic
-            centralDiscState = BLE_DISC_STATE_CCCD;     // client characteristic configuration discovery
-            req.startHandle = centralSvcStartHdl;
-            req.endHandle = centralSvcEndHdl;
-            req.type.len = ATT_BT_UUID_SIZE;
-            req.type.uuid[0] = LO_UINT16(GATT_CLIENT_CHAR_CFG_UUID);            //notify 特征使能 uid
-            req.type.uuid[1] = HI_UINT16(GATT_CLIENT_CHAR_CFG_UUID);
-
-            GATT_ReadUsingCharUUID(centralConnHandle, &req, centralTaskId);     //发出获取请求
-        }
-    }
-    else if(centralDiscState == BLE_DISC_STATE_CCCD)
-    {
-        // Characteristic found, store handle
-        if(pMsg->method == ATT_READ_BY_TYPE_RSP &&
-           pMsg->msg.readByTypeRsp.numPairs > 0)
-        {
-            centralCCCDHdl = BUILD_UINT16(pMsg->msg.readByTypeRsp.pDataList[0],
-                                          pMsg->msg.readByTypeRsp.pDataList[1]);
-            centralProcedureInProgress = FALSE;
-
-            // Start do write CCCD
-            tmos_start_task(centralTaskId, START_WRITE_CCCD_EVT, DEFAULT_WRITE_CCCD_DELAY);
-
-            // Display Characteristic 1 handle
-            PRINT("Found client characteristic configuration handle : %x \n", centralCCCDHdl);
-        }
-        centralDiscState = BLE_DISC_STATE_IDLE;
     }
 }
 

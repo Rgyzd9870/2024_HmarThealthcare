@@ -25,6 +25,10 @@ C_DEPS :=
 SUBDIRS := \
 APP \
 HAL \
+Hardware/IIC \
+Hardware/MAX30102 \
+Hardware/algorithm \
+Hardware \
 LIB \
 SRC/Core \
 SRC/Debug \

@@ -148,7 +148,7 @@ enum
  */
 
 // Task ID for internal task/event processing
-static uint8_t centralTaskId;
+uint8_t centralTaskId;
 
 // Number of scan results
 static uint8_t centralScanRes;

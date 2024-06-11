@@ -14,6 +14,10 @@ RM := rm -rf
 -include SRC/Debug/subdir.mk
 -include SRC/Core/subdir.mk
 -include LIB/subdir.mk
+-include Hardware/algorithm/subdir.mk
+-include Hardware/MAX30102/subdir.mk
+-include Hardware/IIC/subdir.mk
+-include Hardware/subdir.mk
 -include HAL/subdir.mk
 -include APP/subdir.mk
 -include subdir.mk

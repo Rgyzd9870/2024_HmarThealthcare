@@ -35,27 +35,27 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
   9 .stack        00000800  2000f800  2000f800  0002c800  2**0
                   ALLOC
- 10 .debug_line   0000d2b9  00000000  00000000  0002c130  2**0
+ 10 .debug_line   0000d2b1  00000000  00000000  0002c130  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_info   00011d61  00000000  00000000  000393e9  2**0
+ 11 .debug_info   00011d61  00000000  00000000  000393e1  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_abbrev 0000309d  00000000  00000000  0004b14a  2**0
+ 12 .debug_abbrev 000030b0  00000000  00000000  0004b142  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_aranges 00000890  00000000  00000000  0004e1e8  2**3
+ 13 .debug_aranges 00000890  00000000  00000000  0004e1f8  2**3
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_str    00003dcd  00000000  00000000  0004ea78  2**0
+ 14 .debug_str    00003dab  00000000  00000000  0004ea88  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_ranges 000008f0  00000000  00000000  00052848  2**3
+ 15 .debug_ranges 000008f0  00000000  00000000  00052838  2**3
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_loc    00004403  00000000  00000000  00053138  2**0
+ 16 .debug_loc    00004403  00000000  00000000  00053128  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .comment      00000033  00000000  00000000  0005753b  2**0
+ 17 .comment      00000033  00000000  00000000  0005752b  2**0
                   CONTENTS, READONLY
- 18 .debug_frame  00001d3c  00000000  00000000  00057570  2**2
+ 18 .debug_frame  00001d3c  00000000  00000000  00057560  2**2
                   CONTENTS, READONLY, DEBUGGING
- 19 .stab         00000084  00000000  00000000  000592ac  2**2
+ 19 .stab         00000084  00000000  00000000  0005929c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 20 .stabstr      00000117  00000000  00000000  00059330  2**0
+ 20 .stabstr      00000117  00000000  00000000  00059320  2**0
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 00000000 l    d  .init	00000000 .init
@@ -181,7 +181,6 @@ SYMBOL TABLE:
 20000145 l     O .bss	00000001 centralProcedureInProgress
 20000146 l     O .bss	00000001 centralScanRes
 20000147 l     O .bss	00000001 centralState
-20000148 l     O .bss	00000001 centralTaskId
 200000e8 l     O .data	00000006 PeerAddrDef
 200000ee l     O .data	00000002 centralConnHandle
 200000f0 l     O .data	00000001 centralDoWrite
@@ -968,6 +967,7 @@ SYMBOL TABLE:
 0001604c g     F .text	000004cc ll_advertise_process
 000217fc g     F .text	00000018 API_DisconnectCmd
 00009708 g     F .text	00000096 gapFreeScanRecs
+20000148 g     O .bss	00000001 centralTaskId
 000184a8 g     F .text	0000002e LL_CoreDataListFree
 000120f2 g     F .text	00000034 smPairingSendIdentityAddrInfo
 0001c97c g     F .text	0000019a LL_ProcessTMOSReportMsg
@@ -7775,8 +7775,8 @@ Disassembly of section .text:
     424a:	cc2a                	sw	a0,24(sp)
     424c:	c51d                	beqz	a0,427a <Central_ProcessEvent+0x390>
     424e:	05a00793          	li	a5,90
-    4252:	86818413          	addi	s0,gp,-1944 # 20000148 <centralTaskId>
-    4256:	a11c                	sb	a5,0(a0)
+    4252:	a11c                	sb	a5,0(a0)
+    4254:	86818413          	addi	s0,gp,-1944 # 20000148 <centralTaskId>
     4258:	2010                	lbu	a2,0(s0)
     425a:	0009d503          	lhu	a0,0(s3)
     425e:	084c                	addi	a1,sp,20
@@ -62611,10 +62611,10 @@ Disassembly of section .text:
    29eaa:	6420                	flw	fs0,72(s0)
    29eac:	2042                	lhu	s0,4(s0)
    29eae:	000a                	c.slli	zero,0x2
-   29eb0:	3030                	lbu	a2,3(s0)
-   29eb2:	343a                	lhu	a4,42(s0)
-   29eb4:	3a35                	jal	297f0 <llAdvPeriodicAdvertising+0x25a>
-   29eb6:	3134                	lbu	a3,3(a0)
+   29eb0:	3931                	jal	29acc <LL_PeriSetEnable+0x48>
+   29eb2:	333a                	lhu	a4,34(a4)
+   29eb4:	3a32                	lhu	a2,50(a2)
+   29eb6:	3330                	lbu	a2,3(a4)
    29eb8:	0000                	unimp
    29eba:	0000                	unimp
    29ebc:	72617473          	csrrci	s0,0x726,2

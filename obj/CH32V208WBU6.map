@@ -139,7 +139,7 @@ e:/mouriverstudio/program/mounriver/mounriver_studio/toolchain/risc-v embedded g
 e:/mouriverstudio/program/mounriver/mounriver_studio/toolchain/risc-v embedded gcc/bin/../lib/gcc/riscv-none-embed/8.2.0/../../../../riscv-none-embed/lib/rv32imacxw/ilp32\libg_nano.a(lib_a-memset.o)
                               ./HAL/MCU.o (memset)
 e:/mouriverstudio/program/mounriver/mounriver_studio/toolchain/risc-v embedded gcc/bin/../lib/gcc/riscv-none-embed/8.2.0/../../../../riscv-none-embed/lib/rv32imacxw/ilp32\libg_nano.a(lib_a-printf.o)
-                              ./HAL/MCU.o (printf)
+                              ./Hardware/mytask.o (printf)
 e:/mouriverstudio/program/mounriver/mounriver_studio/toolchain/risc-v embedded gcc/bin/../lib/gcc/riscv-none-embed/8.2.0/../../../../riscv-none-embed/lib/rv32imacxw/ilp32\libg_nano.a(lib_a-putchar.o)
                               ./APP/central.o (putchar)
 e:/mouriverstudio/program/mounriver/mounriver_studio/toolchain/risc-v embedded gcc/bin/../lib/gcc/riscv-none-embed/8.2.0/../../../../riscv-none-embed/lib/rv32imacxw/ilp32\libg_nano.a(lib_a-puts.o)
@@ -1299,12 +1299,139 @@ Discarded input sections
                 0x0000000000000000       0xb0 ./SRC/Core/core_riscv.o
  .debug_ranges  0x0000000000000000       0xa0 ./SRC/Core/core_riscv.o
  .debug_line    0x0000000000000000      0x478 ./SRC/Core/core_riscv.o
- .debug_str     0x0000000000000000      0x286 ./SRC/Core/core_riscv.o
+ .debug_str     0x0000000000000000      0x281 ./SRC/Core/core_riscv.o
  .comment       0x0000000000000000       0x34 ./SRC/Core/core_riscv.o
  .debug_frame   0x0000000000000000      0x140 ./SRC/Core/core_riscv.o
  .text          0x0000000000000000        0x0 ./LIB/ble_task_scheduler.o
  .data          0x0000000000000000        0x0 ./LIB/ble_task_scheduler.o
  .bss           0x0000000000000000        0x0 ./LIB/ble_task_scheduler.o
+ .text          0x0000000000000000        0x0 ./Hardware/algorithm/algorithm.o
+ .data          0x0000000000000000        0x0 ./Hardware/algorithm/algorithm.o
+ .bss           0x0000000000000000        0x0 ./Hardware/algorithm/algorithm.o
+ .text.maxim_peaks_above_min_height
+                0x0000000000000000       0x6e ./Hardware/algorithm/algorithm.o
+ .text.maxim_sort_ascend
+                0x0000000000000000       0x34 ./Hardware/algorithm/algorithm.o
+ .text.maxim_sort_indices_descend
+                0x0000000000000000       0x48 ./Hardware/algorithm/algorithm.o
+ .text.maxim_remove_close_peaks
+                0x0000000000000000       0x8a ./Hardware/algorithm/algorithm.o
+ .text.maxim_find_peaks
+                0x0000000000000000       0x44 ./Hardware/algorithm/algorithm.o
+ .text.maxim_heart_rate_and_oxygen_saturation
+                0x0000000000000000      0x400 ./Hardware/algorithm/algorithm.o
+ .bss.an_dx     0x0000000000000000      0x7c0 ./Hardware/algorithm/algorithm.o
+ .bss.an_x      0x0000000000000000      0x7d0 ./Hardware/algorithm/algorithm.o
+ .bss.an_y      0x0000000000000000      0x7d0 ./Hardware/algorithm/algorithm.o
+ .rodata.auw_hamm
+                0x0000000000000000       0x3e ./Hardware/algorithm/algorithm.o
+ .rodata.uch_spo2_table
+                0x0000000000000000       0xb8 ./Hardware/algorithm/algorithm.o
+ .debug_info    0x0000000000000000      0xff2 ./Hardware/algorithm/algorithm.o
+ .debug_abbrev  0x0000000000000000      0x2de ./Hardware/algorithm/algorithm.o
+ .debug_loc     0x0000000000000000      0xb86 ./Hardware/algorithm/algorithm.o
+ .debug_aranges
+                0x0000000000000000       0x48 ./Hardware/algorithm/algorithm.o
+ .debug_ranges  0x0000000000000000       0x38 ./Hardware/algorithm/algorithm.o
+ .debug_line    0x0000000000000000     0x11dd ./Hardware/algorithm/algorithm.o
+ .debug_str     0x0000000000000000      0x888 ./Hardware/algorithm/algorithm.o
+ .comment       0x0000000000000000       0x34 ./Hardware/algorithm/algorithm.o
+ .debug_frame   0x0000000000000000       0xd8 ./Hardware/algorithm/algorithm.o
+ .text          0x0000000000000000        0x0 ./Hardware/MAX30102/MAX30102.o
+ .data          0x0000000000000000        0x0 ./Hardware/MAX30102/MAX30102.o
+ .bss           0x0000000000000000        0x0 ./Hardware/MAX30102/MAX30102.o
+ .text.MAX30102_Write_Byte
+                0x0000000000000000       0x68 ./Hardware/MAX30102/MAX30102.o
+ .text.MAX30102_Read_Byte
+                0x0000000000000000       0x76 ./Hardware/MAX30102/MAX30102.o
+ .text.MAX30102_Read_Bytes
+                0x0000000000000000       0x98 ./Hardware/MAX30102/MAX30102.o
+ .text.MAX30102_Reset
+                0x0000000000000000       0x1e ./Hardware/MAX30102/MAX30102.o
+ .text.MAX30102_Read_IntStatus
+                0x0000000000000000       0x32 ./Hardware/MAX30102/MAX30102.o
+ .text.MAX30102_Read_FIFO
+                0x0000000000000000       0x7c ./Hardware/MAX30102/MAX30102.o
+ .text.MAX30102_Init
+                0x0000000000000000       0xc4 ./Hardware/MAX30102/MAX30102.o
+ .text.MAX30102_INT_Init
+                0x0000000000000000       0x3e ./Hardware/MAX30102/MAX30102.o
+ .debug_info    0x0000000000000000     0x10a0 ./Hardware/MAX30102/MAX30102.o
+ .debug_abbrev  0x0000000000000000      0x30f ./Hardware/MAX30102/MAX30102.o
+ .debug_loc     0x0000000000000000      0x21d ./Hardware/MAX30102/MAX30102.o
+ .debug_aranges
+                0x0000000000000000       0x58 ./Hardware/MAX30102/MAX30102.o
+ .debug_ranges  0x0000000000000000       0x48 ./Hardware/MAX30102/MAX30102.o
+ .debug_line    0x0000000000000000      0x883 ./Hardware/MAX30102/MAX30102.o
+ .debug_str     0x0000000000000000      0x858 ./Hardware/MAX30102/MAX30102.o
+ .comment       0x0000000000000000       0x34 ./Hardware/MAX30102/MAX30102.o
+ .debug_frame   0x0000000000000000      0x124 ./Hardware/MAX30102/MAX30102.o
+ .text          0x0000000000000000        0x0 ./Hardware/IIC/myiic.o
+ .data          0x0000000000000000        0x0 ./Hardware/IIC/myiic.o
+ .bss           0x0000000000000000        0x0 ./Hardware/IIC/myiic.o
+ .text.iic_delay
+                0x0000000000000000       0x1a ./Hardware/IIC/myiic.o
+ .text.iic_start
+                0x0000000000000000       0x6e ./Hardware/IIC/myiic.o
+ .text.iic_stop
+                0x0000000000000000       0x5e ./Hardware/IIC/myiic.o
+ .text.iic_init
+                0x0000000000000000       0x6a ./Hardware/IIC/myiic.o
+ .text.iic_wait_ack
+                0x0000000000000000       0x92 ./Hardware/IIC/myiic.o
+ .text.iic_ack  0x0000000000000000       0x76 ./Hardware/IIC/myiic.o
+ .text.iic_nack
+                0x0000000000000000       0x5e ./Hardware/IIC/myiic.o
+ .text.iic_send_byte
+                0x0000000000000000       0x8e ./Hardware/IIC/myiic.o
+ .text.iic_read_byte
+                0x0000000000000000       0x8a ./Hardware/IIC/myiic.o
+ .debug_info    0x0000000000000000     0x105d ./Hardware/IIC/myiic.o
+ .debug_abbrev  0x0000000000000000      0x2d4 ./Hardware/IIC/myiic.o
+ .debug_loc     0x0000000000000000      0x140 ./Hardware/IIC/myiic.o
+ .debug_aranges
+                0x0000000000000000       0x60 ./Hardware/IIC/myiic.o
+ .debug_ranges  0x0000000000000000       0x50 ./Hardware/IIC/myiic.o
+ .debug_line    0x0000000000000000      0x81c ./Hardware/IIC/myiic.o
+ .debug_str     0x0000000000000000      0x7cc ./Hardware/IIC/myiic.o
+ .comment       0x0000000000000000       0x34 ./Hardware/IIC/myiic.o
+ .debug_frame   0x0000000000000000      0x150 ./Hardware/IIC/myiic.o
+ .text          0x0000000000000000        0x0 ./Hardware/mytask.o
+ .data          0x0000000000000000        0x0 ./Hardware/mytask.o
+ .bss           0x0000000000000000        0x0 ./Hardware/mytask.o
+ .text.MyTask_ProcessEvent
+                0x0000000000000000      0x14a ./Hardware/mytask.o
+ .text.MyTask_Init
+                0x0000000000000000       0x40 ./Hardware/mytask.o
+ .bss.aun_ir_buffer
+                0x0000000000000000      0x7d0 ./Hardware/mytask.o
+ .bss.aun_red_buffer
+                0x0000000000000000      0x7d0 ./Hardware/mytask.o
+ .rodata.MyTask_ProcessEvent.str1.4
+                0x0000000000000000       0x1c ./Hardware/mytask.o
+ .sbss.MAX30102_ReadNum.6134
+                0x0000000000000000        0x2 ./Hardware/mytask.o
+ .sbss.MyTaskId
+                0x0000000000000000        0x1 ./Hardware/mytask.o
+ .sbss.ch_hr_valid
+                0x0000000000000000        0x1 ./Hardware/mytask.o
+ .sbss.ch_spo2_valid
+                0x0000000000000000        0x1 ./Hardware/mytask.o
+ .sbss.n_heart_rate
+                0x0000000000000000        0x4 ./Hardware/mytask.o
+ .sbss.n_sp02   0x0000000000000000        0x4 ./Hardware/mytask.o
+ .sdata.n_ir_buffer_length
+                0x0000000000000000        0x4 ./Hardware/mytask.o
+ .debug_info    0x0000000000000000      0xe95 ./Hardware/mytask.o
+ .debug_abbrev  0x0000000000000000      0x2f6 ./Hardware/mytask.o
+ .debug_loc     0x0000000000000000       0xf9 ./Hardware/mytask.o
+ .debug_aranges
+                0x0000000000000000       0x28 ./Hardware/mytask.o
+ .debug_ranges  0x0000000000000000       0x18 ./Hardware/mytask.o
+ .debug_line    0x0000000000000000      0x59f ./Hardware/mytask.o
+ .debug_str     0x0000000000000000      0x915 ./Hardware/mytask.o
+ .comment       0x0000000000000000       0x34 ./Hardware/mytask.o
+ .debug_frame   0x0000000000000000       0x60 ./Hardware/mytask.o
  .text          0x0000000000000000        0x0 ./HAL/KEY.o
  .data          0x0000000000000000        0x0 ./HAL/KEY.o
  .bss           0x0000000000000000        0x0 ./HAL/KEY.o
@@ -2735,6 +2862,10 @@ LOAD ./SRC/Peripheral/src/ch32v20x_wwdg.o
 LOAD ./SRC/Debug/debug.o
 LOAD ./SRC/Core/core_riscv.o
 LOAD ./LIB/ble_task_scheduler.o
+LOAD ./Hardware/algorithm/algorithm.o
+LOAD ./Hardware/MAX30102/MAX30102.o
+LOAD ./Hardware/IIC/myiic.o
+LOAD ./Hardware/mytask.o
 LOAD ./HAL/KEY.o
 LOAD ./HAL/LED.o
 LOAD ./HAL/MCU.o
@@ -7067,6 +7198,7 @@ END GROUP
                 0x0000000020000147        0x1 ./APP/central.o
  .sbss.centralTaskId
                 0x0000000020000148        0x1 ./APP/central.o
+                0x0000000020000148                centralTaskId
  *fill*         0x0000000020000149        0x3 
  .sbss.pfnHandle
                 0x000000002000014c        0x4 D:\ch32\CH32V208\Central\LIB\libwchble.a(tmos.o)
@@ -7440,7 +7572,7 @@ END GROUP
                 0x0000000020010000                PROVIDE (_eusrstack = .)
 OUTPUT(CH32V208WBU6.elf elf32-littleriscv)
 
-.debug_line     0x0000000000000000     0xd2b9
+.debug_line     0x0000000000000000     0xd2b1
  .debug_line    0x0000000000000000      0x126 ./SRC/Startup/startup_ch32v20x_D8W.o
  .debug_line    0x0000000000000126     0x1872 ./SRC/Peripheral/src/ch32v20x_adc.o
  .debug_line    0x0000000000001998      0x5db ./SRC/Peripheral/src/ch32v20x_exti.o
@@ -7454,10 +7586,10 @@ OUTPUT(CH32V208WBU6.elf elf32-littleriscv)
  .debug_line    0x0000000000009d8a      0x2a2 ./LIB/ble_task_scheduler.o
  .debug_line    0x000000000000a02c      0xce6 ./HAL/MCU.o
  .debug_line    0x000000000000ad12      0x5e6 ./HAL/RTC.o
- .debug_line    0x000000000000b2f8     0x123e ./APP/central.o
- .debug_line    0x000000000000c536      0x3be ./APP/central_main.o
- .debug_line    0x000000000000c8f4      0x2d8 ./APP/ch32v20x_it.o
- .debug_line    0x000000000000cbcc      0x6ed ./APP/system_ch32v20x.o
+ .debug_line    0x000000000000b2f8     0x1236 ./APP/central.o
+ .debug_line    0x000000000000c52e      0x3be ./APP/central_main.o
+ .debug_line    0x000000000000c8ec      0x2d8 ./APP/ch32v20x_it.o
+ .debug_line    0x000000000000cbc4      0x6ed ./APP/system_ch32v20x.o
 
 .debug_info     0x0000000000000000    0x11d61
  .debug_info    0x0000000000000000       0x22 ./SRC/Startup/startup_ch32v20x_D8W.o
@@ -7478,7 +7610,7 @@ OUTPUT(CH32V208WBU6.elf elf32-littleriscv)
  .debug_info    0x00000000000106b4      0xb24 ./APP/ch32v20x_it.o
  .debug_info    0x00000000000111d8      0xb89 ./APP/system_ch32v20x.o
 
-.debug_abbrev   0x0000000000000000     0x309d
+.debug_abbrev   0x0000000000000000     0x30b0
  .debug_abbrev  0x0000000000000000       0x12 ./SRC/Startup/startup_ch32v20x_D8W.o
  .debug_abbrev  0x0000000000000012      0x3a9 ./SRC/Peripheral/src/ch32v20x_adc.o
  .debug_abbrev  0x00000000000003bb      0x2da ./SRC/Peripheral/src/ch32v20x_exti.o
@@ -7492,10 +7624,10 @@ OUTPUT(CH32V208WBU6.elf elf32-littleriscv)
  .debug_abbrev  0x0000000000001e2f       0x12 ./LIB/ble_task_scheduler.o
  .debug_abbrev  0x0000000000001e41      0x41b ./HAL/MCU.o
  .debug_abbrev  0x000000000000225c      0x2bc ./HAL/RTC.o
- .debug_abbrev  0x0000000000002518      0x440 ./APP/central.o
- .debug_abbrev  0x0000000000002958      0x26e ./APP/central_main.o
- .debug_abbrev  0x0000000000002bc6      0x217 ./APP/ch32v20x_it.o
- .debug_abbrev  0x0000000000002ddd      0x2c0 ./APP/system_ch32v20x.o
+ .debug_abbrev  0x0000000000002518      0x453 ./APP/central.o
+ .debug_abbrev  0x000000000000296b      0x26e ./APP/central_main.o
+ .debug_abbrev  0x0000000000002bd9      0x217 ./APP/ch32v20x_it.o
+ .debug_abbrev  0x0000000000002df0      0x2c0 ./APP/system_ch32v20x.o
 
 .debug_aranges  0x0000000000000000      0x890
  .debug_aranges
@@ -7533,39 +7665,39 @@ OUTPUT(CH32V208WBU6.elf elf32-littleriscv)
  .debug_aranges
                 0x0000000000000868       0x28 ./APP/system_ch32v20x.o
 
-.debug_str      0x0000000000000000     0x3dcd
- .debug_str     0x0000000000000000       0x54 ./SRC/Startup/startup_ch32v20x_D8W.o
- .debug_str     0x0000000000000054      0xb2a ./SRC/Peripheral/src/ch32v20x_adc.o
+.debug_str      0x0000000000000000     0x3dab
+ .debug_str     0x0000000000000000       0x4f ./SRC/Startup/startup_ch32v20x_D8W.o
+ .debug_str     0x000000000000004f      0xb0d ./SRC/Peripheral/src/ch32v20x_adc.o
                                         0xbfc (size before relaxing)
- .debug_str     0x0000000000000b7e      0x1bf ./SRC/Peripheral/src/ch32v20x_exti.o
+ .debug_str     0x0000000000000b5c      0x1bf ./SRC/Peripheral/src/ch32v20x_exti.o
                                         0x772 (size before relaxing)
- .debug_str     0x0000000000000d3d      0x4f4 ./SRC/Peripheral/src/ch32v20x_flash.o
+ .debug_str     0x0000000000000d1b      0x4f4 ./SRC/Peripheral/src/ch32v20x_flash.o
                                         0xb19 (size before relaxing)
- .debug_str     0x0000000000001231      0x3bc ./SRC/Peripheral/src/ch32v20x_gpio.o
+ .debug_str     0x000000000000120f      0x3bc ./SRC/Peripheral/src/ch32v20x_gpio.o
                                         0x995 (size before relaxing)
- .debug_str     0x00000000000015ed      0x251 ./SRC/Peripheral/src/ch32v20x_pwr.o
+ .debug_str     0x00000000000015cb      0x251 ./SRC/Peripheral/src/ch32v20x_pwr.o
                                         0x841 (size before relaxing)
- .debug_str     0x000000000000183e      0x45a ./SRC/Peripheral/src/ch32v20x_rcc.o
+ .debug_str     0x000000000000181c      0x45a ./SRC/Peripheral/src/ch32v20x_rcc.o
                                         0xaa1 (size before relaxing)
- .debug_str     0x0000000000001c98      0x2ce ./SRC/Peripheral/src/ch32v20x_rtc.o
+ .debug_str     0x0000000000001c76      0x2ce ./SRC/Peripheral/src/ch32v20x_rtc.o
                                         0x91a (size before relaxing)
- .debug_str     0x0000000000001f66      0x3e0 ./SRC/Peripheral/src/ch32v20x_usart.o
+ .debug_str     0x0000000000001f44      0x3e0 ./SRC/Peripheral/src/ch32v20x_usart.o
                                         0xacf (size before relaxing)
- .debug_str     0x0000000000002346       0xbb ./SRC/Debug/debug.o
+ .debug_str     0x0000000000002324       0xbb ./SRC/Debug/debug.o
                                         0x8f6 (size before relaxing)
- .debug_str     0x0000000000002401       0x1c ./LIB/ble_task_scheduler.o
-                                         0x4a (size before relaxing)
- .debug_str     0x000000000000241d      0x8a1 ./HAL/MCU.o
+ .debug_str     0x00000000000023df       0x1c ./LIB/ble_task_scheduler.o
+                                         0x45 (size before relaxing)
+ .debug_str     0x00000000000023fb      0x8a1 ./HAL/MCU.o
                                        0x12b7 (size before relaxing)
- .debug_str     0x0000000000002cbe       0xaa ./HAL/RTC.o
+ .debug_str     0x0000000000002c9c       0xaa ./HAL/RTC.o
                                         0x919 (size before relaxing)
- .debug_str     0x0000000000002d68      0xf5e ./APP/central.o
+ .debug_str     0x0000000000002d46      0xf5e ./APP/central.o
                                        0x1775 (size before relaxing)
- .debug_str     0x0000000000003cc6       0x53 ./APP/central_main.o
+ .debug_str     0x0000000000003ca4       0x53 ./APP/central_main.o
                                         0x7c7 (size before relaxing)
- .debug_str     0x0000000000003d19       0x52 ./APP/ch32v20x_it.o
+ .debug_str     0x0000000000003cf7       0x52 ./APP/ch32v20x_it.o
                                         0x74c (size before relaxing)
- .debug_str     0x0000000000003d6b       0x62 ./APP/system_ch32v20x.o
+ .debug_str     0x0000000000003d49       0x62 ./APP/system_ch32v20x.o
                                         0x6ac (size before relaxing)
 
 .debug_ranges   0x0000000000000000      0x8f0

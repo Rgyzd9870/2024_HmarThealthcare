@@ -15,6 +15,7 @@
 #include "CONFIG.h"
 #include "hal.h"
 #include "central.h"
+#include "mytask.h"
 
 /*********************************************************************
  * GLOBAL TYPEDEFS
@@ -62,6 +63,8 @@ int main(void)
     GAPRole_CentralInit();
     Central_Init();
     Main_Circulation();
+
+//    MyTask_Init();
 }
 
 /******************************** endfile @ main ******************************/

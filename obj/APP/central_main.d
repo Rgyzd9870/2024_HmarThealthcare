@@ -33,7 +33,8 @@ APP/central_main.o: ../APP/central_main.c \
  D:\ch32\CH32V208\Central\HAL\include/SLEEP.h \
  D:\ch32\CH32V208\Central\HAL\include/KEY.h \
  D:\ch32\CH32V208\Central\HAL\include/LED.h \
- D:\ch32\CH32V208\Central\APP\include/central.h
+ D:\ch32\CH32V208\Central\APP\include/central.h \
+ D:\ch32\CH32V208\Central\Hardware/mytask.h
 
 D:\ch32\CH32V208\Central\HAL\include/CONFIG.h:
 
@@ -104,3 +105,5 @@ D:\ch32\CH32V208\Central\HAL\include/KEY.h:
 D:\ch32\CH32V208\Central\HAL\include/LED.h:
 
 D:\ch32\CH32V208\Central\APP\include/central.h:
+
+D:\ch32\CH32V208\Central\Hardware/mytask.h:

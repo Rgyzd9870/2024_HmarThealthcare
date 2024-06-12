@@ -30,6 +30,8 @@ void MyTask_Init(void)
     MAX30102_INT_Init();
 
     MyTaskId=TMOS_ProcessEventRegister(MyTask_ProcessEvent);
+
+    tmos_start_task( MyTaskId, MAX30102_INT_ENT, MS1_TO_SYSTEM_TIME( 50 ));
 }
 
 uint16_t MyTask_ProcessEvent(uint8_t task_id, uint16_t events)
@@ -46,6 +48,7 @@ uint16_t MyTask_ProcessEvent(uint8_t task_id, uint16_t events)
     if(events & MAX30102_INT_ENT)
     {
         uint8_t INTR_STATUS_1,INTR_STATUS_2;
+
         if(MAX30102_INT_READ())
         {
             MAX30102_Read_IntStatus(&INTR_STATUS_1,&INTR_STATUS_2);
@@ -55,6 +58,9 @@ uint16_t MyTask_ProcessEvent(uint8_t task_id, uint16_t events)
                 tmos_set_event( MyTaskId, MAX30102_READ_ENT);
             }
         }
+
+        tmos_start_task( MyTaskId, MAX30102_INT_ENT, MS1_TO_SYSTEM_TIME( 50 ));
+
         return (events ^ MAX30102_INT_ENT);
     }
 
@@ -70,7 +76,7 @@ uint16_t MyTask_ProcessEvent(uint8_t task_id, uint16_t events)
         return (events ^ MAX30102_READ_ENT);
     }
 
-    //MAX30102 ∂¡»°÷µ
+    //MAX30102 ∑¢ÀÕ
     if(events & MAX30102_SENDMSG_ENT)
     {
         maxim_heart_rate_and_oxygen_saturation(aun_ir_buffer, n_ir_buffer_length, aun_red_buffer, &n_sp02, &ch_spo2_valid, &n_heart_rate, &ch_hr_valid);

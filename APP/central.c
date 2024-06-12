@@ -544,7 +544,7 @@ static void centralProcessGATTMsg(gattMsgEvent_t *pMsg)
  */
 static void centralRssiCB(uint16_t connHandle, int8_t rssi)
 {
-    PRINT("RSSI : -%d dB \n", -rssi);
+//    PRINT("RSSI : -%d dB \n", -rssi);
 }
 
 /*********************************************************************
@@ -702,6 +702,7 @@ static void centralEventCB(gapRoleEvent_t *pEvent)
         case GAP_LINK_PARAM_UPDATE_EVENT:       //连接参数更新
         {
             PRINT("Param Update...\n");
+            tmos_start_task(centralTaskId, START_READ_OR_WRITE_EVT, DEFAULT_READ_OR_WRITE_DELAY);
         }
         break;
 
@@ -895,8 +896,8 @@ static void centralGATTDiscoveryEvent(gattMsgEvent_t *pMsg)
 
                 if(char_properties&(GATT_PROP_WRITE|GATT_PROP_WRITE_NO_RSP)) {
                     centralCharHdl = char_value_handle;
-                    PRINT("Write handle:%04x\r\n",char_value_handle);
-                    tmos_start_task(centralTaskId, START_READ_OR_WRITE_EVT, 1600);
+                    PRINT("\r\nWrite handle:%04x\r\n",char_value_handle);
+                    tmos_start_task(centralTaskId, START_READ_OR_WRITE_EVT, DEFAULT_READ_OR_WRITE_DELAY);
                 }
                 if(char_properties&GATT_PROP_NOTIFY) {
                     centralCCCDHdl = char_value_handle+1;                //通过GATT_DiscAllChars或者handle，noti/indi的handle值需要+1

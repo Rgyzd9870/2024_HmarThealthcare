@@ -45,6 +45,9 @@ void Delay_Ms (uint32_t n);
 void USART_Printf_Init(uint32_t baudrate);
 void SDI_Printf_Enable(void);
 
+void RTOS_Delay_Ms(uint32_t n);
+void NoRTOS_Delay_Ms(uint32_t n);
+
 #ifdef __cplusplus
 }
 #endif

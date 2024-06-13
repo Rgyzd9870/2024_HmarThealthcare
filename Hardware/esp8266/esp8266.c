@@ -365,42 +365,42 @@ void ESP8266_Init(void)
 
     // 退出透传
     while (uartWriteWiFi("+++", 3));
-    vTaskDelay(100);
+    Delay_Ms(100);
     // 查询 WiFi 模块是否正常工作
     uartWriteWiFi("AT\r\n",4);
-    vTaskDelay(100);
+    Delay_Ms(100);
     //断开与服务器的连接
     while(uartWriteWiFiStr("AT+CIPCLOSE\r\n")==RESET);
-    vTaskDelay(100);
+    Delay_Ms(100);
     // 断开与mqtt的连接
     while(uartWriteWiFiStr("AT+MQTTCLEAN=0\r\n")==RESET);
-    vTaskDelay(100);
+    Delay_Ms(100);
     // 查询 WiFi 模块是否正常工作
     uartWriteWiFi("AT\r\n",4);
-    vTaskDelay(100);
+    Delay_Ms(100);
     // 查询 打开AT回显
     uartWriteWiFi("ATE1\r\n",6);
-    vTaskDelay(100);
+    Delay_Ms(100);
     // 设为 Station 模式
     while(uartWriteWiFiStr("AT+CWMODE=1\r\n")==RESET);
-    vTaskDelay(100);
+    Delay_Ms(100);
     while(uartWriteWiFiStr("AT+CWDHCP=1,1\r\n")==RESET)
-    vTaskDelay(500);
+    Delay_Ms(500);
     // 设为单连接模式
     while(uartWriteWiFiStr("AT+CIPMUX=0\r\n")==RESET);
-    vTaskDelay(100);
+    Delay_Ms(100);
     //连接一个名为 SSID、密码为 PASSWORD 的 WiFi 网络
 //    ESP8266_WIFICONTEST("rgyzd","12368888");
     ESP8266_WIFICONTEST("Redmi K40","15813991772");
-    vTaskDelay(1000);
+    Delay_Ms(1000);
     RxBuffer_Printf(buffer);
-    vTaskDelay(100);
+    Delay_Ms(100);
     //设置 MQTT 用户属性
     ESP8266_MQTTUSERCFG("D003","04RLFX3eC5");
-    vTaskDelay(500);
+    Delay_Ms(500);
     // 连接 MQTT Broker
     while(uartWriteWiFiStr("AT+MQTTCONN=0,\"mqtts.heclouds.com\",1883,0\r\n")==RESET);
-    vTaskDelay(1000);
+    Delay_Ms(1000);
     RxBuffer_Printf(buffer);
 }
 

@@ -20,6 +20,8 @@ static uint16_t p_ms = 0;
 #define DEBUG_DATA0_ADDRESS  ((volatile uint32_t*)0xE0000380)
 #define DEBUG_DATA1_ADDRESS  ((volatile uint32_t*)0xE0000384)
 
+extern void (*Delay_ms_set)(uint32_t);
+
 /*********************************************************************
  * @fn      Delay_Init
  *
@@ -31,6 +33,8 @@ void Delay_Init(void)
 {
     p_us = SystemCoreClock / 8000000;
     p_ms = (uint16_t)p_us * 1000;
+
+    Delay_ms_set= &NoRTOS_Delay_Ms;
 }
 
 /*********************************************************************
@@ -42,21 +46,21 @@ void Delay_Init(void)
  *
  * @return  None
  */
-//void Delay_Us(uint32_t n)
-//{
-//    uint32_t i;
-//
-//    SysTick->SR &= ~(1 << 0);
-//    i = (uint32_t)n * p_us;
-//
-//    SysTick->CMP = i;
-//    SysTick->CTLR |= (1 << 4);
-//    SysTick->CTLR |= (1 << 5) | (1 << 0);
-//
-//    while((SysTick->SR & (1 << 0)) != (1 << 0))
-//        ;
-//    SysTick->CTLR &= ~(1 << 0);
-//}
+void Delay_Us(uint32_t n)
+{
+    uint32_t i;
+
+    SysTick->SR &= ~(1 << 0);
+    i = (uint32_t)n * p_us;
+
+    SysTick->CMP = i;
+    SysTick->CTLR |= (1 << 4);
+    SysTick->CTLR |= (1 << 5) | (1 << 0);
+
+    while((SysTick->SR & (1 << 0)) != (1 << 0))
+        ;
+    SysTick->CTLR &= ~(1 << 0);
+}
 
 /*********************************************************************
  * @fn      Delay_Ms
@@ -69,7 +73,28 @@ void Delay_Init(void)
  */
 void Delay_Ms(uint32_t n)
 {
+    Delay_ms_set(n);
+}
+
+void RTOS_Delay_Ms(uint32_t n)
+{
     vTaskDelay(pdMS_TO_TICKS(n));
+}
+
+void NoRTOS_Delay_Ms(uint32_t n)
+{
+    uint32_t i;
+
+    SysTick->SR &= ~(1 << 0);
+    i = (uint32_t)n * p_ms;
+
+    SysTick->CMP = i;
+    SysTick->CTLR |= (1 << 4);
+    SysTick->CTLR |= (1 << 5) | (1 << 0);
+
+    while((SysTick->SR & (1 << 0)) != (1 << 0))
+        ;
+    SysTick->CTLR &= ~(1 << 0);
 }
 
 /*********************************************************************

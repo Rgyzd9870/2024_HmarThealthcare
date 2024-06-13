@@ -43,7 +43,7 @@
  */
 
 #ifndef INTSYSCR_INEST
-#define INTSYSCR_INEST   INTSYSCR_INEST_EN_4Level
+#define INTSYSCR_INEST   INTSYSCR_INEST_EN_8Level
 #endif
 
 /* NVIC Init Structure definition

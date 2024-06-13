@@ -33,7 +33,6 @@ void EXTI1_INT_INIT(void)
     EXTI_InitStructure.EXTI_LineCmd = ENABLE;
     EXTI_Init(&EXTI_InitStructure);
 
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
     NVIC_InitStructure.NVIC_IRQChannel = EXTI1_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;

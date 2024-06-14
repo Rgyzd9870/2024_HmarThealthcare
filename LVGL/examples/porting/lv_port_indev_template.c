@@ -201,7 +201,7 @@ static void keypad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data)
     mouse_get_xy(&data->point.x, &data->point.y);
 
     /*Get whether the a key is pressed and save the pressed key*/
-    uint32_t act_key = KEY_Scan(0);
+    uint32_t act_key = KEY_Scan(1);
     if(act_key != 0) {
         data->state = LV_INDEV_STATE_PR;
 

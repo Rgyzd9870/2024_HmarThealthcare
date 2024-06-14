@@ -74,7 +74,6 @@ void LVGL_task(void *pvParameters)
 
     while(1)
     {
-        lv_tick_inc(5);
         lv_timer_handler(); /* LVGL ¼ÆÊ±Æ÷ */
         Delay_Ms(5);
     }

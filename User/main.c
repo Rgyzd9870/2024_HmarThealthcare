@@ -30,6 +30,12 @@
 #include "timers.h"
 #include "Droplet.h"
 #include "cJSON.h"
+#include "key.h"
+
+#include "lvgl.h"
+#include "lv_port_indev_template.h"
+#include "lv_port_disp_template.h"
+#include "ui.h"
 
 /* Global define */
 #define Deafult_TASK_PRIO     1
@@ -37,13 +43,15 @@
 
 TaskHandle_t StartTask_Handler;
 TaskHandle_t OnenetSend_Handler;
-TaskHandle_t HardwareInit_Handler;
+TaskHandle_t LVGL_Handler;
 
 void (*Delay_ms_set)(uint32_t);
 MQTT_Heart_struct MQTT_Buffer ;
+lv_group_t *group;
 
 void start_task(void *pvParameters);
 void OnenetSend_task(void *pvParameters);
+void LVGL_task(void *pvParameters);
 
 /*********************************************************************
  * @fn      OnenetSend_task
@@ -55,18 +63,28 @@ void OnenetSend_task(void *pvParameters)
 {
     while(1)
     {
-        printf("test1\r\n");
         Delay_Ms(5000);
-        printf("test2\r\n");
         ESP8266_MQTTPUB(NULL);
-        printf("test3\r\n");
+    }
+}
+
+void LVGL_task(void *pvParameters)
+{
+    ui_init();
+
+    while(1)
+    {
+        lv_tick_inc(5);
+        lv_timer_handler(); /* LVGL ¼ÆÊ±Æ÷ */
+        Delay_Ms(5);
     }
 }
 
 void start_task(void *pvParameters)
 {
     taskENTER_CRITICAL();
-    xTaskCreate(OnenetSend_task,"OnenetSend_task",128,NULL,5,&OnenetSend_Handler);
+//    xTaskCreate(OnenetSend_task,"OnenetSend_task",128,NULL,5,&OnenetSend_Handler);
+    xTaskCreate(LVGL_task,"LVGL_task",2*1024,NULL,4,&LVGL_Handler);
     taskEXIT_CRITICAL();
     vTaskDelete(StartTask_Handler);
 }
@@ -90,21 +108,27 @@ int main(void)
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
     printf("FreeRTOS Kernel Version:%s\r\n",tskKERNEL_VERSION_NUMBER);
 
-    ESP8266_Init();
+    //change cjosn malloc and free
+//    cJSON_Hooks hooks;
+//    hooks.malloc_fn = pvPortMalloc;
+//    hooks.free_fn = vPortFree;
+//    cJSON_InitHooks(&hooks);
+
+//    ESP8266_Init();
+
+    lv_init();
+    group = lv_group_create();
+    lv_group_set_default(group);
+    lv_port_disp_init();
+    lv_port_indev_init();
 
     Delay_ms_set= &RTOS_Delay_Ms;
 
-    //change cjosn malloc and free
-    cJSON_Hooks hooks;
-    hooks.malloc_fn = pvPortMalloc;
-    hooks.free_fn = vPortFree;
-    cJSON_InitHooks(&hooks);
-
     xTaskCreate((TaskFunction_t )start_task,
                         (const char*    )"start_task",
-                        (uint16_t       )512,
+                        (uint16_t       )128,
                         (void*          )NULL,
-                        (UBaseType_t    )Deafult_TASK_PRIO,
+                        (UBaseType_t    )1,
                         (TaskHandle_t*  )&StartTask_Handler);
 
     vTaskStartScheduler();

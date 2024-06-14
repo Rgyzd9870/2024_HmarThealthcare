@@ -87,4 +87,7 @@ LVGL/src/widgets \
 Peripheral/src \
 Startup \
 User \
+ui/components \
+ui/screens \
+ui \
 

@@ -90,6 +90,10 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LVGL/LVGL/examples}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ch32_freertosban/LVGL/examples/porting}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ch32_freertosban/LVGL/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ch32_freertosban/ui}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ch32_freertosban/ui/components}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ch32_freertosban/ui/fonts}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ch32_freertosban/ui/screens}&quot;"/>
 								</option>
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.std.2020844713" name="Language standard" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.std" useByScannerDiscovery="true" value="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.std.gnu99" valueType="enumerated"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="true" id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.defs.177116515" name="Defined symbols (-D)" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.defs" useByScannerDiscovery="true" valueType="definedSymbols"/>
@@ -169,5 +173,5 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
-	
+	<storageModule moduleId="refreshScope"/>
 </cproject>

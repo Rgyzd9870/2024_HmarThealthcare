@@ -138,7 +138,9 @@ enum
 /*********************************************************************
  * EXTERNAL VARIABLES
  */
-
+extern int32_t n_sp02;
+extern int32_t n_heart_rate;
+extern uint8_t MAX30102_ReadEnable;
 /*********************************************************************
  * EXTERNAL FUNCTIONS
  */
@@ -367,7 +369,7 @@ uint16_t Central_ProcessEvent(uint8_t task_id, uint16_t events)
                     {
                         centralProcedureInProgress = TRUE;
 //                        centralDoWrite = !centralDoWrite;
-                        tmos_start_task(centralTaskId, START_READ_OR_WRITE_EVT, DEFAULT_READ_OR_WRITE_DELAY);
+//                        tmos_start_task(centralTaskId, START_READ_OR_WRITE_EVT, DEFAULT_READ_OR_WRITE_DELAY);
                     }
                     else
                     {
@@ -702,7 +704,6 @@ static void centralEventCB(gapRoleEvent_t *pEvent)
         case GAP_LINK_PARAM_UPDATE_EVENT:       //连接参数更新
         {
             PRINT("Param Update...\n");
-            tmos_start_task(centralTaskId, START_READ_OR_WRITE_EVT, DEFAULT_READ_OR_WRITE_DELAY);
         }
         break;
 
@@ -897,7 +898,7 @@ static void centralGATTDiscoveryEvent(gattMsgEvent_t *pMsg)
                 if(char_properties&(GATT_PROP_WRITE|GATT_PROP_WRITE_NO_RSP)) {
                     centralCharHdl = char_value_handle;
                     PRINT("\r\nWrite handle:%04x\r\n",char_value_handle);
-                    tmos_start_task(centralTaskId, START_READ_OR_WRITE_EVT, DEFAULT_READ_OR_WRITE_DELAY);
+                    MAX30102_ReadEnable=1;
                 }
                 if(char_properties&GATT_PROP_NOTIFY) {
                     centralCCCDHdl = char_value_handle+1;                //通过GATT_DiscAllChars或者handle，noti/indi的handle值需要+1

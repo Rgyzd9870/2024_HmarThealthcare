@@ -39,6 +39,7 @@ void Main_Circulation(void)
 {
     while(1)
     {
+        MAX30102_ReadData();
         TMOS_SystemProcess();
     }
 }
@@ -62,9 +63,8 @@ int main(void)
     HAL_Init();
     GAPRole_CentralInit();
     Central_Init();
+    MyTask_Init();
     Main_Circulation();
-
-//    MyTask_Init();
 }
 
 /******************************** endfile @ main ******************************/

@@ -1,96 +1,96 @@
 Hardware/mytask.o: ../Hardware/mytask.c ../Hardware/mytask.h \
- D:\ch32\CH32V208\Central\SRC\Debug/debug.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x.h \
- D:\ch32\CH32V208\Central\SRC\Core/core_riscv.h \
- D:\ch32\CH32V208\Central\APP\include/system_ch32v20x.h \
- D:\ch32\CH32V208\Central\APP\include/ch32v20x_conf.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_adc.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_bkp.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_can.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_crc.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_dbgmcu.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_dma.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_exti.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_flash.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_gpio.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_i2c.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_iwdg.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_pwr.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_rcc.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_rtc.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_spi.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_tim.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_usart.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_wwdg.h \
- D:\ch32\CH32V208\Central\APP\include/ch32v20x_it.h \
- D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_misc.h \
- D:\ch32\CH32V208\Central\Hardware\MAX30102/MAX30102.h \
- D:\ch32\CH32V208\Central\Hardware\algorithm/algorithm.h \
- D:\ch32\CH32V208\Central\Hardware\IIC/myiic.h \
- D:\ch32\CH32V208\Central\LIB/wchble.H \
- D:\ch32\CH32V208\Central\APP\include/central.h
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Debug/debug.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Core/core_riscv.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\APP\include/system_ch32v20x.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\APP\include/ch32v20x_conf.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_adc.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_bkp.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_can.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_crc.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_dbgmcu.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_dma.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_exti.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_flash.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_gpio.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_i2c.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_iwdg.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_pwr.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_rcc.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_rtc.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_spi.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_tim.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_usart.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_wwdg.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\APP\include/ch32v20x_it.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_misc.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\Hardware\MAX30102/MAX30102.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\Hardware\algorithm/algorithm.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\Hardware\IIC/myiic.h \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\LIB/wchble.H \
+ E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\APP\include/central.h
 
 ../Hardware/mytask.h:
 
-D:\ch32\CH32V208\Central\SRC\Debug/debug.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Debug/debug.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x.h:
 
-D:\ch32\CH32V208\Central\SRC\Core/core_riscv.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Core/core_riscv.h:
 
-D:\ch32\CH32V208\Central\APP\include/system_ch32v20x.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\APP\include/system_ch32v20x.h:
 
-D:\ch32\CH32V208\Central\APP\include/ch32v20x_conf.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\APP\include/ch32v20x_conf.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_adc.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_adc.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_bkp.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_bkp.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_can.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_can.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_crc.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_crc.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_dbgmcu.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_dbgmcu.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_dma.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_dma.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_exti.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_exti.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_flash.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_flash.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_gpio.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_gpio.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_i2c.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_i2c.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_iwdg.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_iwdg.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_pwr.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_pwr.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_rcc.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_rcc.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_rtc.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_rtc.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_spi.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_spi.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_tim.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_tim.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_usart.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_usart.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_wwdg.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_wwdg.h:
 
-D:\ch32\CH32V208\Central\APP\include/ch32v20x_it.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\APP\include/ch32v20x_it.h:
 
-D:\ch32\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_misc.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\SRC\Peripheral\inc/ch32v20x_misc.h:
 
-D:\ch32\CH32V208\Central\Hardware\MAX30102/MAX30102.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\Hardware\MAX30102/MAX30102.h:
 
-D:\ch32\CH32V208\Central\Hardware\algorithm/algorithm.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\Hardware\algorithm/algorithm.h:
 
-D:\ch32\CH32V208\Central\Hardware\IIC/myiic.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\Hardware\IIC/myiic.h:
 
-D:\ch32\CH32V208\Central\LIB/wchble.H:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\LIB/wchble.H:
 
-D:\ch32\CH32V208\Central\APP\include/central.h:
+E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V208\Central\APP\include/central.h:

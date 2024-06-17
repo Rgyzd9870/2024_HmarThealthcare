@@ -49,6 +49,7 @@ User/main.o: ../User/main.c \
  C:\Users\rgyzd9870\Desktop\临时\2024_SmartHealthcare\Hardware\Droplet/Droplet.h \
  C:\Users\rgyzd9870\Desktop\临时\2024_SmartHealthcare\Hardware\CJSON/cJSON.h \
  C:\Users\rgyzd9870\Desktop\临时\2024_SmartHealthcare\Hardware\KEY/key.h \
+ C:\Users\rgyzd9870\Desktop\临时\2024_SmartHealthcare\Hardware\PWM/PWM.h \
  C:\Users\rgyzd9870\Desktop\临时\2024_SmartHealthcare\LVGL\src/lvgl.h \
  c:\users\rgyzd9870\desktop\临时\2024_smarthealthcare\lvgl\lvgl.h \
  c:\users\rgyzd9870\desktop\临时\2024_smarthealthcare\lvgl\src/misc/lv_log.h \
@@ -378,6 +379,8 @@ C:\Users\rgyzd9870\Desktop\临时\2024_SmartHealthcare\Hardware\Droplet/Droplet.h:
 C:\Users\rgyzd9870\Desktop\临时\2024_SmartHealthcare\Hardware\CJSON/cJSON.h:
 
 C:\Users\rgyzd9870\Desktop\临时\2024_SmartHealthcare\Hardware\KEY/key.h:
+
+C:\Users\rgyzd9870\Desktop\临时\2024_SmartHealthcare\Hardware\PWM/PWM.h:
 
 C:\Users\rgyzd9870\Desktop\临时\2024_SmartHealthcare\LVGL\src/lvgl.h:
 

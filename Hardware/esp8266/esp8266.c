@@ -431,7 +431,7 @@ uint8_t ESP8266_MQTTPUB_Create(char *DATA)
     /* 添加两个嵌套的JSON数据到 cjson_params */
     cjson_temperature = cJSON_CreateObject();
     cJSON_AddNumberToObject(cjson_temperature, "value", 0);                     //cjson_temperature
-    cJSON_AddItemToObject(cjson_params, "BatteryPercentage", cjson_temperature);
+    cJSON_AddItemToObject(cjson_params, "DropletSpeed", cjson_temperature);
 
     cjson_humidity = cJSON_CreateObject();
     cJSON_AddNumberToObject(cjson_humidity, "value", 0);                        //cjson_humidity

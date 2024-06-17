@@ -31,6 +31,7 @@
 #include "Droplet.h"
 #include "cJSON.h"
 #include "key.h"
+#include "PWM.h"
 
 #include "lvgl.h"
 #include "lv_port_indev_template.h"
@@ -79,10 +80,10 @@ void OnenetSend_task(void *pvParameters)
 
     while(1)
     {
-        Delay_Ms(60000);
-
-        ESP8266_MQTTPUB_Send(55 , 77);
-
+        Delay_Ms(10000);
+        mutex(onenet_mutex_handler,100,
+        ESP8266_MQTTPUB_Send(55 , MQTT_Buffer.Droplet_speed);
+        );
         printf("发送1成功\r\n");
     }
 }
@@ -105,6 +106,9 @@ void OnenetRestr_task(void *pvParameters)
         mutex(onenet_mutex_handler,100,
                 MQTT_Buffer.Droplet_speed = (int)speed;
         );
+        if(MQTT_Buffer.Droplet_speed > 40)
+        {Servo_SetAngle(30);}
+        else Servo_SetAngle(180);
         vTaskDelay(1000);
     }
 }
@@ -117,7 +121,7 @@ void LVGL_task(void *pvParameters)
     while(1)
     {
         lv_timer_handler(); /* LVGL 计时器 */
-        Delay_Ms(10);
+        Delay_Ms(5);
     }
 }
 
@@ -129,12 +133,12 @@ void start_task(void *pvParameters)
     Droplet_queue_handler= xQueueCreate(1,sizeof(uint16_t));         //队列长度一，大小u16
     if (Droplet_queue_handler == NULL) printf("队列创建失败\n");
     xTaskCreate(OnenetSend_task,"OnenetSend_task",1024,NULL,5,&OnenetSend_Handler);
-//    xTaskCreate(OnenetRestr_task,"OnenetRestr_task",256,NULL,10,&OnenetRestr_Handler);
+    xTaskCreate(OnenetRestr_task,"OnenetRestr_task",256,NULL,10,&OnenetRestr_Handler);
     xTaskCreate(LVGL_task,"LVGL_task",2*1024,NULL,11,&LVGL_Handler);
-//    Droplet_timer_handle = xTimerCreate( "Droplet_timer", 10000, pdTRUE, (void *)1,Droplet_timer_callback );     //返回句柄
+    Droplet_timer_handle = xTimerCreate( "Droplet_timer", 10000, pdTRUE, (void *)1,Droplet_timer_callback );     //返回句柄
 
-//    int err = xTimerStart(Droplet_timer_handle,(TickType_t)1000);
-//    if(err ==pdFALSE) printf("液滴软件定时器开启失败\n");
+    int err = xTimerStart(Droplet_timer_handle,(TickType_t)1000);
+    if(err ==pdFALSE) printf("液滴软件定时器开启失败\n");
     taskEXIT_CRITICAL();
     vTaskDelete(StartTask_Handler);
 }
@@ -165,8 +169,9 @@ int main(void)
     cJSON_InitHooks(&hooks);
 
     ESP8266_Init();
-
+    PWM_Init();
     EXTI1_INT_INIT();
+
     lv_init();
     group = lv_group_create();
     lv_group_set_default(group);

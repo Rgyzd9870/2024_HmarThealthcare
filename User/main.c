@@ -64,10 +64,16 @@ void Droplet_timer_callback(TimerHandle_t pxTimer);
  */
 void OnenetSend_task(void *pvParameters)
 {
+
+    ESP8266_MQTTPUB_Create(NULL);
+
     while(1)
     {
         Delay_Ms(5000);
-        ESP8266_MQTTPUB(NULL);
+
+        ESP8266_MQTTPUB_Send(55 , 77);
+
+        printf("发送1成功\r\n");
     }
 }
 
@@ -85,10 +91,10 @@ void LVGL_task(void *pvParameters)
 void start_task(void *pvParameters)
 {
     taskENTER_CRITICAL();
-    Droplet_queue_handler= xQueueCreate(1,sizeof(uint16_t));         //队列长度一，大小u16
-    if (Droplet_queue_handler == NULL) printf("队列创建失败\n");
-    xTaskCreate(OnenetSend_task,"OnenetSend_task",128,NULL,5,&OnenetSend_Handler);
-    xTaskCreate(LVGL_task,"LVGL_task",2*1024,NULL,11,&LVGL_Handler);
+//    Droplet_queue_handler= xQueueCreate(1,sizeof(uint16_t));         //队列长度一，大小u16
+//    if (Droplet_queue_handler == NULL) printf("队列创建失败\n");
+    xTaskCreate(OnenetSend_task,"OnenetSend_task",1024,NULL,5,&OnenetSend_Handler);
+//    xTaskCreate(LVGL_task,"LVGL_task",2*1024,NULL,11,&LVGL_Handler);
     Droplet_timer_handle = xTimerCreate( "Droplet_timer", 1000, pdTRUE, (void *)1,Droplet_timer_callback );     //返回句柄
 
 //    int err = xTimerStart(Droplet_timer_handle,(TickType_t)1000);
@@ -124,6 +130,7 @@ int main(void)
 
     ESP8266_Init();
 
+//    EXTI1_INT_INIT();
     lv_init();
     group = lv_group_create();
     lv_group_set_default(group);

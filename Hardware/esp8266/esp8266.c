@@ -14,6 +14,10 @@ const char* subscribe = "$sys/04RLFX3eC5/D003/thing/property/set";
 u8 TxBuffer[] = "\0";
 u8 RxBuffer[RXBUF_SIZE]={0};
 
+cJSON* cjson_main = NULL;
+cJSON* cjson_params = NULL;
+cJSON* cjson_humidity = NULL;
+cJSON* cjson_temperature = NULL;
 /*******************************************************************************
 * Function Name  : USARTx_CFG
 * Description    : Initializes the USART6 peripheral.
@@ -390,8 +394,8 @@ void ESP8266_Init(void)
     while(uartWriteWiFiStr("AT+CIPMUX=0\r\n")==RESET);
     Delay_Ms(100);
     //连接一个名为 SSID、密码为 PASSWORD 的 WiFi 网络
-//    ESP8266_WIFICONTEST("rgyzd","12368888");
-    ESP8266_WIFICONTEST("Redmi K40","15813991772");
+    ESP8266_WIFICONTEST("rgyzd","12368888");
+//    ESP8266_WIFICONTEST("Redmi K40","15813991772");
     Delay_Ms(1000);
     RxBuffer_Printf(buffer);
     Delay_Ms(100);
@@ -405,17 +409,17 @@ void ESP8266_Init(void)
 }
 
 
-/****/
-void ESP8266_MQTTPUB_linshi(double BatteryPercentage , double Droplet)
+
+/***************************************************************************
+描述: MQTT发布到云平台
+参数: 字符串
+返回: 无
+
+
+****************************************************************************/
+
+uint8_t ESP8266_MQTTPUB_Create(char *DATA)
 {
-    char cmdBuf[256];
-    char buffer[256]={"\0"};
-
-    cJSON* cjson_main = NULL;
-    cJSON* cjson_params = NULL;
-    cJSON* cjson_temperature = NULL;
-    cJSON* cjson_humidity = NULL;
-
     /* 创建一个JSON数据对象(链表头结点) */
     cjson_main = cJSON_CreateObject();
     /* 添加两条字符串类型的JSON数据(添加一个链表节点) */
@@ -426,32 +430,58 @@ void ESP8266_MQTTPUB_linshi(double BatteryPercentage , double Droplet)
     cJSON_AddItemToObject(cjson_main, "params", cjson_params);
     /* 添加两个嵌套的JSON数据到 cjson_params */
     cjson_temperature = cJSON_CreateObject();
-    cJSON_AddNumberToObject(cjson_temperature, "value", 80);
+    cJSON_AddNumberToObject(cjson_temperature, "value", 0);                     //cjson_temperature
     cJSON_AddItemToObject(cjson_params, "BatteryPercentage", cjson_temperature);
 
     cjson_humidity = cJSON_CreateObject();
-    cJSON_AddNumberToObject(cjson_humidity, "value", 30);
+    cJSON_AddNumberToObject(cjson_humidity, "value", 0);                        //cjson_humidity
     cJSON_AddItemToObject(cjson_params, "BloodOxygen", cjson_humidity);
 
-    /*修改cjson_humidity的value*/
-    cJSON_SetNumberHelper(cJSON_GetObjectItem(cjson_humidity,"value"),Droplet);
-
     /* 打印JSON对象(整条链表)的所有数据 */
-    char *str = cJSON_PrintUnformatted(cjson_main);
-    printf("%s\n", str);
+    char *str = cJSON_PrintUnformatted(cjson_main);     //将 CJSON转换为字符串
+   // printf("%s\n", str);
+
     uint8_t size=0;
-    while(*str!='\0')
-    {
-        str++;
-        size++;
-    }
+    size = strlen(str);
+
+
     printf("%d\r\n",size);
-    str = cJSON_PrintUnformatted(cjson_main);
+
+    cJSON_free(str);                                    //直接释放分配的内存得了
+    return size;
+}
+
+void ESP8266_MQTTPUB_Send(double BatteryPercentage , double Droplet)
+{
+    char cmdBuf[256];
+    char buffer[256]={"\0"};
+    /*在发送前更新 JSON 数据*/
+    cJSON_SetNumberHelper(cJSON_GetObjectItem(cjson_humidity,"value"),BatteryPercentage);
+    cJSON_SetNumberHelper(cJSON_GetObjectItem(cjson_temperature,"value"),Droplet);
+
+    char *str = cJSON_PrintUnformatted(cjson_main);    //重新生成JSON字符串
+//    printf("%s\n", str);
+    uint8_t size=0;
+//        while(*str!='\0')
+//        {
+//            str++;
+//            size++;
+//        }
+    size = strlen(str);
+    printf("%d\r\n",size);
+
 
     sprintf(cmdBuf,"AT+MQTTPUBRAW=0,\"%s\",%d,0,0\r\n",pubtopic,size);
+    taskENTER_CRITICAL();
     while(uartWriteWiFiStr(cmdBuf)==RESET);
+    taskEXIT_CRITICAL();
     Delay_Ms(100);
+    taskENTER_CRITICAL();
     while(uartWriteWiFi(str,size)==RESET);
+    taskEXIT_CRITICAL();
     Delay_Ms(100);
+
     RxBuffer_Printf(buffer);
+
+    cJSON_free(str);  //因为这个函数我要调用多次
 }

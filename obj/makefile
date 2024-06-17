@@ -115,7 +115,7 @@ all: ch32_freertosban.elf secondary-outputs
 
 # 工具调用
 ch32_freertosban.elf: $(OBJS) $(USER_OBJS)
-	@	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized  -g -T "E:\新桌面\做过的文件\比赛项目\2024嵌入式大赛\demo\CH32V307\FreeRTOS\Ld\Link.ld" -nostartfiles -Xlinker --gc-sections -Wl,-Map,"ch32_freertosban.map" --specs=nano.specs --specs=nosys.specs -o "ch32_freertosban.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	@	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized  -g -T "C:\Users\rgyzd9870\Desktop\临时\2024_SmartHealthcare\Ld\Link.ld" -nostartfiles -Xlinker --gc-sections -Wl,-Map,"ch32_freertosban.map" --specs=nano.specs --specs=nosys.specs -o "ch32_freertosban.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@	@
 ch32_freertosban.hex: ch32_freertosban.elf
 	@	riscv-none-embed-objcopy -O ihex "ch32_freertosban.elf"  "ch32_freertosban.hex"

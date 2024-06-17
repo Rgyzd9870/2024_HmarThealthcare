@@ -82,7 +82,7 @@ void LVGL_task(void *pvParameters)
 void start_task(void *pvParameters)
 {
     taskENTER_CRITICAL();
-//    xTaskCreate(OnenetSend_task,"OnenetSend_task",128,NULL,5,&OnenetSend_Handler);
+    xTaskCreate(OnenetSend_task,"OnenetSend_task",128,NULL,5,&OnenetSend_Handler);
     xTaskCreate(LVGL_task,"LVGL_task",2*1024,NULL,4,&LVGL_Handler);
     taskEXIT_CRITICAL();
     vTaskDelete(StartTask_Handler);
@@ -108,12 +108,12 @@ int main(void)
     printf("FreeRTOS Kernel Version:%s\r\n",tskKERNEL_VERSION_NUMBER);
 
     //change cjosn malloc and free
-//    cJSON_Hooks hooks;
-//    hooks.malloc_fn = pvPortMalloc;
-//    hooks.free_fn = vPortFree;
-//    cJSON_InitHooks(&hooks);
+    cJSON_Hooks hooks;
+    hooks.malloc_fn = pvPortMalloc;
+    hooks.free_fn = vPortFree;
+    cJSON_InitHooks(&hooks);
 
-//    ESP8266_Init();
+    ESP8266_Init();
 
     lv_init();
     group = lv_group_create();

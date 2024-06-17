@@ -219,7 +219,7 @@ uint8_t esp8266_receive_judge(char *str)
     int num;
     char buffer[1024]={"\0"};
 
-    vTaskDelay(100);
+    Delay_Ms(100);
 
     num = uartAvailableWiFi();
     if (num > 0 )
@@ -246,7 +246,7 @@ void ESP8266_WIFICONTEST(char *ID,char *Password)
     char WIFI[256]="\0";
     sprintf(WIFI,"AT+CWJAP=\"%s\",\"%s\"\r\n",ID,Password);
     while(uartWriteWiFiStr(WIFI)==RESET);
-    vTaskDelay(500);
+    Delay_Ms(500);
 }
 
 /***************************************************************************
@@ -259,7 +259,7 @@ void ESP8266_MQTTUSERCFG(char *DEVID,char *ID)
     char MQTTUSERCFG[256]="\0";
     sprintf(MQTTUSERCFG,"AT+MQTTUSERCFG=0,1,\"%s\",\"%s\",\"%s\",0,0,\"\"\r\n",DEVID,ID,Token);
     while(uartWriteWiFiStr(MQTTUSERCFG)==RESET);
-    vTaskDelay(500);
+    Delay_Ms(500);
 }
 
 /***************************************************************************
@@ -311,9 +311,9 @@ uint8_t ESP8266_MQTTPUB(char *DATA)
 
     sprintf(cmdBuf,"AT+MQTTPUBRAW=0,\"%s\",%d,0,0\r\n",pubtopic,size);
     while(uartWriteWiFiStr(cmdBuf)==RESET);
-    vTaskDelay(100);
+    Delay_Ms(100);
     while(uartWriteWiFi(str,size)==RESET);
-    vTaskDelay(500);
+    Delay_Ms(500);
     RxBuffer_Printf(buffer);
 
     cJSON_Delete(cjson_main);
@@ -335,14 +335,14 @@ void ESP8266_MQTTSUB(void)
 
     sprintf(cmdBuf,"AT+MQTTSUB=0,\"%s\",0\r\n",subscribe);
     while(uartWriteWiFiStr(cmdBuf)==RESET);
-    vTaskDelay(1000);
+    Delay_Ms(1000);
     RxBuffer_Printf(buffer);
 
     while(1)
     {
 //        while(!uartAvailableWiFi())
 //        {
-//            vTaskDelay(1000);
+//            Delay_Ms(1000);
 //            printf("1\r\n");
 //        }
         RxBuffer_Printf(buffer);
@@ -450,8 +450,8 @@ void ESP8266_MQTTPUB_linshi(double BatteryPercentage , double Droplet)
 
     sprintf(cmdBuf,"AT+MQTTPUBRAW=0,\"%s\",%d,0,0\r\n",pubtopic,size);
     while(uartWriteWiFiStr(cmdBuf)==RESET);
-    vTaskDelay(100);
+    Delay_Ms(100);
     while(uartWriteWiFi(str,size)==RESET);
-    vTaskDelay(100);
+    Delay_Ms(100);
     RxBuffer_Printf(buffer);
 }

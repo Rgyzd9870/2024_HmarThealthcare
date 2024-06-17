@@ -297,7 +297,7 @@ uint8_t ESP8266_MQTTPUB(char *DATA)
     /*修改cjson_humidity的value*/
     cJSON_SetNumberHelper(cJSON_GetObjectItem(cjson_humidity,"value"),22);
 
-    /* 打印JSON对象(整条链表)的所有数据 */
+//    /* 打印JSON对象(整条链表)的所有数据 */
     char *str = cJSON_PrintUnformatted(cjson_main);
     printf("%s\n", str);
     uint8_t size=0;

@@ -34,6 +34,8 @@ Hardware/Droplet \
 Hardware/JFC103 \
 Hardware/KEY \
 Hardware/LCD \
+Hardware/PWM \
+Hardware/ap3216C \
 Hardware/esp8266 \
 Hardware/my_usart8 \
 LVGL/examples/porting \
@@ -86,6 +88,7 @@ LVGL/src/misc \
 LVGL/src/widgets \
 Peripheral/src \
 Startup \
+User/I2C \
 User \
 ui/components \
 ui/screens \

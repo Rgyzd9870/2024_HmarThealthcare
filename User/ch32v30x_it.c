@@ -13,7 +13,7 @@
 
 void NMI_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void HardFault_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
-void EXTI1_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void EXTI15_10_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 /*********************************************************************
  * @fn      NMI_Handler
  *
@@ -43,27 +43,27 @@ void HardFault_Handler(void)
 }
 
 /*********************************************************************
- * @fn      EXTI1_IRQHandler
+ * @fn      EXTI15_10_IRQHandler
  *
  * @brief   This function handles EXTI0 Handler.
  *
  * @return  none
  */
 int COUNT;
-void EXTI1_IRQHandler(void)
+void EXTI15_10_IRQHandler(void)
 {
 
-  if(EXTI_GetITStatus(EXTI_Line1)!=RESET)
+  if(EXTI_GetITStatus(EXTI_Line13)!=RESET)
   {
 
 
-    if(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1))
+    if(GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_13))
     {
 
         COUNT++;
-        //        printf("进来了%d",COUNT);
+//               printf("进来了%d",COUNT);
     }
 
-    EXTI_ClearITPendingBit(EXTI_Line1);     /* Clear Flag */
+    EXTI_ClearITPendingBit(EXTI_Line13);     /* Clear Flag */
   }
 }

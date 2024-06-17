@@ -12,6 +12,7 @@ RM := rm -rf
 -include ui/screens/subdir.mk
 -include ui/components/subdir.mk
 -include ui/subdir.mk
+-include User/I2C/subdir.mk
 -include User/subdir.mk
 -include Startup/subdir.mk
 -include Peripheral/src/subdir.mk
@@ -65,6 +66,8 @@ RM := rm -rf
 -include LVGL/examples/porting/subdir.mk
 -include Hardware/my_usart8/subdir.mk
 -include Hardware/esp8266/subdir.mk
+-include Hardware/ap3216C/subdir.mk
+-include Hardware/PWM/subdir.mk
 -include Hardware/LCD/subdir.mk
 -include Hardware/KEY/subdir.mk
 -include Hardware/JFC103/subdir.mk

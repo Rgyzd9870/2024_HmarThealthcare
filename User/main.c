@@ -47,6 +47,9 @@ TaskHandle_t OnenetRestr_Handler;
 TaskHandle_t LVGL_Handler;
 QueueHandle_t Droplet_queue_handler;
 TimerHandle_t Droplet_timer_handle = 0;
+
+/*创建互斥锁句柄*/
+SemaphoreHandle_t onenet_mutex_handler;
 void (*Delay_ms_set)(uint32_t);
 MQTT_Heart_struct MQTT_Buffer ;
 lv_group_t *group;
@@ -56,6 +59,13 @@ void start_task(void *pvParameters);
 void OnenetSend_task(void *pvParameters);
 void LVGL_task(void *pvParameters);
 void Droplet_timer_callback(TimerHandle_t pxTimer);
+//获取的是二值信号量，并利用这函数简化获取和释放的操作，code是要干的工作
+#define mutex(mutex_handler, wait_ms, code)                               \
+    if (xSemaphoreTake(mutex_handler, pdMS_TO_TICKS(wait_ms)) == pdPASS) \
+    {                                                                    \
+        code                                                             \
+            xSemaphoreGive(mutex_handler);                               \
+    }
 /*********************************************************************
  * @fn      OnenetSend_task
  * @brief   OnenetSend_task program.
@@ -69,13 +79,36 @@ void OnenetSend_task(void *pvParameters)
 
     while(1)
     {
-        Delay_Ms(5000);
+        Delay_Ms(60000);
 
         ESP8266_MQTTPUB_Send(55 , 77);
 
         printf("发送1成功\r\n");
     }
 }
+/*********************************************************************
+ * @fn      OnenetRestr_task
+ * @brief   OnenetRestr_task
+ * @param   接收蓝牙，液滴速度发过来的消息队列，并使用onenet_mutex_handler写入全局结构体里
+ * @return  none
+ */
+void OnenetRestr_task(void *pvParameters)
+{
+    uint16_t speed;
+
+    while(1)
+    {
+        int err = xQueueReceive(Droplet_queue_handler,&speed,pdMS_TO_TICKS(1000)); //portMAX_DELAY
+        if(err ==pdFALSE);/* printf("液滴消息队列读取失败\n");*/
+        else printf("液滴消息队列值：%d\n",(int)speed);
+
+        mutex(onenet_mutex_handler,100,
+                MQTT_Buffer.Droplet_speed = (int)speed;
+        );
+        vTaskDelay(1000);
+    }
+}
+
 
 void LVGL_task(void *pvParameters)
 {
@@ -84,18 +117,21 @@ void LVGL_task(void *pvParameters)
     while(1)
     {
         lv_timer_handler(); /* LVGL 计时器 */
-        Delay_Ms(5);
+        Delay_Ms(10);
     }
 }
 
 void start_task(void *pvParameters)
 {
     taskENTER_CRITICAL();
-//    Droplet_queue_handler= xQueueCreate(1,sizeof(uint16_t));         //队列长度一，大小u16
-//    if (Droplet_queue_handler == NULL) printf("队列创建失败\n");
+
+    onenet_mutex_handler = xSemaphoreCreateMutex();                  //先创建几个互斥锁
+    Droplet_queue_handler= xQueueCreate(1,sizeof(uint16_t));         //队列长度一，大小u16
+    if (Droplet_queue_handler == NULL) printf("队列创建失败\n");
     xTaskCreate(OnenetSend_task,"OnenetSend_task",1024,NULL,5,&OnenetSend_Handler);
-//    xTaskCreate(LVGL_task,"LVGL_task",2*1024,NULL,11,&LVGL_Handler);
-    Droplet_timer_handle = xTimerCreate( "Droplet_timer", 1000, pdTRUE, (void *)1,Droplet_timer_callback );     //返回句柄
+//    xTaskCreate(OnenetRestr_task,"OnenetRestr_task",256,NULL,10,&OnenetRestr_Handler);
+    xTaskCreate(LVGL_task,"LVGL_task",2*1024,NULL,11,&LVGL_Handler);
+//    Droplet_timer_handle = xTimerCreate( "Droplet_timer", 10000, pdTRUE, (void *)1,Droplet_timer_callback );     //返回句柄
 
 //    int err = xTimerStart(Droplet_timer_handle,(TickType_t)1000);
 //    if(err ==pdFALSE) printf("液滴软件定时器开启失败\n");
@@ -130,7 +166,7 @@ int main(void)
 
     ESP8266_Init();
 
-//    EXTI1_INT_INIT();
+    EXTI1_INT_INIT();
     lv_init();
     group = lv_group_create();
     lv_group_set_default(group);
@@ -161,7 +197,7 @@ void Droplet_timer_callback(TimerHandle_t pxTimer)
     //回调函数中不能使用阻塞任务，访问队列或信号量的非零阻塞时间也不能调用
     //液滴每秒的运行值，等等改成液滴每分钟运行值
 
-    printf("Droplet的运行次数：%d\r\n",COUNT);
+//    printf("Droplet的运行次数：%d\r\n",COUNT);
     err = xQueueSendToFrontFromISR(Droplet_queue_handler,&COUNT,&xHigherPriorityTaskWoken);
     if(err != pdTRUE )printf("中断队列发送失败\n");
 

@@ -67,6 +67,33 @@ void Droplet_timer_callback(TimerHandle_t pxTimer);
         code                                                             \
             xSemaphoreGive(mutex_handler);                               \
     }
+
+//void Droplet_TIM_Init(void) //PB1
+//{
+//    TIM_TimeBaseInitTypeDef TIM_InitStructure = {0};
+//    NVIC_InitTypeDef NVIC_InitStructure = {0};
+//
+//    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+//    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+//
+//    TIM_InitStructure.TIM_CounterMode = TIM_CounterMode_Up;    //定时器向上计数模式
+//    TIM_InitStructure.TIM_Period = 28800-1;           //自动重载寄存器，1MHz/100Hz(10s)
+//    TIM_InitStructure.TIM_Prescaler = 50000-1;//定时器预分频器设置 = 1Hz =1s ;
+//    TIM_TimeBaseInit(TIM3, &TIM_InitStructure);                 //初始化TIM3
+//    TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);                  //启用定时器3更新中断
+//
+//    //初始化TIM NVIC，设置中断优先级分组
+//    NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;             //TIM3中断通道
+//    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 3;   //设置抢占优先级0
+//    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;           //设置响应优先级3
+//    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;              //使能通道4中断
+//    NVIC_Init(&NVIC_InitStructure);
+//
+//    TIM_ClearFlag(TIM3, TIM_FLAG_Update);
+//    TIM_Cmd(TIM3, ENABLE);
+//}
+
+
 /*********************************************************************
  * @fn      OnenetSend_task
  * @brief   OnenetSend_task program.
@@ -116,8 +143,6 @@ void OnenetRestr_task(void *pvParameters)
 
 void LVGL_task(void *pvParameters)
 {
-    ui_init();
-
     while(1)
     {
         lv_timer_handler(); /* LVGL 计时器 */
@@ -134,7 +159,7 @@ void start_task(void *pvParameters)
     if (Droplet_queue_handler == NULL) printf("队列创建失败\n");
     xTaskCreate(OnenetSend_task,"OnenetSend_task",1024,NULL,5,&OnenetSend_Handler);
     xTaskCreate(OnenetRestr_task,"OnenetRestr_task",256,NULL,10,&OnenetRestr_Handler);
-    xTaskCreate(LVGL_task,"LVGL_task",2*1024,NULL,11,&LVGL_Handler);
+    xTaskCreate(LVGL_task,"LVGL_task",2*1024,NULL,5,&LVGL_Handler);
     Droplet_timer_handle = xTimerCreate( "Droplet_timer", 10000, pdTRUE, (void *)1,Droplet_timer_callback );     //返回句柄
 
     int err = xTimerStart(Droplet_timer_handle,(TickType_t)1000);
@@ -170,6 +195,7 @@ int main(void)
 
     ESP8266_Init();
     PWM_Init();
+    //Droplet_TIM_Init();
     EXTI1_INT_INIT();
 
     lv_init();
@@ -177,6 +203,7 @@ int main(void)
     lv_group_set_default(group);
     lv_port_disp_init();
     lv_port_indev_init();
+    ui_init();
 
     Delay_ms_set= &RTOS_Delay_Ms;
 

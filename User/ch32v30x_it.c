@@ -14,6 +14,7 @@
 void NMI_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void HardFault_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void EXTI15_10_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void TIM3_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 /*********************************************************************
  * @fn      NMI_Handler
  *
@@ -66,4 +67,14 @@ void EXTI15_10_IRQHandler(void)
 
     EXTI_ClearITPendingBit(EXTI_Line13);     /* Clear Flag */
   }
+}
+
+
+void TIM3_IRQHandler(void)
+{
+    if(TIM_GetFlagStatus(TIM3, TIM_FLAG_Update))
+    {
+        printf("test\r\n");
+        TIM_ClearITPendingBit(TIM3, TIM_FLAG_Update);
+    }
 }

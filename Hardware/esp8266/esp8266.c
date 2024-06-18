@@ -437,18 +437,18 @@ uint8_t ESP8266_MQTTPUB_Create(char *DATA)
     cJSON_AddNumberToObject(cjson_humidity, "value", 0);                        //cjson_humidity
     cJSON_AddItemToObject(cjson_params, "BloodOxygen", cjson_humidity);
 
-    /* 打印JSON对象(整条链表)的所有数据 */
-    char *str = cJSON_PrintUnformatted(cjson_main);     //将 CJSON转换为字符串
+    /* 打印JSON对象(整条链表)的所有数据,我感觉这两句到时候删掉 */
+//    char *str = cJSON_PrintUnformatted(cjson_main);     //将 CJSON转换为字符串
    // printf("%s\n", str);
 
-    uint8_t size=0;
-    size = strlen(str);
+//    uint8_t size=0;
+//    size = strlen(str);
 
 
-    printf("%d\r\n",size);
+//    printf("%d\r\n",size);
 
-    cJSON_free(str);                                    //直接释放分配的内存得了
-    return size;
+//    cJSON_free(str);                                    //直接释放分配的内存得了
+    return 0;
 }
 
 void ESP8266_MQTTPUB_Send(double BatteryPercentage , double Droplet)

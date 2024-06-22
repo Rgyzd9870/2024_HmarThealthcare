@@ -1,3 +1,21 @@
+/*******************************************************************************
+* CH9141 BLE 蓝牙与WCHLink串口通过DMA实现数据互传的例程
+* 赤菟开发板上 UART7 CH9141 串口透传模块
+* 本例程演示使用 DMA 通过 UART7 与 CH9141 通信
+*
+* 可以用手机或电脑连接 CH9141 进行通信。
+*
+* 用手机端连接时，需要通过蓝牙调试软件与CH9141通信
+* 注意 CH9141 透传服务的 UUID 为 0000fff0,其中 CH9141的 TX 为 0000fff1,RX 为 0000fff2
+* 配置不正确可以连接但不能通信
+*
+* 例程中 uartWriteBLE(), uartWriteBLEstr() 是非阻塞的。
+* 调用这些函数发送时，若上一次发送尚未完成，将不等待而直接返回
+*
+* 安卓平台调试 APP
+* BLEAssist　沁恒官方的 BLE 调试 APP，配置比较详细，适合复杂调试 http://www.wch.cn/downloads/BLEAssist_ZIP.html
+* 蓝牙调试器 XLazyDog 开发，适合简单调试、遥控调试 https://blog.csdn.net/XLazyDog/article/details/99584735
+*******************************************************************************/
 #include "CH9141.h"
 #include "stdio.h"
 #include "stdarg.h"
@@ -67,7 +85,7 @@ void CH9141_DMA_INIT(void)
     DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;                      // 方向 : 外设 作为 终点，即 内存 ->  外设
     DMA_InitStructure.DMA_BufferSize = 0;                                   // 缓冲区大小,即要DMA发送的数据长度,目前没有数据可发
     DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;        // 外设地址自增，禁用
-    DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;                 // 内存地址自增，启用
+    DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;                 // 内存地址自增，启用 ；读取的时候地址自增，也就是存到数组自增
     DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte; // 外设数据位宽，8位(Byte)
     DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;         // 内存数据位宽，8位(Byte)
     DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;                           // 普通模式，发完结束，不循环发送
@@ -239,7 +257,37 @@ void CH9141_Init(void)
            printf("开启AT模式成功!\r\n");
            printf("\r\n");
 
-       printf("2.查询MAC\r\n");
+       printf("2.重置所有参数\r\n");
+      if( CH9141_AT_WriteCmd(50, "AT+RELOAD\r\n", "OK"))
+      {
+          printf("重置所有参数失败!\r\n");
+
+      }
+      else
+          printf("重置所有参数成功!\r\n");
+          printf("\r\n");
+
+      printf("2.设置密码开启\r\n");
+           if( CH9141_AT_WriteCmd(50, "AT+PASEN=ON\r\n", "OK"))
+           {
+               printf("开启失败!\r\n");
+
+           }
+           else
+               printf("开启成功!\r\n");
+               printf("\r\n");
+
+       printf("3.配置密码为123456\r\n");     //重启后生效AT+RESET：20ms后复位 “ok”
+            if( CH9141_AT_WriteCmd(50, "AT+PASS=123456\r\n", "OK"))
+            {
+                printf("配置密码失败!\r\n");
+
+            }
+            else
+                printf("配置密码成功!\r\n");
+                printf("\r\n");
+
+       printf("4.查询MAC\r\n");
       if( CH9141_AT_WriteCmd(50, "AT+MAC?\r\n", "OK"))
       {
           printf("查询MAC失败!\r\n");
@@ -249,7 +297,7 @@ void CH9141_Init(void)
           printf("查询MAC成功!\r\n");
           printf("\r\n");
 
-      printf("3.退出透传\r\n");
+      printf("5.退出透传\r\n");
       if( CH9141_AT_WriteCmd(50, "AT+EXIT\r\n", "OK"))
       {
           printf("退出透传失败!\r\n");

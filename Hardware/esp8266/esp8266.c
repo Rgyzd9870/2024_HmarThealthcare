@@ -395,7 +395,8 @@ void ESP8266_Init(void)
     while(uartWriteWiFiStr("AT+CIPMUX=0\r\n")==RESET);
     Delay_Ms(100);
     //连接一个名为 SSID、密码为 PASSWORD 的 WiFi 网络
-    ESP8266_WIFICONTEST("rgyzd","12368888");
+    ESP8266_WIFICONTEST("P40","12368888");
+//    ESP8266_WIFICONTEST("rgyzda","12368888");
 //    ESP8266_WIFICONTEST("Redmi K40","15813991772");
     Delay_Ms(1000);
     RxBuffer_Printf(buffer);

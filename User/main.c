@@ -46,6 +46,8 @@ TaskHandle_t StartTask_Handler;
 TaskHandle_t OnenetSend_Handler;
 TaskHandle_t OnenetRestr_Handler;
 TaskHandle_t LVGL_Handler;
+TaskHandle_t CH9141_Handler;
+
 QueueHandle_t Droplet_queue_handler;
 TimerHandle_t Droplet_timer_handle = 0;
 
@@ -84,7 +86,7 @@ void OnenetSend_task(void *pvParameters)
     {
         Delay_Ms(10000);
         mutex(onenet_mutex_handler,100,
-        ESP8266_MQTTPUB_Send(55 , MQTT_Buffer.Droplet_speed);
+        ESP8266_MQTTPUB_Send(MQTT_Buffer.BatteryPercentage , MQTT_Buffer.Droplet_speed,MQTT_Buffer.BloodOxygen);
         );
         printf("发送1成功\r\n");
     }
@@ -115,6 +117,40 @@ void OnenetRestr_task(void *pvParameters)
     }
 }
 
+void CH9141_RX_task(void *pvParameters)
+{
+    CH9141_Init();
+    char buffer[1024];
+
+    int batteryPercentage, bloodOxygen;
+    while(1)
+    {
+        int num1 = CH9141_uartAvailableBLE();
+        if (num1 > 0 ){
+             memset(buffer,'\0',1024);
+            CH9141_uartReadBLE(buffer , num1);      //读取蓝牙传输出来的数据
+            printf("buffer:%s\r\n",buffer);
+
+            char *strBattery = strstr(buffer, "battery:");
+            if(strBattery){
+                sscanf(strBattery,"battery:%d",&batteryPercentage);
+            }
+            char *strOxygen = strstr(buffer,"oxygen:");
+            if(strOxygen){
+                sscanf(strOxygen,"oxygen:%d",&bloodOxygen);
+            }
+        mutex(onenet_mutex_handler,100,
+                MQTT_Buffer.BatteryPercentage = batteryPercentage;
+                MQTT_Buffer.BloodOxygen = bloodOxygen;
+        );
+        printf("BatteryPercentage:%d  BloodOxygen:%d\r\n",batteryPercentage,bloodOxygen);
+
+                        }
+
+        Delay_Ms(500);
+    }
+}
+
 
 void LVGL_task(void *pvParameters)
 {
@@ -135,7 +171,9 @@ void start_task(void *pvParameters)
     xTaskCreate(OnenetSend_task,"OnenetSend_task",1024,NULL,5,&OnenetSend_Handler);
     xTaskCreate(OnenetRestr_task,"OnenetRestr_task",256,NULL,10,&OnenetRestr_Handler);
     xTaskCreate(LVGL_task,"LVGL_task",2*1024,NULL,5,&LVGL_Handler);
+    xTaskCreate(CH9141_RX_task,"CH9141_RX_task",1024,NULL,6,&CH9141_Handler);
     Droplet_timer_handle = xTimerCreate( "Droplet_timer", 10000, pdTRUE, (void *)1,Droplet_timer_callback );     //返回句柄
+
 
     int err = xTimerStart(Droplet_timer_handle,(TickType_t)1000);
     if(err ==pdFALSE) printf("液滴软件定时器开启失败\n");

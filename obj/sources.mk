@@ -30,6 +30,7 @@ FreeRTOS/portable/GCC/RISC-V \
 FreeRTOS/portable/MemMang \
 Hardware/CH9141 \
 Hardware/CJSON \
+Hardware/DHT11 \
 Hardware/Droplet \
 Hardware/JFC103 \
 Hardware/KEY \

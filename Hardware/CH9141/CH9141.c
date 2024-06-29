@@ -267,27 +267,16 @@ void CH9141_Init(void)
           printf("重置所有参数成功!\r\n");
           printf("\r\n");
 
-      printf("2.设置密码开启\r\n");
-           if( CH9141_AT_WriteCmd(50, "AT+PASEN=ON\r\n", "OK"))
+      printf("2.设置密码关闭\r\n");
+           if( CH9141_AT_WriteCmd(50, "AT+PASEN=OFF\r\n", "OK"))
            {
-               printf("开启失败!\r\n");
+               printf("关闭失败!\r\n");
 
            }
            else
-               printf("开启成功!\r\n");
+               printf("关闭成功!\r\n");
                printf("\r\n");
-
-       printf("3.配置密码为123456\r\n");     //重启后生效AT+RESET：20ms后复位 “ok”
-            if( CH9141_AT_WriteCmd(50, "AT+PASS=123456\r\n", "OK"))
-            {
-                printf("配置密码失败!\r\n");
-
-            }
-            else
-                printf("配置密码成功!\r\n");
-                printf("\r\n");
-
-       printf("4.查询MAC\r\n");
+       printf("3.查询MAC\r\n");
       if( CH9141_AT_WriteCmd(50, "AT+MAC?\r\n", "OK"))
       {
           printf("查询MAC失败!\r\n");
@@ -297,15 +286,17 @@ void CH9141_Init(void)
           printf("查询MAC成功!\r\n");
           printf("\r\n");
 
-      printf("5.退出透传\r\n");
-      if( CH9141_AT_WriteCmd(50, "AT+EXIT\r\n", "OK"))
-      {
-          printf("退出透传失败!\r\n");
+          printf("4.重启\r\n");
+          if( CH9141_AT_WriteCmd(50, "AT+RESET\r\n", "OK"))
+          {
+              printf("重启失败!\r\n");
 
-      }
-      else
-          printf("退出透传成功!\r\n");
-          printf("\r\n");
+          }
+          else
+              printf("重启成功!\r\n");
+              printf("\r\n");
+
+
 
       GPIO_WriteBit(GPIOA, GPIO_Pin_7,SET); // 退出AT。可用手机或电脑连接CH9141,测试数据收发
 
@@ -379,4 +370,32 @@ char CH9141_AT_WriteCmd(int time,char*cmd,char*response)
     else
        return 1;
 
+}
+void CH9141_RX_Str(void)
+{
+    char buffer[1024];
+    int batteryPercentage, bloodOxygen;
+
+    int num1 = CH9141_uartAvailableBLE();
+
+    if (num1 > 0 ){
+         memset(buffer,'\0',1024);
+        CH9141_uartReadBLE(buffer , num1);      //读取蓝牙传输出来的数据
+        printf("buffer:%s\r\n",buffer);
+
+        char *strBattery = strstr(buffer, "battery:");
+        if(strBattery){
+            sscanf(strBattery,"battery:%d",&batteryPercentage);
+        }
+        char *strOxygen = strstr(buffer,"oxygen:");
+        if(strOxygen){
+            sscanf(strOxygen,"oxygen:%d",&bloodOxygen);
+        }
+//    mutex(onenet_mutex_handler,100,
+//            MQTT_Buffer.BatteryPercentage = batteryPercentage;
+//            MQTT_Buffer.BloodOxygen = bloodOxygen;
+//            );
+    printf("BatteryPercentage:%d  BloodOxygen:%d\r\n",batteryPercentage,bloodOxygen);
+
+                            }
 }

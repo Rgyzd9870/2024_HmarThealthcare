@@ -374,14 +374,14 @@ char CH9141_AT_WriteCmd(int time,char*cmd,char*response)
 void CH9141_RX_Str(void)
 {
     char buffer[1024];
-    int batteryPercentage, bloodOxygen;
+    uint8_t batteryPercentage, bloodOxygen;
 
     int num1 = CH9141_uartAvailableBLE();
 
     if (num1 > 0 ){
          memset(buffer,'\0',1024);
         CH9141_uartReadBLE(buffer , num1);      //读取蓝牙传输出来的数据
-        printf("buffer:%s\r\n",buffer);
+        printf("buffer:%d\r\n",buffer);
 
         char *strBattery = strstr(buffer, "battery:");
         if(strBattery){

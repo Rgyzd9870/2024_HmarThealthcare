@@ -130,21 +130,24 @@ void CH9141_RX_task(void *pvParameters)
     CH9141_Init();
     char buffer[1024];
 
-    char batteryPercentage, bloodOxygen;
+    uint8_t batteryPercentage, bloodOxygen;
     while(1)
     {
         int num1 = CH9141_uartAvailableBLE();
         if (num1 > 0 ){
              memset(buffer,'\0',1024);
             CH9141_uartReadBLE(buffer , num1);      //读取蓝牙传输出来的数据
-            printf("buffer:%x\r\n",buffer);
+            printf("buffer:%d\r\n",buffer);
 
-            batteryPercentage =buffer[0];
-            bloodOxygen = buffer[1];
+            batteryPercentage =buffer[1];
+            bloodOxygen = buffer[0];
+            if((batteryPercentage>200)||(batteryPercentage<40)||(bloodOxygen<90))
+            {
         mutex(onenet_mutex_handler,100,
                 MQTT_Buffer.BatteryPercentage = batteryPercentage;
                 MQTT_Buffer.BloodOxygen = bloodOxygen;
         );
+            }
         printf("BatteryPercentage:%d  BloodOxygen:%d\r\n",batteryPercentage,bloodOxygen);
 
                         }
@@ -199,16 +202,16 @@ void start_task(void *pvParameters)
     lvgl_mutex_handler = xSemaphoreCreateMutex();
     Droplet_queue_handler= xQueueCreate(1,sizeof(uint16_t));         //队列长度一，大小u16
     if (Droplet_queue_handler == NULL) printf("队列创建失败\n");
-//    xTaskCreate(OnenetSend_task,"OnenetSend_task",1024,NULL,5,&OnenetSend_Handler);
+    xTaskCreate(OnenetSend_task,"OnenetSend_task",1024,NULL,5,&OnenetSend_Handler);
     xTaskCreate(OnenetRestr_task,"OnenetRestr_task",256,NULL,10,&OnenetRestr_Handler);
     xTaskCreate(LVGL_task,"LVGL_task",2*1024,NULL,5,&LVGL_Handler);
-//    xTaskCreate(dht11_task, "dht11_task", 128, NULL, 6, NULL);
+    xTaskCreate(dht11_task, "dht11_task", 128, NULL, 6, NULL);
     xTaskCreate(CH9141_RX_task,"CH9141_RX_task",1024,NULL,6,&CH9141_Handler);
     Droplet_timer_handle = xTimerCreate( "Droplet_timer", 10000, pdTRUE, (void *)1,Droplet_timer_callback );     //返回句柄
 
 
-//    int err = xTimerStart(Droplet_timer_handle,(TickType_t)1000);
-//    if(err ==pdFALSE) printf("液滴软件定时器开启失败\n");
+    int err = xTimerStart(Droplet_timer_handle,(TickType_t)1000);
+    if(err ==pdFALSE) printf("液滴软件定时器开启失败\n");
     taskEXIT_CRITICAL();
     vTaskDelete(StartTask_Handler);
 }

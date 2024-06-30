@@ -432,15 +432,15 @@ uint8_t ESP8266_MQTTPUB_Create(char *DATA)
     cJSON_AddItemToObject(cjson_main, "params", cjson_params);
     /* 添加两个嵌套的JSON数据到 cjson_params */
     cjson_temperature = cJSON_CreateObject();
-    cJSON_AddNumberToObject(cjson_temperature, "value", 0);                     //cjson_temperature
+    cJSON_AddNumberToObject(cjson_temperature, "value", 0);                     //液滴
     cJSON_AddItemToObject(cjson_params, "DropletSpeed", cjson_temperature);
 
     cjson_humidity = cJSON_CreateObject();
-    cJSON_AddNumberToObject(cjson_humidity, "value", 0);                        //cjson_humidity
+    cJSON_AddNumberToObject(cjson_humidity, "value", 0);                        //血氧
     cJSON_AddItemToObject(cjson_params, "BloodOxygen", cjson_humidity);
 
     cjson_PulseFrequency = cJSON_CreateObject();
-    cJSON_AddNumberToObject(cjson_PulseFrequency, "value", 0);                        //cjson_humidity
+    cJSON_AddNumberToObject(cjson_PulseFrequency, "value", 0);                        //心率
     cJSON_AddItemToObject(cjson_params, "PulseFrequency", cjson_PulseFrequency);
     /* 打印JSON对象(整条链表)的所有数据,我感觉这两句到时候删掉 */
 //    char *str = cJSON_PrintUnformatted(cjson_main);     //将 CJSON转换为字符串
@@ -456,12 +456,12 @@ uint8_t ESP8266_MQTTPUB_Create(char *DATA)
     return 0;
 }
 
-void ESP8266_MQTTPUB_Send(double BatteryPercentage , double Droplet,double PulseFrequency)
+void ESP8266_MQTTPUB_Send(double BloodOxygen , double Droplet,double PulseFrequency)
 {
     char cmdBuf[256];
     char buffer[256]={"\0"};
     /*在发送前更新 JSON 数据*/
-    cJSON_SetNumberHelper(cJSON_GetObjectItem(cjson_humidity,"value"),BatteryPercentage);
+    cJSON_SetNumberHelper(cJSON_GetObjectItem(cjson_humidity,"value"),BloodOxygen);
     cJSON_SetNumberHelper(cJSON_GetObjectItem(cjson_temperature,"value"),Droplet);
     cJSON_SetNumberHelper(cJSON_GetObjectItem(cjson_PulseFrequency,"value"),PulseFrequency);
 

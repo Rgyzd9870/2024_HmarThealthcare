@@ -11,9 +11,10 @@
 
 typedef struct _Heart_mqtt
 {
-    double BloodOxygen;
-    double BatteryPercentage; //ÑªÑõ
+    double BloodOxygen;       //ÑªÑõ
+    double BatteryPercentage;
     int Droplet_speed;        //ÒºµÎËÙ¶È
+    double PulseFrequency;
 }MQTT_Heart_struct;
 
 

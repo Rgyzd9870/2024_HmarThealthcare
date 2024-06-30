@@ -89,7 +89,7 @@ void OnenetSend_task(void *pvParameters)
     {
         Delay_Ms(10000);
         mutex(onenet_mutex_handler,100,
-        ESP8266_MQTTPUB_Send(MQTT_Buffer.BatteryPercentage , MQTT_Buffer.Droplet_speed,MQTT_Buffer.BloodOxygen);
+        ESP8266_MQTTPUB_Send(MQTT_Buffer.BloodOxygen , MQTT_Buffer.Droplet_speed,MQTT_Buffer.PulseFrequency);
         );
         printf("发送1成功\r\n");
     }
@@ -130,7 +130,7 @@ void CH9141_RX_task(void *pvParameters)
     CH9141_Init();
     char buffer[1024];
 
-    uint8_t batteryPercentage, bloodOxygen;
+    uint8_t Pulse, bloodOxygen;
     while(1)
     {
         int num1 = CH9141_uartAvailableBLE();
@@ -139,18 +139,19 @@ void CH9141_RX_task(void *pvParameters)
             CH9141_uartReadBLE(buffer , num1);      //读取蓝牙传输出来的数据
             printf("buffer:%d\r\n",buffer);
 
-            batteryPercentage =buffer[1];
+            Pulse =buffer[1];
             bloodOxygen = buffer[0];
-            if((batteryPercentage>200)||(batteryPercentage<40)||(bloodOxygen<90))
-            {
-        mutex(onenet_mutex_handler,100,
-                MQTT_Buffer.BatteryPercentage = batteryPercentage;
-                MQTT_Buffer.BloodOxygen = bloodOxygen;
-        );
-            }
-        printf("BatteryPercentage:%d  BloodOxygen:%d\r\n",batteryPercentage,bloodOxygen);
+            if((Pulse>200)||(Pulse<40)||(bloodOxygen<90))
+            {}
+            else{
+            mutex(onenet_mutex_handler,100,
+                    MQTT_Buffer.PulseFrequency = buffer[1];
+                    MQTT_Buffer.BloodOxygen = buffer[0];);
+                }
 
-                        }
+        printf("Pulse:%d  BloodOxygen:%d\r\n",buffer[1],buffer[0]);
+
+                       }
 
         Delay_Ms(500);
     }

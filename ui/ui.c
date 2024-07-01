@@ -169,7 +169,6 @@ void update_value1(double num) {//湿度放置
 void update_value2(double num) {//更新事件arc和lable都在这里更新
      static int value = 0;
      value= (uint8_t)num;//这写心率的传过来的数据
-     printf("num:%d",num);
      if (value <= 150) {
          lv_arc_set_value(ui_xinglv1, value);  // 更新Arc的值
 

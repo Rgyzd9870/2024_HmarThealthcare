@@ -15,6 +15,7 @@ typedef struct _Heart_mqtt
     double BatteryPercentage;
     int Droplet_speed;        //ÒºµÎËÙ¶È
     double PulseFrequency;
+    double elderlyFallDetection;
 }MQTT_Heart_struct;
 
 

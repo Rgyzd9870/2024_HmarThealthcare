@@ -19,6 +19,7 @@ cJSON* cjson_params = NULL;
 cJSON* cjson_humidity = NULL;
 cJSON* cjson_temperature = NULL;
 cJSON* cjson_PulseFrequency = NULL;
+cJSON* cjson_elderlyFallDetection =NULL;
 /*******************************************************************************
 * Function Name  : USARTx_CFG
 * Description    : Initializes the USART6 peripheral.
@@ -442,6 +443,10 @@ uint8_t ESP8266_MQTTPUB_Create(char *DATA)
     cjson_PulseFrequency = cJSON_CreateObject();
     cJSON_AddNumberToObject(cjson_PulseFrequency, "value", 0);                        //心率
     cJSON_AddItemToObject(cjson_params, "PulseFrequency", cjson_PulseFrequency);
+
+    cjson_elderlyFallDetection = cJSON_CreateObject();
+    cJSON_AddNumberToObject(cjson_elderlyFallDetection, "value", 0);                        //老人摔倒检测
+    cJSON_AddItemToObject(cjson_params, "elderlyFallDetection", cjson_elderlyFallDetection);
     /* 打印JSON对象(整条链表)的所有数据,我感觉这两句到时候删掉 */
 //    char *str = cJSON_PrintUnformatted(cjson_main);     //将 CJSON转换为字符串
    // printf("%s\n", str);
@@ -464,6 +469,7 @@ void ESP8266_MQTTPUB_Send(double BloodOxygen , double Droplet,double PulseFreque
     cJSON_SetNumberHelper(cJSON_GetObjectItem(cjson_humidity,"value"),BloodOxygen);
     cJSON_SetNumberHelper(cJSON_GetObjectItem(cjson_temperature,"value"),Droplet);
     cJSON_SetNumberHelper(cJSON_GetObjectItem(cjson_PulseFrequency,"value"),PulseFrequency);
+//    cJSON_SetNumberHelper(cJSON_GetObjectItem(cjson_elderlyFallDetection,"value"),***);
 
     char *str = cJSON_PrintUnformatted(cjson_main);    //重新生成JSON字符串
 //    printf("%s\n", str);

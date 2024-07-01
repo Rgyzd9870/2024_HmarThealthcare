@@ -34,7 +34,7 @@
 #include "PWM.h"
 #include "timer.h"
 #include "DHT11.h"
-#include "motor.h"”
+#include "motor.h"
 
 #include "lvgl.h"
 #include "lv_port_indev_template.h"
@@ -116,6 +116,9 @@ void OnenetRestr_task(void *pvParameters)
         mutex(onenet_mutex_handler,100,
                 MQTT_Buffer.Droplet_speed = (int)speed;
         );
+        mutex(lvgl_mutex_handler,100,
+                update_value4(speed);
+        );
         if(MQTT_Buffer.Droplet_speed > 40)
         {
             Motor_Run(1,10,3);
@@ -142,19 +145,20 @@ void CH9141_RX_task(void *pvParameters)
         if (num1 > 0 ){
              memset(buffer,'\0',1024);
             CH9141_uartReadBLE(buffer , num1);      //读取蓝牙传输出来的数据
-            printf("buffer:%d\r\n",buffer);
-
-            Pulse =buffer[1];
             bloodOxygen = buffer[0];
+            Pulse =buffer[1];
+
             if((Pulse>200)||(Pulse<40)||(bloodOxygen<90))
             {}
             else{
             mutex(onenet_mutex_handler,100,
                     MQTT_Buffer.PulseFrequency = buffer[1];
-                    MQTT_Buffer.BloodOxygen = buffer[0];);
+                    MQTT_Buffer.BloodOxygen = buffer[0];
+                    MQTT_Buffer.elderlyFallDetection = buffer[2];   //这个得放外面
+            );
                 }
 
-//        printf("Pulse:%d  BloodOxygen:%d\r\n",buffer[1],buffer[0]);
+        printf("BloodOxygen:%d   Pulse:%d,elderlyFallDetection:%d\r\n",buffer[0],buffer[1],buffer[2]);
                        }
         Delay_Ms(500);
     }
@@ -180,11 +184,10 @@ void userScreen_task(void *pvParameters){
     {
         mutex(dht11_mutex_handler, 100,
         mutex(lvgl_mutex_handler,100,
-                printf("text:3\r\n");
-//                      lv_timer_create(update_value1, 20000, NULL);//温度
-//                      lv_timer_create(update_value2, 20000, NULL);//湿度
+                        update_value(temp);
+                        update_value1(humi);
                         update_value2(MQTT_Buffer.PulseFrequency);
-        ))
+        ););
         vTaskDelay(2000);
     }
 
@@ -209,12 +212,12 @@ void start_task(void *pvParameters)
     lvgl_mutex_handler = xSemaphoreCreateMutex();
     Droplet_queue_handler= xQueueCreate(1,sizeof(uint16_t));         //队列长度一，大小u16
     if (Droplet_queue_handler == NULL) printf("队列创建失败\n");
-//    xTaskCreate(OnenetSend_task,"OnenetSend_task",1024,NULL,5,&OnenetSend_Handler);
+    xTaskCreate(OnenetSend_task,"OnenetSend_task",1024,NULL,5,&OnenetSend_Handler);
     xTaskCreate(OnenetRestr_task,"OnenetRestr_task",256,NULL,10,&OnenetRestr_Handler);
     xTaskCreate(LVGL_task,"LVGL_task",2*1024,NULL,5,&LVGL_Handler);
     xTaskCreate(dht11_task, "dht11_task", 128, NULL, 6, &DHT11_Handler);
     xTaskCreate(CH9141_RX_task,"CH9141_RX_task",1024,NULL,6,&CH9141_Handler);
-    xTaskCreate(userScreen_task,"userScreen_task",1024,NULL,7,&userScreen_Handler);
+    xTaskCreate(userScreen_task,"userScreen_task",256,NULL,7,&userScreen_Handler);
     Droplet_timer_handle = xTimerCreate( "Droplet_timer", 10000, pdTRUE, (void *)1,Droplet_timer_callback );     //返回句柄
 
 

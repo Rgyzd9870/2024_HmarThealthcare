@@ -359,11 +359,12 @@ uint16_t Central_ProcessEvent(uint8_t task_id, uint16_t events)
                 req.cmd = FALSE;
                 req.sig = FALSE;
                 req.handle = centralCharHdl;
-                req.len = 1;
+                req.len = 2;
                 req.pValue = GATT_bm_alloc(centralConnHandle, ATT_WRITE_REQ, req.len, NULL, 0);
                 if(req.pValue != NULL)
                 {
-                    *req.pValue = centralCharVal;
+                    req.pValue[0] = n_sp02;
+                    req.pValue[1] = n_heart_rate;
 
                     if(GATT_WriteCharValue(centralConnHandle, &req, centralTaskId) == SUCCESS)
                     {

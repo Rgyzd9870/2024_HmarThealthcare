@@ -91,7 +91,7 @@ void OnenetSend_task(void *pvParameters)
         mutex(onenet_mutex_handler,100,
         ESP8266_MQTTPUB_Send(MQTT_Buffer.BloodOxygen , MQTT_Buffer.Droplet_speed,MQTT_Buffer.PulseFrequency);
         );
-        printf("发送1成功\r\n");
+        printf("尝试发送一次云平台\r\n");
     }
 }
 /*********************************************************************
@@ -149,10 +149,8 @@ void CH9141_RX_task(void *pvParameters)
                     MQTT_Buffer.BloodOxygen = buffer[0];);
                 }
 
-        printf("Pulse:%d  BloodOxygen:%d\r\n",buffer[1],buffer[0]);
-
+//        printf("Pulse:%d  BloodOxygen:%d\r\n",buffer[1],buffer[0]);
                        }
-
         Delay_Ms(500);
     }
 }

@@ -5,11 +5,16 @@
 #include "myiic.h"
 #include "wchble.H"
 #include "central.h"
+#include "mpu6050.h"
+#include "inv_mpu.h"
+#include "inv_mpu_dmp_motion_driver.h"
+#include "Fall_detection.h"
 
 static uint8_t MyTaskId;
 
 extern uint8_t centralTaskId;
 
+uint8_t flag;
 //MAX30102
 uint32_t n_ir_buffer_length=500;     //data length
 uint32_t aun_ir_buffer[500];    //IR LED sensor data
@@ -19,6 +24,9 @@ int8_t ch_spo2_valid;           //indicator to show if the SP02 calculation is v
 int32_t n_heart_rate;           //heart rate value
 int8_t  ch_hr_valid;            //indicator to show if the heart rate calculation is valid
 
+//MPU6050
+int32_t mpu6050_res;
+int32_t mpu6050_buff;
 uint8_t MAX30102_ReadEnable=0;
 
 uint16_t MyTask_ProcessEvent(uint8_t task_id, uint16_t events);
@@ -26,19 +34,33 @@ uint16_t MyTask_ProcessEvent(uint8_t task_id, uint16_t events);
 //初始化传感器硬件及任务
 void MyTask_Init(void)
 {
+    uint8_t res;
+
+    MyTaskId=TMOS_ProcessEventRegister(MyTask_ProcessEvent);
+
     iic_init();
     MAX30102_Init();
     MAX30102_INT_Init();
 
-    MyTaskId=TMOS_ProcessEventRegister(MyTask_ProcessEvent);
+    MPU_Init();
+    res=mpu_dmp_init();
+    if(!res)
+    {
+        printf("MPU6050 SUCCESS\r\n");
+        Delay_Ms(3000);
 
-    tmos_start_task( MyTaskId, MAX30102_INT_ENT, MS1_TO_SYSTEM_TIME( 50 ));
+    }
+    else
+    {
+        printf("MPU6050 Error:%d\r\n",res);
+        while(1);
+    }
+
+    tmos_start_task(MyTaskId, MPU6050_SEND_ENT, MS1_TO_SYSTEM_TIME( 30 ));
 }
 
 uint16_t MyTask_ProcessEvent(uint8_t task_id, uint16_t events)
 {
-
-
     //消息事件
     if(events & SYS_EVENT_MSG)
     {
@@ -57,6 +79,21 @@ uint16_t MyTask_ProcessEvent(uint8_t task_id, uint16_t events)
         }
 
         return (events ^ MAX30102_SEND_ENT);
+    }
+
+    //MPU6050 发送
+    if(events & MPU6050_SEND_ENT)
+    {
+        mpu6050_buff=Fall_detection();
+        if((mpu6050_buff != 0) &&(flag ==0))        //有人摔倒立即发送
+        {
+            mpu6050_res = mpu6050_buff;
+            flag++;
+            printf("mpu6050_res:%d , flag:%d\r\n",mpu6050_res,flag);
+            tmos_start_task(centralTaskId, START_READ_OR_WRITE_EVT, MS1_TO_SYSTEM_TIME( 200 ));
+        }
+        tmos_start_task(MyTaskId, MPU6050_SEND_ENT, MS1_TO_SYSTEM_TIME(50));
+        return (events ^ MPU6050_SEND_ENT);
     }
 
     // Discard unknown events
@@ -89,8 +126,3 @@ void MAX30102_ReadData(void)
         }
     }
 }
-
-
-
-
-

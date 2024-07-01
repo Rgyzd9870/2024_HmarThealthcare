@@ -141,6 +141,9 @@ enum
 extern int32_t n_sp02;
 extern int32_t n_heart_rate;
 extern uint8_t MAX30102_ReadEnable;
+extern int32_t mpu6050_res;
+extern uint8_t flag;
+
 /*********************************************************************
  * EXTERNAL FUNCTIONS
  */
@@ -188,9 +191,6 @@ static uint16_t centralCharHdl = 0;
 
 // Discovered Client Characteristic Configuration handle
 static uint16_t centralCCCDHdl = 0;
-
-// Value to write
-static uint8_t centralCharVal = 0x5A;
 
 // Value read/write toggle
 static uint8_t centralDoWrite = TRUE;
@@ -359,15 +359,19 @@ uint16_t Central_ProcessEvent(uint8_t task_id, uint16_t events)
                 req.cmd = FALSE;
                 req.sig = FALSE;
                 req.handle = centralCharHdl;
-                req.len = 2;
+                req.len = 3;
                 req.pValue = GATT_bm_alloc(centralConnHandle, ATT_WRITE_REQ, req.len, NULL, 0);
                 if(req.pValue != NULL)
                 {
                     req.pValue[0] = n_sp02;
                     req.pValue[1] = n_heart_rate;
+                    req.pValue[2] = mpu6050_res;
 
-                    if(GATT_WriteCharValue(centralConnHandle, &req, centralTaskId) == SUCCESS)
+
+                    if(GATT_WriteCharValue(centralConnHandle, &req, centralTaskId) == SUCCESS)   //如果成功发送给从机
                     {
+                        mpu6050_res = 0;flag =0;
+//                        printf("req.pValue[2]:%d  mpu6050:%d  \r\n",req.pValue[2],mpu6050_res);
                         centralProcedureInProgress = TRUE;
 //                        centralDoWrite = !centralDoWrite;
 //                        tmos_start_task(centralTaskId, START_READ_OR_WRITE_EVT, DEFAULT_READ_OR_WRITE_DELAY);

@@ -16,7 +16,10 @@
 #include "hal.h"
 #include "central.h"
 #include "mytask.h"
-
+#include "mpu6050.h"
+#include "inv_mpu.h"
+#include "inv_mpu_dmp_motion_driver.h"
+#include "Fall_detection.h"
 /*********************************************************************
  * GLOBAL TYPEDEFS
  */
@@ -26,6 +29,10 @@ __attribute__((aligned(4))) uint32_t MEM_BUF[BLE_MEMHEAP_SIZE / 4];
 const uint8_t MacAddr[6] = {0x84, 0xC2, 0xE4, 0x03, 0x02, 0x02};
 #endif
 
+
+float pitch,roll,yaw;       //欧拉角
+short aacx,aacy,aacz;       //加速度传感器原始数据
+short gyrox,gyroy,gyroz;    //陀螺仪原始数据
 /*********************************************************************
  * @fn      Main_Circulation
  *
@@ -37,6 +44,7 @@ __attribute__((section(".highcode")))
 __attribute__((noinline))
 void Main_Circulation(void)
 {
+
     while(1)
     {
         MAX30102_ReadData();

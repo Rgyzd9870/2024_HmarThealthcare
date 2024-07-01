@@ -15,6 +15,9 @@ RM := rm -rf
 -include SRC/Core/subdir.mk
 -include LIB/subdir.mk
 -include Hardware/algorithm/subdir.mk
+-include Hardware/MPU6050/Fall\ Detection/subdir.mk
+-include Hardware/MPU6050/DMP/subdir.mk
+-include Hardware/MPU6050/subdir.mk
 -include Hardware/MAX30102/subdir.mk
 -include Hardware/IIC/subdir.mk
 -include Hardware/subdir.mk
@@ -59,7 +62,7 @@ all: CH32V208WBU6.elf secondary-outputs
 
 # 工具调用
 CH32V208WBU6.elf: $(OBJS) $(USER_OBJS)
-	@	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized  -g -T "C:\Users\rgyzd9870\Desktop\Central\Central\HAL\Link.ld" -nostartfiles -Xlinker --gc-sections -L"C:\Users\rgyzd9870\Desktop\Central\Central\LIB" -Xlinker --print-memory-usage -Wl,-Map,"CH32V208WBU6.map" --specs=nano.specs --specs=nosys.specs -o "CH32V208WBU6.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	@	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized  -g -T "C:\Users\rgyzd9870\Documents\WeChat Files\wxid_plo8ozlnxa4u22\FileStorage\File\2024-07\Central(1)\Central\HAL\Link.ld" -nostartfiles -Xlinker --gc-sections -L"C:\Users\rgyzd9870\Documents\WeChat Files\wxid_plo8ozlnxa4u22\FileStorage\File\2024-07\Central(1)\Central\LIB" -Xlinker --print-memory-usage -Wl,-Map,"CH32V208WBU6.map" --specs=nano.specs --specs=nosys.specs -o "CH32V208WBU6.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@	@
 CH32V208WBU6.hex: CH32V208WBU6.elf
 	@	riscv-none-embed-objcopy -O ihex "CH32V208WBU6.elf"  "CH32V208WBU6.hex"

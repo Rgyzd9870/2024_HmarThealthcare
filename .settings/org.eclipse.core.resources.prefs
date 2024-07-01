@@ -2,3 +2,4 @@ eclipse.preferences.version=1
 encoding//Hardware/DHT11/DHT11.c=UTF-8
 encoding//Hardware/LCD/lcd.c=UTF-8
 encoding//Hardware/lcd_st7789.c=UTF-8
+encoding//ui/screens/ui_Screen2.c=UTF-8

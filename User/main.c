@@ -34,12 +34,13 @@
 #include "PWM.h"
 #include "timer.h"
 #include "DHT11.h"
+#include "motor.h"”
 
 #include "lvgl.h"
 #include "lv_port_indev_template.h"
 #include "lv_port_disp_template.h"
 #include "ui.h"
-
+#include "ui_helpers.h"
 /* Global define */
 #define Deafult_TASK_PRIO     1
 #define Deafult_STK_SIZE      128
@@ -49,6 +50,8 @@ TaskHandle_t OnenetSend_Handler;
 TaskHandle_t OnenetRestr_Handler;
 TaskHandle_t LVGL_Handler;
 TaskHandle_t CH9141_Handler;
+TaskHandle_t DHT11_Handler;
+TaskHandle_t userScreen_Handler;
 
 QueueHandle_t Droplet_queue_handler;
 TimerHandle_t Droplet_timer_handle = 0;
@@ -114,8 +117,10 @@ void OnenetRestr_task(void *pvParameters)
                 MQTT_Buffer.Droplet_speed = (int)speed;
         );
         if(MQTT_Buffer.Droplet_speed > 40)
-        {Servo_SetAngle(30);}
-        else Servo_SetAngle(180);
+        {
+            Motor_Run(1,10,3);
+        }
+        else ;
         vTaskDelay(1000);
     }
 }
@@ -175,13 +180,16 @@ void userScreen_task(void *pvParameters){
     {
         mutex(dht11_mutex_handler, 100,
         mutex(lvgl_mutex_handler,100,
-//        lv_label_set_text_fmt(ui_temp,"温度:%d°C",temp);
-//        lv_label_set_text_fmt(ui_humi,"湿度:%d%%",humi);
+                printf("text:3\r\n");
+//                      lv_timer_create(update_value1, 20000, NULL);//温度
+//                      lv_timer_create(update_value2, 20000, NULL);//湿度
+                        update_value2(MQTT_Buffer.PulseFrequency);
         ))
         vTaskDelay(2000);
     }
 
 }
+
 
 void LVGL_task(void *pvParameters)
 {
@@ -201,16 +209,17 @@ void start_task(void *pvParameters)
     lvgl_mutex_handler = xSemaphoreCreateMutex();
     Droplet_queue_handler= xQueueCreate(1,sizeof(uint16_t));         //队列长度一，大小u16
     if (Droplet_queue_handler == NULL) printf("队列创建失败\n");
-    xTaskCreate(OnenetSend_task,"OnenetSend_task",1024,NULL,5,&OnenetSend_Handler);
+//    xTaskCreate(OnenetSend_task,"OnenetSend_task",1024,NULL,5,&OnenetSend_Handler);
     xTaskCreate(OnenetRestr_task,"OnenetRestr_task",256,NULL,10,&OnenetRestr_Handler);
     xTaskCreate(LVGL_task,"LVGL_task",2*1024,NULL,5,&LVGL_Handler);
-    xTaskCreate(dht11_task, "dht11_task", 128, NULL, 6, NULL);
+    xTaskCreate(dht11_task, "dht11_task", 128, NULL, 6, &DHT11_Handler);
     xTaskCreate(CH9141_RX_task,"CH9141_RX_task",1024,NULL,6,&CH9141_Handler);
+    xTaskCreate(userScreen_task,"userScreen_task",1024,NULL,7,&userScreen_Handler);
     Droplet_timer_handle = xTimerCreate( "Droplet_timer", 10000, pdTRUE, (void *)1,Droplet_timer_callback );     //返回句柄
 
 
-    int err = xTimerStart(Droplet_timer_handle,(TickType_t)1000);
-    if(err ==pdFALSE) printf("液滴软件定时器开启失败\n");
+//    int err = xTimerStart(Droplet_timer_handle,(TickType_t)1000);
+//    if(err ==pdFALSE) printf("液滴软件定时器开启失败\n");
     taskEXIT_CRITICAL();
     vTaskDelete(StartTask_Handler);
 }
@@ -229,6 +238,7 @@ int main(void)
     SystemCoreClockUpdate();
     Delay_Init();
     TIM3_Init();
+    MOTOR_Init();
     USART_Printf_Init(115200);
 
     printf("SystemClk:%d\r\n",SystemCoreClock);

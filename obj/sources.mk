@@ -38,6 +38,7 @@ Hardware/LCD \
 Hardware/PWM \
 Hardware/ap3216C \
 Hardware/esp8266 \
+Hardware/motor \
 Hardware/my_usart8 \
 LVGL/examples/porting \
 LVGL/src/core \
@@ -92,6 +93,7 @@ Startup \
 User/I2C \
 User \
 ui/components \
+ui/fonts \
 ui/screens \
 ui \
 

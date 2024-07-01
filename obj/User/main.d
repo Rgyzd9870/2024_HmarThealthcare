@@ -52,6 +52,7 @@ User/main.o: ../User/main.c \
  C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\Hardware\PWM/PWM.h \
  C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\Hardware\DHT11/timer.h \
  C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\Hardware\DHT11/DHT11.h \
+ C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\Hardware\motor/motor.h \
  C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\LVGL\src/lvgl.h \
  c:\users\rgyzd9870\desktop\onenet图片\立心率\基于ch32的医疗系统\2024_smarthealthcare\lvgl\lvgl.h \
  c:\users\rgyzd9870\desktop\onenet图片\立心率\基于ch32的医疗系统\2024_smarthealthcare\lvgl\src/misc/lv_log.h \
@@ -280,7 +281,8 @@ User/main.o: ../User/main.c \
  C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\ui/ui.h \
  C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\ui/ui_helpers.h \
  C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\ui/ui.h \
- C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\ui/ui_events.h
+ C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\ui/ui_events.h \
+ C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\ui/ui_helpers.h
 
 C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\Debug/debug.h:
 
@@ -387,6 +389,8 @@ C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealth
 C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\Hardware\DHT11/timer.h:
 
 C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\Hardware\DHT11/DHT11.h:
+
+C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\Hardware\motor/motor.h:
 
 C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\LVGL\src/lvgl.h:
 
@@ -845,3 +849,5 @@ C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealth
 C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\ui/ui.h:
 
 C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\ui/ui_events.h:
+
+C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\ui/ui_helpers.h:

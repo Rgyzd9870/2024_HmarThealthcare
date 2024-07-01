@@ -260,7 +260,8 @@ ui/ui.o: ../ui/ui.c ../ui/ui.h \
  c:\users\rgyzd9870\desktop\onenet图片\立心率\基于ch32的医疗系统\2024_smarthealthcare\lvgl\src\lvgl.h \
  c:\users\rgyzd9870\desktop\onenet图片\立心率\基于ch32的医疗系统\2024_smarthealthcare\lvgl\src/extra/widgets/span/lv_span.h \
  c:\users\rgyzd9870\desktop\onenet图片\立心率\基于ch32的医疗系统\2024_smarthealthcare\lvgl\src\lvgl.h \
- ../ui/ui_helpers.h ../ui/ui_events.h
+ ../ui/ui_helpers.h ../ui/ui_events.h \
+ C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\Hardware\motor/motor.h
 
 ../ui/ui.h:
 
@@ -789,3 +790,5 @@ c:\users\rgyzd9870\desktop\onenet图片\立心率\基于ch32的医疗系统\2024_smarthealth
 ../ui/ui_helpers.h:
 
 ../ui/ui_events.h:
+
+C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\Hardware\motor/motor.h:

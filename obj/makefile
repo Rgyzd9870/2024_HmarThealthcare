@@ -10,6 +10,7 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include ui/screens/subdir.mk
+-include ui/fonts/subdir.mk
 -include ui/components/subdir.mk
 -include ui/subdir.mk
 -include User/I2C/subdir.mk
@@ -65,6 +66,7 @@ RM := rm -rf
 -include LVGL/src/core/subdir.mk
 -include LVGL/examples/porting/subdir.mk
 -include Hardware/my_usart8/subdir.mk
+-include Hardware/motor/subdir.mk
 -include Hardware/esp8266/subdir.mk
 -include Hardware/ap3216C/subdir.mk
 -include Hardware/PWM/subdir.mk

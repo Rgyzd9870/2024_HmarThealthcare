@@ -31,7 +31,11 @@ extern "C" {
  * GLOBAL PROTOTYPES
  **********************/
 void lv_port_indev_init(void);
-
+extern lv_group_t * group1;
+extern lv_group_t * group2;
+extern lv_group_t * group3;
+extern lv_indev_t * indev_keypad;
+void switch_focus_group(lv_group_t * group);
 /**********************
  *      MACROS
  **********************/

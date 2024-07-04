@@ -6,6 +6,7 @@
 #include "ui.h"
 #include "ui_helpers.h"
 #include "motor.h"
+#include "lv_port_indev_template.h"
 ///////////////////// VARIABLES ////////////////////
 
 
@@ -92,6 +93,7 @@ void ui_event_duoji(lv_event_t * e)
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
         _ui_screen_change(&ui_Screen3, LV_SCR_LOAD_ANIM_MOVE_LEFT, 500, 0, &ui_Screen3_screen_init);
+        switch_focus_group(group3);
     }
 }
 void ui_event_pingmu2(lv_event_t * e)
@@ -100,12 +102,13 @@ void ui_event_pingmu2(lv_event_t * e)
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
         _ui_screen_change(&ui_Screen2, LV_SCR_LOAD_ANIM_MOVE_LEFT, 500, 0, &ui_Screen2_screen_init);
+        switch_focus_group(group2);
     }
 }
 void update_value4(double num) {//液滴低落次数
    static int value = 0;
     value = (uint8_t)num;//这里写接受到的低落次数的数据
-   if (value <= 10) {
+   if (value <= 60) {
        // 更新Arc的值
        lv_slider_set_value(ui_yedicishu1, value, LV_ANIM_ON);
        char buf[4]; // 数字转换为字符串的缓冲区
@@ -214,6 +217,7 @@ void ui_event_pingmu111(lv_event_t * e)
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
+        switch_focus_group(group1);
         _ui_screen_change(&ui_Screen1, LV_SCR_LOAD_ANIM_OVER_RIGHT, 500, 0, &ui_Screen1_screen_init);
     }
 }
@@ -254,6 +258,7 @@ void ui_event_pingmu1(lv_event_t * e)
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
         _ui_screen_change(&ui_Screen1, LV_SCR_LOAD_ANIM_OVER_RIGHT, 500, 0, &ui_Screen1_screen_init);
+        switch_focus_group(group1);
     }
 }
 

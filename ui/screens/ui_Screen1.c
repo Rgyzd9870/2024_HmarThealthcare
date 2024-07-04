@@ -4,7 +4,7 @@
 // Project name: SquareLine_Project
 
 #include "../ui.h"
-
+#include "lv_port_indev_template.h"
 void ui_Screen1_screen_init(void)
 {
     ui_Screen1 = lv_obj_create(NULL);
@@ -50,6 +50,8 @@ void ui_Screen1_screen_init(void)
     lv_label_set_text(ui_Label1, "屏幕2");
     lv_obj_set_style_text_font(ui_Label1, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    lv_group_add_obj(group1, ui_duoji);
+    lv_group_add_obj(group1, ui_pingmu2);
     lv_obj_add_event_cb(ui_duoji, ui_event_duoji, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_pingmu2, ui_event_pingmu2, LV_EVENT_ALL, NULL);
 

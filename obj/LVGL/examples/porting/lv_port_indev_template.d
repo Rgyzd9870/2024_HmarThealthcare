@@ -262,7 +262,11 @@ LVGL/examples/porting/lv_port_indev_template.o: \
  c:\users\rgyzd9870\desktop\onenet图片\立心率\基于ch32的医疗系统\2024_smarthealthcare\lvgl\src\lvgl.h \
  c:\users\rgyzd9870\desktop\onenet图片\立心率\基于ch32的医疗系统\2024_smarthealthcare\lvgl\src/extra/widgets/span/lv_span.h \
  c:\users\rgyzd9870\desktop\onenet图片\立心率\基于ch32的医疗系统\2024_smarthealthcare\lvgl\src\lvgl.h \
- ../LVGL/examples/porting/../../lvgl.h
+ ../LVGL/examples/porting/../../lvgl.h \
+ C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\ui/ui.h \
+ C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\ui/ui_helpers.h \
+ C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\ui/ui.h \
+ C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\ui/ui_events.h
 
 ../LVGL/examples/porting/lv_port_indev_template.h:
 
@@ -789,3 +793,11 @@ c:\users\rgyzd9870\desktop\onenet图片\立心率\基于ch32的医疗系统\2024_smarthealth
 c:\users\rgyzd9870\desktop\onenet图片\立心率\基于ch32的医疗系统\2024_smarthealthcare\lvgl\src\lvgl.h:
 
 ../LVGL/examples/porting/../../lvgl.h:
+
+C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\ui/ui.h:
+
+C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\ui/ui_helpers.h:
+
+C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\ui/ui.h:
+
+C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\ui/ui_events.h:

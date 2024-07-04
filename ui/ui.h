@@ -76,7 +76,7 @@ void update_value2(double num);
 void update_value3(double num);
 void update_value4(double num);
 void ui_event_duojiyou(lv_event_t * e);
-
+void update_value(double num);
 
 LV_FONT_DECLARE(ui_font_Font1);
 

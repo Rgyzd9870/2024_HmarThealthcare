@@ -123,6 +123,8 @@ void OnenetRestr_task(void *pvParameters)
         {
             Motor_Run(1,10,3);
         }
+        else if(MQTT_Buffer.Droplet_speed == 0)
+        {;}
         else ;
         vTaskDelay(1000);
     }
@@ -136,7 +138,7 @@ void OnenetRestr_task(void *pvParameters)
 void CH9141_RX_task(void *pvParameters)
 {
     CH9141_Init();
-    char buffer[1024];
+    uint8_t buffer[1024];//    char buffer[1024];
 
     uint8_t Pulse, bloodOxygen;
     while(1)
@@ -152,8 +154,8 @@ void CH9141_RX_task(void *pvParameters)
             {}
             else{
             mutex(onenet_mutex_handler,100,
-                    MQTT_Buffer.PulseFrequency = buffer[1];
                     MQTT_Buffer.BloodOxygen = buffer[0];
+                    MQTT_Buffer.PulseFrequency = buffer[1];
                     MQTT_Buffer.elderlyFallDetection = buffer[2];   //这个得放外面
             );
                 }
@@ -221,8 +223,8 @@ void start_task(void *pvParameters)
     Droplet_timer_handle = xTimerCreate( "Droplet_timer", 10000, pdTRUE, (void *)1,Droplet_timer_callback );     //返回句柄
 
 
-//    int err = xTimerStart(Droplet_timer_handle,(TickType_t)1000);
-//    if(err ==pdFALSE) printf("液滴软件定时器开启失败\n");
+    int err = xTimerStart(Droplet_timer_handle,(TickType_t)1000);
+    if(err ==pdFALSE) printf("液滴软件定时器开启失败\n");
     taskEXIT_CRITICAL();
     vTaskDelete(StartTask_Handler);
 }

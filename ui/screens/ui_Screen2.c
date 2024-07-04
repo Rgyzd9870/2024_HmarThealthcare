@@ -4,7 +4,7 @@
 // Project name: SquareLine_Project
 
 #include "../ui.h"
-
+#include "lv_port_indev_template.h"
 void ui_Screen2_screen_init(void)
 {
     ui_Screen2 = lv_obj_create(NULL);
@@ -20,7 +20,7 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_style_bg_opa(ui_Container1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_yedicishu1 = lv_slider_create(ui_Screen2);
-    lv_slider_set_range(ui_yedicishu1, 0, 10);
+    lv_slider_set_range(ui_yedicishu1, 0, 60);
     lv_slider_set_value(ui_yedicishu1, 2, LV_ANIM_OFF);
     if(lv_slider_get_mode(ui_yedicishu1) == LV_SLIDER_MODE_RANGE) lv_slider_set_left_value(ui_yedicishu1, 0, LV_ANIM_OFF);
     lv_obj_set_width(ui_yedicishu1, 168);
@@ -255,5 +255,5 @@ void ui_Screen2_screen_init(void)
 //    lv_obj_add_event_cb(ui_xinglv1, ui_event_xinglv1, LV_EVENT_ALL, NULL);
 //   lv_obj_add_event_cb(ui_dianling1, ui_event_dianling1, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_pingmu111, ui_event_pingmu111, LV_EVENT_ALL, NULL);
-
+    lv_group_add_obj(group2, ui_pingmu111);
 }

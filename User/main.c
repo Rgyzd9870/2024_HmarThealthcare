@@ -35,6 +35,7 @@
 #include "timer.h"
 #include "DHT11.h"
 #include "motor.h"
+#include "my_usart8.h"
 
 #include "lvgl.h"
 #include "lv_port_indev_template.h"
@@ -57,12 +58,13 @@ QueueHandle_t Droplet_queue_handler;
 TimerHandle_t Droplet_timer_handle = 0;
 
 /*创建互斥锁句柄*/
-SemaphoreHandle_t onenet_mutex_handler,dht11_mutex_handler,lvgl_mutex_handler;
+SemaphoreHandle_t onenet_mutex_handler,dht11_mutex_handler,lvgl_mutex_handler,TTS_mutex_handler;
 void (*Delay_ms_set)(uint32_t);
 MQTT_Heart_struct MQTT_Buffer ;
 lv_group_t *group;
 extern int COUNT;
-uint8_t temp, humi;                 //温度，湿度
+uint8_t temp, humi;                     //温度，湿度
+uint8_t TTS[1024];                     //语音助手传输数据
 
 void start_task(void *pvParameters);
 void OnenetSend_task(void *pvParameters);
@@ -109,7 +111,7 @@ void OnenetRestr_task(void *pvParameters)
 
     while(1)
     {
-        int err = xQueueReceive(Droplet_queue_handler,&speed,pdMS_TO_TICKS(1000)); //portMAX_DELAY
+        int err = xQueueReceive(Droplet_queue_handler,&speed,pdMS_TO_TICKS(1000));
         if(err ==pdFALSE);/* printf("液滴消息队列读取失败\n");*/
         else printf("液滴消息队列值：%d\n",(int)speed);
 
@@ -122,6 +124,9 @@ void OnenetRestr_task(void *pvParameters)
         if(MQTT_Buffer.Droplet_speed > 40)
         {
             Motor_Run(1,10,3);
+            mutex(TTS_mutex_handler, 100,
+            TTS[0] = TTS_Droplet;              //语音传输
+            uartWriteHeartStr(TTS););
         }
         else if(MQTT_Buffer.Droplet_speed == 0)
         {;}
@@ -138,7 +143,7 @@ void OnenetRestr_task(void *pvParameters)
 void CH9141_RX_task(void *pvParameters)
 {
     CH9141_Init();
-    uint8_t buffer[1024];//    char buffer[1024];
+    uint8_t buffer[1024];                                           //    char buffer[1024];
 
     uint8_t Pulse, bloodOxygen;
     while(1)
@@ -146,7 +151,7 @@ void CH9141_RX_task(void *pvParameters)
         int num1 = CH9141_uartAvailableBLE();
         if (num1 > 0 ){
              memset(buffer,'\0',1024);
-            CH9141_uartReadBLE(buffer , num1);      //读取蓝牙传输出来的数据
+            CH9141_uartReadBLE(buffer , num1);                      //读取蓝牙传输出来的数据
             bloodOxygen = buffer[0];
             Pulse =buffer[1];
 
@@ -158,6 +163,11 @@ void CH9141_RX_task(void *pvParameters)
                     MQTT_Buffer.PulseFrequency = buffer[1];
                     MQTT_Buffer.elderlyFallDetection = buffer[2];   //这个得放外面
             );
+            if(MQTT_Buffer.elderlyFallDetection > 0)
+            {
+                TTS[0] = TTS_elderlyFall;              //语音传输
+                uartWriteHeartStr(TTS);
+            }
                 }
 
         printf("BloodOxygen:%d   Pulse:%d,elderlyFallDetection:%d\r\n",buffer[0],buffer[1],buffer[2]);
@@ -179,7 +189,7 @@ void dht11_task(void *pvParameters)
 }
 
 /*
- * 更新用户界面的温度和湿度显示（隔两秒）
+ * 更新用户界面的温度和湿度显示（隔两秒）,并将异常数据语音播报
  */
 void userScreen_task(void *pvParameters){
     while (1)
@@ -190,11 +200,40 @@ void userScreen_task(void *pvParameters){
                         update_value1(humi);
                         update_value2(MQTT_Buffer.PulseFrequency);
         ););
+        mutex(TTS_mutex_handler, 100,
+        mutex(onenet_mutex_handler,100,
+                TTS_Send(temp,humi,MQTT_Buffer.PulseFrequency,MQTT_Buffer.elderlyFallDetection);
+        ););
         vTaskDelay(2000);
     }
 
 }
-
+/*
+ *  语音助手通讯接收
+ */
+void TTS_RX_task(void *pvParameters)
+{
+    char buffer[1024];
+    while (1)
+    {
+        mutex(TTS_mutex_handler, 100,
+                int num = uartAvailableHeart();//读取蓝牙字符串
+                memset(buffer,'\0',1024);
+                if (num > 0 )
+                {
+                    uartReadHeart(buffer , num);
+//                    printf("%s",buffer);        //测试
+                    if(strstr(buffer,"temp"))//对比接收数据
+                    {
+                        TTS[0] = TTS_WR_Temp;
+                        TTS[1] = temp;
+                        uartWriteHeartStr(TTS);
+                    }
+                }
+        );
+        Delay_Ms(2000);
+    }
+}
 
 void LVGL_task(void *pvParameters)
 {
@@ -212,6 +251,8 @@ void start_task(void *pvParameters)
     onenet_mutex_handler = xSemaphoreCreateMutex();                  //先创建几个互斥锁
     dht11_mutex_handler = xSemaphoreCreateMutex();
     lvgl_mutex_handler = xSemaphoreCreateMutex();
+    TTS_mutex_handler = xSemaphoreCreateMutex();
+
     Droplet_queue_handler= xQueueCreate(1,sizeof(uint16_t));         //队列长度一，大小u16
     if (Droplet_queue_handler == NULL) printf("队列创建失败\n");
     xTaskCreate(OnenetSend_task,"OnenetSend_task",1024,NULL,5,&OnenetSend_Handler);
@@ -219,7 +260,8 @@ void start_task(void *pvParameters)
     xTaskCreate(LVGL_task,"LVGL_task",2*1024,NULL,5,&LVGL_Handler);
     xTaskCreate(dht11_task, "dht11_task", 128, NULL, 6, &DHT11_Handler);
     xTaskCreate(CH9141_RX_task,"CH9141_RX_task",1024,NULL,6,&CH9141_Handler);
-    xTaskCreate(userScreen_task,"userScreen_task",256,NULL,7,&userScreen_Handler);
+    xTaskCreate(userScreen_task,"userScreen_task",256,NULL,7,&userScreen_Handler);                               //512
+    xTaskCreate(TTS_RX_task,"TTS_RX_task",512,NULL,6,&CH9141_Handler);
     Droplet_timer_handle = xTimerCreate( "Droplet_timer", 10000, pdTRUE, (void *)1,Droplet_timer_callback );     //返回句柄
 
 
@@ -245,6 +287,7 @@ int main(void)
     TIM3_Init();
     MOTOR_Init();
     USART_Printf_Init(115200);
+    Rx8Init();
 
     printf("SystemClk:%d\r\n",SystemCoreClock);
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );

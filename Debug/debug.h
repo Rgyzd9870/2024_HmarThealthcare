@@ -38,6 +38,14 @@
 #define SDI_PRINT   SDI_PR_CLOSE
 #endif
 
+/************************************”Ô“Ù¥´ ‰**********************************************/
+#define TTS_Droplet         0x01
+#define TTS_elderlyFall     0x02
+#define TTS_Pulse           0x04
+#define TTS_Temp            0x08
+#define TTS_WR_Temp         0x10
+#define TTS_NONE            0xFF
+ /***********************************”Ô“Ù”Ô“Ù**********************************************/
 
 void Delay_Init(void);
 //void Delay_Us (uint32_t n);

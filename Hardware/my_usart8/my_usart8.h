@@ -12,8 +12,8 @@ char uartReadByteHeart();
 uint16_t uartAvailableHeart();
 uint8_t Rx8Buffer_Printf(char *buffer);
 uint8_t heart_receive_judge(char *str);
-
-
+void Rx8Init(void);
+void TTS_Send(uint8_t temp,uint8_t humi,double Pulse,double elderlyFall);
 /*******************************************ÁÙÊ±JFC103ÄÚÈİ***************************************************************/
 
 

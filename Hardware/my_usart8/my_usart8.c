@@ -269,4 +269,33 @@ uint8_t  Rx8Buffer_Str(void)
     return 0;
 }
 
+void Rx8Init(void)
+{
 
+    USART8_CFG();
+    DMA8_INIT();
+    USART_DMACmd(UART8,USART_DMAReq_Tx|USART_DMAReq_Rx,ENABLE);
+//    uartReadHeart(text,6);
+//    printf("text:%d",text);
+}
+
+extern uint8_t TTS[1024];                     //语音助手传输数据
+void TTS_Send(uint8_t temp,uint8_t humi,double Pulse,double elderlyFall)
+{
+    memset(TTS,0,1024);       //将蓝牙模块接收清零
+    if(elderlyFall > 0)
+    {
+        TTS[0] = TTS_elderlyFall;              //语音传输
+        uartWriteHeartStr(TTS);
+    }
+    else if (Pulse > 120)
+    {
+        TTS[0] = TTS_Pulse;
+        uartWriteHeartStr(TTS);
+    }
+    else if ((temp > 30)||(humi >50))
+    {
+        TTS[0] = TTS_Temp;
+        uartWriteHeartStr(TTS);
+    }
+}

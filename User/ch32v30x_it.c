@@ -45,7 +45,7 @@ void HardFault_Handler(void)
 /*********************************************************************
  * @fn      EXTI15_10_IRQHandler
  *
- * @brief   This function handles EXTI0 Handler.
+ * @brief   这个是液滴（红外对管）的外部中断计数
  *
  * @return  none
  */

@@ -94,7 +94,7 @@ void OnenetSend_task(void *pvParameters)
     {
         Delay_Ms(10000);
         mutex(onenet_mutex_handler,100,
-        ESP8266_MQTTPUB_Send(MQTT_Buffer.BloodOxygen , MQTT_Buffer.Droplet_speed,MQTT_Buffer.PulseFrequency);
+        ESP8266_MQTTPUB_Send(MQTT_Buffer.BloodOxygen , MQTT_Buffer.Droplet_speed,MQTT_Buffer.PulseFrequency,MQTT_Buffer.elderlyFallDetection);
         );
         printf("尝试发送一次云平台\r\n");
     }
@@ -129,14 +129,18 @@ void OnenetRestr_task(void *pvParameters)
             uartWriteHeartStr(TTS););
         }
         else if(MQTT_Buffer.Droplet_speed == 0)
-        {;}
+        {/*提醒换液*/
+//            mutex(TTS_mutex_handler, 100,
+//            TTS[0] = TTS_emptyDroplet;              //语音传输
+//            uartWriteHeartStr(TTS););
+        }
         else ;
         vTaskDelay(1000);
     }
 }
 /*********************************************************************
- * @fn      OnenetRestr_task
- * @brief   OnenetRestr_task
+ * @fn      CH9141_RX_task
+ * @brief   CH9141_RX_task
  * @param   接收蓝牙发过来的消息队列（心率，血氧），并使用onenet_mutex_handler写入全局结构体里
  * @return  none
  */
@@ -154,7 +158,6 @@ void CH9141_RX_task(void *pvParameters)
             CH9141_uartReadBLE(buffer , num1);                      //读取蓝牙传输出来的数据
             bloodOxygen = buffer[0];
             Pulse =buffer[1];
-
             if((Pulse>200)||(Pulse<40)||(bloodOxygen<90))
             {}
             else{
@@ -163,7 +166,7 @@ void CH9141_RX_task(void *pvParameters)
                     MQTT_Buffer.PulseFrequency = buffer[1];
                     MQTT_Buffer.elderlyFallDetection = buffer[2];   //这个得放外面
             );
-            if(MQTT_Buffer.elderlyFallDetection > 0)
+            if( MQTT_Buffer.elderlyFallDetection > 0)
             {
                 TTS[0] = TTS_elderlyFall;              //语音传输
                 uartWriteHeartStr(TTS);
@@ -222,7 +225,7 @@ void TTS_RX_task(void *pvParameters)
                 if (num > 0 )
                 {
                     uartReadHeart(buffer , num);
-//                    printf("%s",buffer);        //测试
+                    printf("%s",buffer);        //测试
                     if(strstr(buffer,"temp"))//对比接收数据
                     {
                         TTS[0] = TTS_WR_Temp;
@@ -258,11 +261,11 @@ void start_task(void *pvParameters)
     xTaskCreate(OnenetSend_task,"OnenetSend_task",1024,NULL,5,&OnenetSend_Handler);
     xTaskCreate(OnenetRestr_task,"OnenetRestr_task",256,NULL,10,&OnenetRestr_Handler);
     xTaskCreate(LVGL_task,"LVGL_task",2*1024,NULL,5,&LVGL_Handler);
-    xTaskCreate(dht11_task, "dht11_task", 128, NULL, 6, &DHT11_Handler);
+    xTaskCreate(dht11_task, "dht11_task", 128, NULL, 7, &DHT11_Handler);
     xTaskCreate(CH9141_RX_task,"CH9141_RX_task",1024,NULL,6,&CH9141_Handler);
     xTaskCreate(userScreen_task,"userScreen_task",256,NULL,7,&userScreen_Handler);                               //512
     xTaskCreate(TTS_RX_task,"TTS_RX_task",512,NULL,6,&CH9141_Handler);
-    Droplet_timer_handle = xTimerCreate( "Droplet_timer", 10000, pdTRUE, (void *)1,Droplet_timer_callback );     //返回句柄
+    Droplet_timer_handle = xTimerCreate( "Droplet_timer", 10000, pdTRUE, (void *)1,Droplet_timer_callback );     //返回句柄 ，定时10s
 
 
     int err = xTimerStart(Droplet_timer_handle,(TickType_t)1000);
@@ -331,9 +334,6 @@ void Droplet_timer_callback(TimerHandle_t pxTimer)
 {
     BaseType_t xHigherPriorityTaskWoken = pdFALSE; //判断是否有高优先级任务执行
     BaseType_t err;
-    //回调函数中不能使用阻塞任务，访问队列或信号量的非零阻塞时间也不能调用
-    //液滴每秒的运行值，等等改成液滴每分钟运行值
-
 //    printf("Droplet的运行次数：%d\r\n",COUNT);
     err = xQueueSendToFrontFromISR(Droplet_queue_handler,&COUNT,&xHigherPriorityTaskWoken);
     if(err != pdTRUE )printf("中断队列发送失败\n");

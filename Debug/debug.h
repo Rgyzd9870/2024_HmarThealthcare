@@ -44,6 +44,7 @@
 #define TTS_Pulse           0x04
 #define TTS_Temp            0x08
 #define TTS_WR_Temp         0x10
+#define TTS_emptyDroplet    0x20
 #define TTS_NONE            0xFF
  /***********************************”Ô“Ù”Ô“Ù**********************************************/
 

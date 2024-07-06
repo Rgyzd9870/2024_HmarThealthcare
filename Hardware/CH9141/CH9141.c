@@ -371,6 +371,9 @@ char CH9141_AT_WriteCmd(int time,char*cmd,char*response)
        return 1;
 
 }
+/*
+ * 蓝牙接收字符串，并进行判断，用sscanf来将字符串后面的数字分离出来
+ */
 void CH9141_RX_Str(void)
 {
     char buffer[1024];

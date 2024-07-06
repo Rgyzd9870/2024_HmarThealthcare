@@ -282,7 +282,7 @@ void Rx8Init(void)
 extern uint8_t TTS[1024];                     //语音助手传输数据
 void TTS_Send(uint8_t temp,uint8_t humi,double Pulse,double elderlyFall)
 {
-    memset(TTS,0,1024);       //将蓝牙模块接收清零
+    memset(TTS,0,1024);
     if(elderlyFall > 0)
     {
         TTS[0] = TTS_elderlyFall;              //语音传输

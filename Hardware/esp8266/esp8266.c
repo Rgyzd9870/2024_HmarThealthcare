@@ -461,7 +461,7 @@ uint8_t ESP8266_MQTTPUB_Create(char *DATA)
     return 0;
 }
 
-void ESP8266_MQTTPUB_Send(double BloodOxygen , double Droplet,double PulseFrequency)
+void ESP8266_MQTTPUB_Send(double BloodOxygen , double Droplet,double PulseFrequency,double elderlyFallDetection)
 {
     char cmdBuf[256];
     char buffer[256]={"\0"};
@@ -469,7 +469,7 @@ void ESP8266_MQTTPUB_Send(double BloodOxygen , double Droplet,double PulseFreque
     cJSON_SetNumberHelper(cJSON_GetObjectItem(cjson_humidity,"value"),BloodOxygen);
     cJSON_SetNumberHelper(cJSON_GetObjectItem(cjson_temperature,"value"),Droplet);
     cJSON_SetNumberHelper(cJSON_GetObjectItem(cjson_PulseFrequency,"value"),PulseFrequency);
-//    cJSON_SetNumberHelper(cJSON_GetObjectItem(cjson_elderlyFallDetection,"value"),***);
+    cJSON_SetNumberHelper(cJSON_GetObjectItem(cjson_elderlyFallDetection,"value"),elderlyFallDetection);
 
     char *str = cJSON_PrintUnformatted(cjson_main);    //重新生成JSON字符串
 //    printf("%s\n", str);

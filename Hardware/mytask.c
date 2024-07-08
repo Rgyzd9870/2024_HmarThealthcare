@@ -9,6 +9,7 @@
 #include "inv_mpu.h"
 #include "inv_mpu_dmp_motion_driver.h"
 #include "Fall_detection.h"
+#include "oled.h"
 
 static uint8_t MyTaskId;
 
@@ -35,7 +36,21 @@ uint16_t MyTask_ProcessEvent(uint8_t task_id, uint16_t events);
 void MyTask_Init(void)
 {
     uint8_t res;
+    OLED_Init();
 
+    OLED_ShowChinese(32, 0, 0, 16);//共
+    OLED_ShowChinese(48, 0, 1, 16);//创
+    OLED_ShowChinese(64, 0, 2, 16);//未
+    OLED_ShowChinese(80 , 0, 3, 16);//来
+
+    OLED_ShowChinese(0, 17, 4, 16);//心
+    OLED_ShowChinese(16, 17, 5, 16);//率
+    OLED_ShowChinese(32, 17, 6, 16);//：
+
+    OLED_ShowChinese(0,  34, 7, 16);//血
+    OLED_ShowChinese(16, 34, 8, 16);//氧
+    OLED_ShowChinese(32, 34, 9, 16);//：
+    OLED_Refresh();
     MyTaskId=TMOS_ProcessEventRegister(MyTask_ProcessEvent);
 
     iic_init();
@@ -70,11 +85,17 @@ uint16_t MyTask_ProcessEvent(uint8_t task_id, uint16_t events)
     //MAX30102 发送
     if(events & MAX30102_SEND_ENT)
     {
-        maxim_heart_rate_and_oxygen_saturation(aun_ir_buffer, n_ir_buffer_length, aun_red_buffer, &n_sp02, &ch_spo2_valid, &n_heart_rate, &ch_hr_valid);
+        maxim_heart_rate_and_oxygen_saturation(aun_ir_buffer, n_ir_buffer_length, aun_red_buffer, &n_sp02, &ch_spo2_valid, &n_heart_rate, &ch_hr_valid);   //获取心率血氧
 
         if(ch_spo2_valid&&ch_hr_valid)
         {
             printf("n_sp02:%d,n_heart_rate:%d\r\n",n_sp02,n_heart_rate);
+
+
+                 OLED_ShowNum(40, 17, n_heart_rate, 3, 16);
+                 OLED_ShowNum(40, 34, n_sp02, 3, 16);
+                 OLED_Refresh();
+
             tmos_start_task(centralTaskId, START_READ_OR_WRITE_EVT, MS1_TO_SYSTEM_TIME( 200 ));
         }
 
@@ -84,12 +105,13 @@ uint16_t MyTask_ProcessEvent(uint8_t task_id, uint16_t events)
     //MPU6050 发送
     if(events & MPU6050_SEND_ENT)
     {
-        mpu6050_buff=Fall_detection();
+        mpu6050_buff=Fall_detection();              //获取有人摔倒
         if((mpu6050_buff != 0) &&(flag ==0))        //有人摔倒立即发送
         {
             mpu6050_res = mpu6050_buff;
             flag++;
             printf("mpu6050_res:%d , flag:%d\r\n",mpu6050_res,flag);
+
             tmos_start_task(centralTaskId, START_READ_OR_WRITE_EVT, MS1_TO_SYSTEM_TIME( 200 ));
         }
         tmos_start_task(MyTaskId, MPU6050_SEND_ENT, MS1_TO_SYSTEM_TIME(50));

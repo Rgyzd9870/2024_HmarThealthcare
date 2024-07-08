@@ -30,6 +30,7 @@ Hardware/MAX30102 \
 Hardware/MPU6050/DMP \
 Hardware/MPU6050/Fall\ Detection \
 Hardware/MPU6050 \
+Hardware/OLED \
 Hardware/algorithm \
 Hardware \
 LIB \

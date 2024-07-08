@@ -1,4 +1,5 @@
-APP/system_ch32v20x.o: ../APP/system_ch32v20x.c \
+Hardware/OLED/oled.o: ../Hardware/OLED/oled.c ../Hardware/OLED/oled.h \
+ D:\oneDrie\OneDrive\桌面\智能医疗系统从机历程\SRC\Debug/debug.h \
  D:\oneDrie\OneDrive\桌面\智能医疗系统从机历程\SRC\Peripheral\inc/ch32v20x.h \
  D:\oneDrie\OneDrive\桌面\智能医疗系统从机历程\SRC\Core/core_riscv.h \
  D:\oneDrie\OneDrive\桌面\智能医疗系统从机历程\APP\include/system_ch32v20x.h \
@@ -23,8 +24,12 @@ APP/system_ch32v20x.o: ../APP/system_ch32v20x.c \
  D:\oneDrie\OneDrive\桌面\智能医疗系统从机历程\SRC\Peripheral\inc/ch32v20x_usart.h \
  D:\oneDrie\OneDrive\桌面\智能医疗系统从机历程\SRC\Peripheral\inc/ch32v20x_wwdg.h \
  D:\oneDrie\OneDrive\桌面\智能医疗系统从机历程\APP\include/ch32v20x_it.h \
- D:\oneDrie\OneDrive\桌面\智能医疗系统从机历程\SRC\Debug/debug.h \
- D:\oneDrie\OneDrive\桌面\智能医疗系统从机历程\SRC\Peripheral\inc/ch32v20x_misc.h
+ D:\oneDrie\OneDrive\桌面\智能医疗系统从机历程\SRC\Peripheral\inc/ch32v20x_misc.h \
+ ../Hardware/OLED/oledfont.h
+
+../Hardware/OLED/oled.h:
+
+D:\oneDrie\OneDrive\桌面\智能医疗系统从机历程\SRC\Debug/debug.h:
 
 D:\oneDrie\OneDrive\桌面\智能医疗系统从机历程\SRC\Peripheral\inc/ch32v20x.h:
 
@@ -74,6 +79,6 @@ D:\oneDrie\OneDrive\桌面\智能医疗系统从机历程\SRC\Peripheral\inc/ch32v20x_wwdg.h
 
 D:\oneDrie\OneDrive\桌面\智能医疗系统从机历程\APP\include/ch32v20x_it.h:
 
-D:\oneDrie\OneDrive\桌面\智能医疗系统从机历程\SRC\Debug/debug.h:
-
 D:\oneDrie\OneDrive\桌面\智能医疗系统从机历程\SRC\Peripheral\inc/ch32v20x_misc.h:
+
+../Hardware/OLED/oledfont.h:

@@ -94,6 +94,7 @@ User/I2C \
 User \
 ui/components \
 ui/fonts \
+ui/images \
 ui/screens \
 ui \
 

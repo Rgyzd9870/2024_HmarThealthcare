@@ -119,20 +119,22 @@ void OnenetRestr_task(void *pvParameters)
                 MQTT_Buffer.Droplet_speed = (int)speed;
         );
         mutex(lvgl_mutex_handler,100,
-                update_value4(speed);
+                update_value3(speed);
         );
         if(MQTT_Buffer.Droplet_speed > 40)
         {
-            Motor_Run(1,10,3);
+//            Motor_Run(1,10,3);
+            Servo_SetAngle(180);
             mutex(TTS_mutex_handler, 100,
             TTS[0] = TTS_Droplet;              //语音传输
             uartWriteHeartStr(TTS););
         }
         else if(MQTT_Buffer.Droplet_speed == 0)
         {/*提醒换液*/
-//            mutex(TTS_mutex_handler, 100,
-//            TTS[0] = TTS_emptyDroplet;              //语音传输
-//            uartWriteHeartStr(TTS););
+            Servo_SetAngle(180);
+            mutex(TTS_mutex_handler, 100,
+            TTS[0] = TTS_emptyDroplet;              //语音传输
+            uartWriteHeartStr(TTS););
         }
         else ;
         vTaskDelay(1000);
@@ -168,8 +170,9 @@ void CH9141_RX_task(void *pvParameters)
             );
             if( MQTT_Buffer.elderlyFallDetection > 0)
             {
+                mutex(TTS_mutex_handler, 100,
                 TTS[0] = TTS_elderlyFall;              //语音传输
-                uartWriteHeartStr(TTS);
+                uartWriteHeartStr(TTS););
             }
                 }
 
@@ -240,11 +243,19 @@ void TTS_RX_task(void *pvParameters)
 
 void LVGL_task(void *pvParameters)
 {
-    while(1)
+    TickType_t xLastWakeTime;
+    const TickType_t xPeriod = pdMS_TO_TICKS( 5 );
+
+    // 使用当前时间初始化变量xLastWakeTime ,注意这和vTaskDelay()函数不同
+    xLastWakeTime = xTaskGetTickCount();
+
+    for(;;)
     {
-        lv_timer_handler(); /* LVGL 计时器 */
-        Delay_Ms(5);
+        /* 调用系统延时函数,周期性阻塞5ms */
+        vTaskDelayUntil( &xLastWakeTime,xPeriod );
+        lv_task_handler();
     }
+    vTaskDelete(NULL);
 }
 
 void start_task(void *pvParameters)
@@ -260,7 +271,7 @@ void start_task(void *pvParameters)
     if (Droplet_queue_handler == NULL) printf("队列创建失败\n");
     xTaskCreate(OnenetSend_task,"OnenetSend_task",1024,NULL,5,&OnenetSend_Handler);
     xTaskCreate(OnenetRestr_task,"OnenetRestr_task",256,NULL,10,&OnenetRestr_Handler);
-    xTaskCreate(LVGL_task,"LVGL_task",2*1024,NULL,5,&LVGL_Handler);
+    xTaskCreate(LVGL_task,"LVGL_task",1024,NULL,5,&LVGL_Handler);
     xTaskCreate(dht11_task, "dht11_task", 128, NULL, 7, &DHT11_Handler);
     xTaskCreate(CH9141_RX_task,"CH9141_RX_task",1024,NULL,6,&CH9141_Handler);
     xTaskCreate(userScreen_task,"userScreen_task",256,NULL,7,&userScreen_Handler);                               //512

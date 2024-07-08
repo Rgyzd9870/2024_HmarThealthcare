@@ -10,6 +10,7 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include ui/screens/subdir.mk
+-include ui/images/subdir.mk
 -include ui/fonts/subdir.mk
 -include ui/components/subdir.mk
 -include ui/subdir.mk
@@ -121,7 +122,7 @@ all: ch32_freertosban.elf secondary-outputs
 
 # 工具调用
 ch32_freertosban.elf: $(OBJS) $(USER_OBJS)
-	@	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized  -g -T "C:\Users\rgyzd9870\Desktop\onenet图片\立心率\基于ch32的医疗系统\2024_SmartHealthcare\Ld\Link.ld" -nostartfiles -Xlinker --gc-sections -Wl,-Map,"ch32_freertosban.map" --specs=nano.specs --specs=nosys.specs -o "ch32_freertosban.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	@	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized  -g -T "C:\Users\rgyzd9870\Desktop\onenet图片\立心率\比赛文件（能用主机）\比赛文件（全部能用）\基于ch32的医疗系统-ui1.0(1)\基于ch32的医疗系统-ui1.0\2024_SmartHealthcare\Ld\Link.ld" -nostartfiles -Xlinker --gc-sections -Wl,-Map,"ch32_freertosban.map" --specs=nano.specs --specs=nosys.specs -o "ch32_freertosban.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@	@
 ch32_freertosban.hex: ch32_freertosban.elf
 	@	riscv-none-embed-objcopy -O ihex "ch32_freertosban.elf"  "ch32_freertosban.hex"

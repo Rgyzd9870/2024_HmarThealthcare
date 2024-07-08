@@ -18,17 +18,8 @@ extern "C" {
 // SCREEN: ui_Screen1
 void ui_Screen1_screen_init(void);
 extern lv_obj_t * ui_Screen1;
-void ui_event_duoji(lv_event_t * e);
-extern lv_obj_t * ui_duoji;
-extern lv_obj_t * ui_duoji1;
-void ui_event_pingmu2(lv_event_t * e);
-extern lv_obj_t * ui_pingmu2;
-extern lv_obj_t * ui_Label1;
-// SCREEN: ui_Screen2
-void ui_Screen2_screen_init(void);
-extern lv_obj_t * ui_Screen2;
 extern lv_obj_t * ui_Container1;
-//void ui_event_yedicishu1(lv_event_t * e);
+void ui_event_yedicishu1(lv_event_t * e);
 extern lv_obj_t * ui_yedicishu1;
 void ui_event_wendu1(lv_event_t * e);
 extern lv_obj_t * ui_wendu1;
@@ -42,7 +33,7 @@ void ui_event_xinglv1(lv_event_t * e);
 extern lv_obj_t * ui_xinglv1;
 extern lv_obj_t * ui_xinglv2;
 extern lv_obj_t * ui_xinglv3;
-//void ui_event_dianling1(lv_event_t * e);
+void ui_event_dianling1(lv_event_t * e);
 extern lv_obj_t * ui_dianling1;
 extern lv_obj_t * ui_dianliang2;
 extern lv_obj_t * ui_dianliang3;
@@ -50,33 +41,43 @@ extern lv_obj_t * ui_yedicishu3;
 extern lv_obj_t * ui_yedicishu2;
 extern lv_obj_t * ui_yue;
 extern lv_obj_t * ui_tian;
-extern lv_obj_t * ui_shijian;
-void ui_event_pingmu111(lv_event_t * e);
-extern lv_obj_t * ui_pingmu111;
-// SCREEN: ui_Screen3
-void ui_Screen3_screen_init(void);
-extern lv_obj_t * ui_Screen3;
-void ui_event_duojiyzuo(lv_event_t * e);
-extern lv_obj_t * ui_duojiyzuo;
-extern lv_obj_t * ui_duojizuo1;
-void ui_event_duojiyou(lv_event_t * e);
-extern lv_obj_t * ui_duojiyou;
-extern lv_obj_t * ui_duojiyou1;
-void ui_event_zidong(lv_event_t * e);
-extern lv_obj_t * ui_zidong;
-extern lv_obj_t * ui_zidong1;
-void ui_event_pingmu1(lv_event_t * e);
-extern lv_obj_t * ui_pingmu1;
-extern lv_obj_t * ui_pingmu11;
+extern lv_obj_t * ui_time;
+void ui_event_exchangeto2(lv_event_t * e);
+extern lv_obj_t * ui_exchangeto2;
+// SCREEN: ui_Screen2
+void ui_Screen2_screen_init(void);
+extern lv_obj_t * ui_Screen2;
+extern lv_obj_t * ui_Container2;
+void ui_event_steering1(lv_event_t * e);
+extern lv_obj_t * ui_steering1;
+extern lv_obj_t * ui_steeringopen;
+void ui_event_steering2(lv_event_t * e);
+extern lv_obj_t * ui_steering2;
+extern lv_obj_t * ui_steeringclose;
+extern lv_obj_t * ui_Container3;
+extern lv_obj_t * ui_Label1;
+void ui_event_ask10s(lv_event_t * e);
+extern lv_obj_t * ui_ask10s;
+extern lv_obj_t * ui_ask10slable;
+void ui_event_ask5s(lv_event_t * e);
+extern lv_obj_t * ui_ask5s;
+extern lv_obj_t * ui_ask5slable;
+extern lv_obj_t * ui_ask;
+void ui_event_exchangeto1(lv_event_t * e);
+extern lv_obj_t * ui_exchangeto1;
+extern lv_obj_t * ui_steeringmag;
+extern lv_obj_t * ui_askmag;
 extern lv_obj_t * ui____initial_actions0;
 
 
+LV_IMG_DECLARE(ui_img_act021_png);    // assets/ACT021.png
+LV_IMG_DECLARE(ui_img_1076440284);    // assets/呼叫.png
+void update_value(double num);
 void update_value1(double num);
 void update_value2(double num);
 void update_value3(double num);
-void update_value4(double num);
-void ui_event_duojiyou(lv_event_t * e);
-void update_value(double num);
+
+
 
 LV_FONT_DECLARE(ui_font_Font1);
 

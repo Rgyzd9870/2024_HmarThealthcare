@@ -5,48 +5,29 @@
 
 #include "ui.h"
 #include "ui_helpers.h"
-#include "motor.h"
 #include "lv_port_indev_template.h"
+#include "stdio.h"
+#include "PWM.h"
+#include "debug.h"
+#include "my_usart8.h"
 ///////////////////// VARIABLES ////////////////////
 
-
-extern uint8_t temp;
 
 // SCREEN: ui_Screen1
 void ui_Screen1_screen_init(void);
 lv_obj_t * ui_Screen1;
-void ui_event_duoji(lv_event_t * e);
-lv_obj_t * ui_duoji;
-lv_obj_t * ui_duoji1;
-void ui_event_pingmu2(lv_event_t * e);
-lv_obj_t * ui_pingmu2;
-lv_obj_t * ui_Label1;
-
-
-// SCREEN: ui_Screen2
-void ui_Screen2_screen_init(void);
-lv_obj_t * ui_Screen2;
 lv_obj_t * ui_Container1;
-//void ui_event_yedicishu1(lv_event_t * e);
-void update_value4(double num);
 lv_obj_t * ui_yedicishu1;
-//void ui_event_wendu1(lv_event_t * e);
-void update_value(double num); //温度
 lv_obj_t * ui_wendu1;
 lv_obj_t * ui_wendu2;
 lv_obj_t * ui_wendu3;
-//void ui_event_shidu1(lv_event_t * e);
-void update_value1(double num);
 lv_obj_t * ui_shidu1;
 lv_obj_t * ui_shidu2;
 lv_obj_t * ui_shidu3;
-//void ui_event_xinglv1(lv_event_t * e);
-void update_value2(double num);
 lv_obj_t * ui_xinglv1;
 lv_obj_t * ui_xinglv2;
 lv_obj_t * ui_xinglv3;
-void update_value3(double num);
-//void ui_event_dianling1(lv_event_t * e);
+void ui_event_dianling1(lv_event_t * e);
 lv_obj_t * ui_dianling1;
 lv_obj_t * ui_dianliang2;
 lv_obj_t * ui_dianliang3;
@@ -54,28 +35,41 @@ lv_obj_t * ui_yedicishu3;
 lv_obj_t * ui_yedicishu2;
 lv_obj_t * ui_yue;
 lv_obj_t * ui_tian;
-lv_obj_t * ui_shijian;
-void ui_event_pingmu111(lv_event_t * e);
-lv_obj_t * ui_pingmu111;
+lv_obj_t * ui_time;
+void ui_event_exchangeto2(lv_event_t * e);
+lv_obj_t * ui_exchangeto2;
 
 
-// SCREEN: ui_Screen3
-void ui_Screen3_screen_init(void);
-lv_obj_t * ui_Screen3;
-void ui_event_duojiyzuo(lv_event_t * e);
-lv_obj_t * ui_duojiyzuo;
-lv_obj_t * ui_duojizuo1;
-void ui_event_duojiyou(lv_event_t * e);
-lv_obj_t * ui_duojiyou;
-lv_obj_t * ui_duojiyou1;
-void ui_event_zidong(lv_event_t * e);
-lv_obj_t * ui_zidong;
-lv_obj_t * ui_zidong1;
-void ui_event_pingmu1(lv_event_t * e);
-lv_obj_t * ui_pingmu1;
-lv_obj_t * ui_pingmu11;
+// SCREEN: ui_Screen2
+void ui_Screen2_screen_init(void);
+lv_obj_t * ui_Screen2;
+lv_obj_t * ui_Container2;
+void ui_event_steering1(lv_event_t * e);
+lv_obj_t * ui_steering1;
+lv_obj_t * ui_steeringopen;
+void ui_event_steering2(lv_event_t * e);
+lv_obj_t * ui_steering2;
+lv_obj_t * ui_steeringclose;
+lv_obj_t * ui_Container3;
+lv_obj_t * ui_Label1;
+void ui_event_ask10s(lv_event_t * e);
+lv_obj_t * ui_ask10s;
+lv_obj_t * ui_ask10slable;
+void ui_event_ask5s(lv_event_t * e);
+lv_obj_t * ui_ask5s;
+lv_obj_t * ui_ask5slable;
+lv_obj_t * ui_ask;
+void ui_event_exchangeto1(lv_event_t * e);
+lv_obj_t * ui_exchangeto1;
+lv_obj_t * ui_steeringmag;
+lv_obj_t * ui_askmag;
 lv_obj_t * ui____initial_actions0;
-
+const lv_img_dsc_t * ui_imgset_act[1] = {&ui_img_act021_png};
+void update_value(double num);
+void update_value1(double num);
+void update_value2(double num);
+void update_value3(double num);
+extern uint8_t TTS[1024];                     //语音助手传输数据
 ///////////////////// TEST LVGL SETTINGS ////////////////////
 #if LV_COLOR_DEPTH != 16
     #error "LV_COLOR_DEPTH should be 16bit to match SquareLine Studio's settings"
@@ -87,25 +81,8 @@ lv_obj_t * ui____initial_actions0;
 ///////////////////// ANIMATIONS ////////////////////
 
 ///////////////////// FUNCTIONS ////////////////////
-void ui_event_duoji(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(&ui_Screen3, LV_SCR_LOAD_ANIM_MOVE_LEFT, 500, 0, &ui_Screen3_screen_init);
-        switch_focus_group(group3);
-    }
-}
-void ui_event_pingmu2(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(&ui_Screen2, LV_SCR_LOAD_ANIM_MOVE_LEFT, 500, 0, &ui_Screen2_screen_init);
-        switch_focus_group(group2);
-    }
-}
-void update_value4(double num) {//液滴低落次数
+
+void update_value3(double num) {//液滴低落次数
    static int value = 0;
     value = (uint8_t)num;//这里写接受到的低落次数的数据
    if (value <= 60) {
@@ -119,14 +96,6 @@ void update_value4(double num) {//液滴低落次数
 
    }
 }
-//void ui_event_yedicishu1(lv_event_t * e)
-//{
-//    lv_event_code_t event_code = lv_event_get_code(e);
-//    lv_obj_t * target = lv_event_get_target(e);
-//    if(event_code == LV_EVENT_VALUE_CHANGED) {
-//        _ui_slider_set_text_value(ui_yedicishu3, target, "", "");
-//    }
-//}
 void update_value(double num){//温度更新放置
    static int value = 0;
    value= (uint8_t)num;//这里改温度的数据
@@ -140,14 +109,6 @@ void update_value(double num){//温度更新放置
        value=0;
    }
 }
-//void ui_event_wendu1(lv_event_t * e)
-//{
-//    lv_event_code_t event_code = lv_event_get_code(e);
-//    lv_obj_t * target = lv_event_get_target(e);
-//    if(event_code == LV_EVENT_VALUE_CHANGED) {
-//        _ui_arc_set_text_value(ui_wendu3, target, "", "");
-//    }
-//}
 void update_value1(double num) {//湿度放置
      static int value = 0;
      value= (uint8_t)num;//这湿度的数据
@@ -161,14 +122,6 @@ void update_value1(double num) {//湿度放置
          value=0;
      }
  }
-//void ui_event_shidu1(lv_event_t * e)
-//{
-//    lv_event_code_t event_code = lv_event_get_code(e);
-//    lv_obj_t * target = lv_event_get_target(e);
-//    if(event_code == LV_EVENT_VALUE_CHANGED) {
-//        _ui_arc_set_text_value(ui_shidu3, target, "", "");
-//    }
-//}
 void update_value2(double num) {//更新事件arc和lable都在这里更新
      static int value = 0;
      value= (uint8_t)num;//这写心率的传过来的数据
@@ -182,83 +135,57 @@ void update_value2(double num) {//更新事件arc和lable都在这里更新
          value=0;
      }
  }
-//void ui_event_xinglv1(lv_event_t * e)
-//{
-//    lv_event_code_t event_code = lv_event_get_code(e);
-//    lv_obj_t * target = lv_event_get_target(e);
-//    if(event_code == LV_EVENT_VALUE_CHANGED) {
-//        _ui_arc_set_text_value(ui_xinglv3, target, "", "");
-//    }
-//}
-void update_value3(double num) {//电量  随便写一个如果没有电量这玩意
-     static int value = 0;
-     value= (int)num;//这写电量的传过来的数据
-     if (value <= 100) {
-         lv_arc_set_value(ui_dianling1, value);  // 更新Arc的值
 
-         char buf[4]; // 数字转换为字符串的缓冲区
-         snprintf(buf, 4, "%d", value);
-         lv_label_set_text(ui_dianliang3, buf);   // 更新Label的显示
-     } else {
-         value=0;
-     }
- }
-//void ui_event_dianling1(lv_event_t * e)//电量
-//{
-//    lv_event_code_t event_code = lv_event_get_code(e);
-//    lv_obj_t * target = lv_event_get_target(e);
-//    if(event_code == LV_EVENT_VALUE_CHANGED) {
-//        _ui_arc_set_text_value(ui_dianliang3, target, "", "%");
-//    }
-//}
-
-void ui_event_pingmu111(lv_event_t * e)
+void ui_event_exchangeto2(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        switch_focus_group(group2);
+        _ui_screen_change(&ui_Screen2, LV_SCR_LOAD_ANIM_MOVE_LEFT, 500, 0, &ui_Screen2_screen_init);
+    }
+}
+void ui_event_steering1(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+       Servo_SetAngle(0);
+    }
+}
+void ui_event_steering2(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        Servo_SetAngle(180);
+    }
+}
+void ui_event_ask10s(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        TTS[0] = TTS_ask10s;              //语音传输
+        uartWriteHeartStr(TTS);
+    }
+}
+void ui_event_ask5s(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        TTS[0] = TTS_ask5s;              //语音传输
+        uartWriteHeartStr(TTS);
+    }
+}
+void ui_event_exchangeto1(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
         switch_focus_group(group1);
-        _ui_screen_change(&ui_Screen1, LV_SCR_LOAD_ANIM_OVER_RIGHT, 500, 0, &ui_Screen1_screen_init);
-    }
-}
-void ui_event_duojiyzuo(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_CLICKED) {
-     //   MOTOR_Init();
-        Motor_Run(0, 1, 5);
-    }
-}
-void ui_event_duojiyou(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_CLICKED) {
-     //   MOTOR_Init();
-        Motor_Run(1, 1, 5);
-         }
-
-}
-void ui_event_zidong(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_CLICKED) {
-
-        Motor_Run(0, 5, 1);
-        Delay_Ms(1000);
-        Motor_Run(1, 5, 1);
-
-    }
-}
-void ui_event_pingmu1(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(&ui_Screen1, LV_SCR_LOAD_ANIM_OVER_RIGHT, 500, 0, &ui_Screen1_screen_init);
-        switch_focus_group(group1);
+        _ui_screen_change(&ui_Screen1, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 500, 0, &ui_Screen1_screen_init);
     }
 }
 
@@ -269,15 +196,9 @@ void ui_init(void)
     lv_disp_t * dispp = lv_disp_get_default();
     lv_theme_t * theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
                                                false, LV_FONT_DEFAULT);
-//      lv_timer_create(update_value, 20000, NULL);// // 温度
-//      lv_timer_create(update_value1, 20000, NULL);//湿度
-//      lv_timer_create(update_value2, 20000, NULL);//心率
-//      lv_timer_create(update_value3, 20000, NULL);//电量
-//      lv_timer_create(update_value4, 20000, NULL);//液滴次数
     lv_disp_set_theme(dispp, theme);
     ui_Screen1_screen_init();
     ui_Screen2_screen_init();
-    ui_Screen3_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(ui_Screen1);
 }

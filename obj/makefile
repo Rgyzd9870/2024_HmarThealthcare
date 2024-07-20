@@ -15,12 +15,13 @@ RM := rm -rf
 -include SRC/Core/subdir.mk
 -include LIB/subdir.mk
 -include Hardware/algorithm/subdir.mk
--include Hardware/OLED/subdir.mk
 -include Hardware/MPU6050/Fall\ Detection/subdir.mk
 -include Hardware/MPU6050/DMP/subdir.mk
 -include Hardware/MPU6050/subdir.mk
 -include Hardware/MAX30102/subdir.mk
+-include Hardware/LCD/subdir.mk
 -include Hardware/IIC/subdir.mk
+-include Hardware/GBK_LibDrive/subdir.mk
 -include Hardware/subdir.mk
 -include HAL/subdir.mk
 -include APP/subdir.mk
@@ -63,7 +64,7 @@ all: CH32V208WBU6.elf secondary-outputs
 
 # 工具调用
 CH32V208WBU6.elf: $(OBJS) $(USER_OBJS)
-	@	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized  -g -T "D:\oneDrie\OneDrive\桌面\智能医疗系统从机历程\HAL\Link.ld" -nostartfiles -Xlinker --gc-sections -L"D:\oneDrie\OneDrive\桌面\智能医疗系统从机历程\LIB" -Xlinker --print-memory-usage -Wl,-Map,"CH32V208WBU6.map" --specs=nano.specs --specs=nosys.specs -o "CH32V208WBU6.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	@	@	riscv-none-embed-gcc -march=rv32imacxw -mabi=ilp32 -msmall-data-limit=8 -msave-restore -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized  -g -T "C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\HAL\Link.ld" -nostartfiles -Xlinker --gc-sections -L"C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\LIB" -Xlinker --print-memory-usage -Wl,-Map,"CH32V208WBU6.map" --specs=nano.specs --specs=nosys.specs -o "CH32V208WBU6.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@	@
 CH32V208WBU6.hex: CH32V208WBU6.elf
 	@	riscv-none-embed-objcopy -O ihex "CH32V208WBU6.elf"  "CH32V208WBU6.hex"

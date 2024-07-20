@@ -9,7 +9,10 @@
 #include "inv_mpu.h"
 #include "inv_mpu_dmp_motion_driver.h"
 #include "Fall_detection.h"
-#include "oled.h"
+#include "lcd.h"
+#include "Dis_Picture.h"
+#include "Text.h"
+#include "GBK_LibDrive.h"
 
 static uint8_t MyTaskId;
 
@@ -30,27 +33,28 @@ int32_t mpu6050_res;
 int32_t mpu6050_buff;
 uint8_t MAX30102_ReadEnable=0;
 
+//LCD
+char LCD_heart[128];
+char LCD_n_sp02[128];
+char LCD_mpu6050[128];
 uint16_t MyTask_ProcessEvent(uint8_t task_id, uint16_t events);
 
 //初始化传感器硬件及任务
 void MyTask_Init(void)
 {
     uint8_t res;
-    OLED_Init();
 
-    OLED_ShowChinese(32, 0, 0, 16);//共
-    OLED_ShowChinese(48, 0, 1, 16);//创
-    OLED_ShowChinese(64, 0, 2, 16);//未
-    OLED_ShowChinese(80 , 0, 3, 16);//来
 
-    OLED_ShowChinese(0, 17, 4, 16);//心
-    OLED_ShowChinese(16, 17, 5, 16);//率
-    OLED_ShowChinese(32, 17, 6, 16);//：
+    LCD_Init();           //初始化LCD SPI 接口
+    GBK_Lib_Init();       //硬件GBK字库初始化--(如果使用不带字库的液晶屏版本，此处可以屏蔽，不做字库初始化）
+    POINT_COLOR=RED;      //画笔颜色：红色
+    LCD_Clear(GRAY0); //清屏
 
-    OLED_ShowChinese(0,  34, 7, 16);//血
-    OLED_ShowChinese(16, 34, 8, 16);//氧
-    OLED_ShowChinese(32, 34, 9, 16);//：
-    OLED_Refresh();
+    Show_Picture();                                //显示图片
+    LCD_Set_Window(0,0,lcddev.width,lcddev.height);//设置全屏窗口
+    Demo_Menu();                                   //演示程序
+
+
     MyTaskId=TMOS_ProcessEventRegister(MyTask_ProcessEvent);
 
     iic_init();
@@ -91,10 +95,10 @@ uint16_t MyTask_ProcessEvent(uint8_t task_id, uint16_t events)
         {
             printf("n_sp02:%d,n_heart_rate:%d\r\n",n_sp02,n_heart_rate);
 
-
-                 OLED_ShowNum(40, 17, n_heart_rate, 3, 16);
-                 OLED_ShowNum(40, 34, n_sp02, 3, 16);
-                 OLED_Refresh();
+                 sprintf(LCD_heart,"%d",n_heart_rate);     //显示心率变量
+                 Draw_Font24B(120,100,BLUE,LCD_heart);
+                 sprintf(LCD_n_sp02,"%d",n_sp02);          //显示血氧变量
+                 Draw_Font24B(120,150,BLUE,LCD_n_sp02);
 
             tmos_start_task(centralTaskId, START_READ_OR_WRITE_EVT, MS1_TO_SYSTEM_TIME( 200 ));
         }
@@ -111,6 +115,9 @@ uint16_t MyTask_ProcessEvent(uint8_t task_id, uint16_t events)
             mpu6050_res = mpu6050_buff;
             flag++;
             printf("mpu6050_res:%d , flag:%d\r\n",mpu6050_res,flag);
+
+            sprintf(LCD_mpu6050,"%d",mpu6050_res);          //显示摔倒变量
+            Draw_Font24B(120,150,BLUE,LCD_mpu6050);
 
             tmos_start_task(centralTaskId, START_READ_OR_WRITE_EVT, MS1_TO_SYSTEM_TIME( 200 ));
         }

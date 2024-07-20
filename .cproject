@@ -74,6 +74,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CH32V208WBU6/Hardware/MPU6050/DMP}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CH32V208WBU6/Hardware/MPU6050/Fall Detection}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CH32V208WBU6/Hardware/OLED}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CH32V208WBU6/Hardware/GBK_LibDrive}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CH32V208WBU6/Hardware/LCD}&quot;"/>
 								</option>
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.std.2020844713" name="Language standard" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.std" useByScannerDiscovery="true" value="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.std.gnu99" valueType="enumerated"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.defs.177116515" name="Defined symbols (-D)" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.defs" useByScannerDiscovery="true" valueType="definedSymbols">
@@ -201,7 +203,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="SRC/Startup/startup_ch32v20x_D8.S|SRC/Startup/startup_ch32v20x_D6.S|SRC/Ld|Startup/startup_ch32v20x_D6.S|Startup/startup_ch32v20x_D8.S" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="Hardware/OLED|SRC/Startup/startup_ch32v20x_D8.S|SRC/Startup/startup_ch32v20x_D6.S|SRC/Ld|Startup/startup_ch32v20x_D6.S|Startup/startup_ch32v20x_D8.S" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -223,4 +225,5 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="refreshScope"/>
 </cproject>

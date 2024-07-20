@@ -21,7 +21,10 @@
 #include "CONFIG.h"
 #include "gattprofile.h"
 #include "central.h"
-
+#include "lcd.h"
+#include "Dis_Picture.h"
+#include "Text.h"
+#include "GBK_LibDrive.h"
 /*********************************************************************
  * MACROS
  */
@@ -371,7 +374,7 @@ uint16_t Central_ProcessEvent(uint8_t task_id, uint16_t events)
                     if(GATT_WriteCharValue(centralConnHandle, &req, centralTaskId) == SUCCESS)   //如果成功发送给从机
                     {
                         mpu6050_res = 0;flag =0;
-                        //LCD归0
+                        LCD_Fill(168,200,240,224,WHITE);
 //                        printf("req.pValue[2]:%d  mpu6050:%d  \r\n",req.pValue[2],mpu6050_res);
                         centralProcedureInProgress = TRUE;
 //                        centralDoWrite = !centralDoWrite;

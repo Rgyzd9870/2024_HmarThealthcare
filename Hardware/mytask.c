@@ -116,13 +116,21 @@ uint16_t MyTask_ProcessEvent(uint8_t task_id, uint16_t events)
             flag++;
             printf("mpu6050_res:%d , flag:%d\r\n",mpu6050_res,flag);
 
-            sprintf(LCD_mpu6050,"%d",mpu6050_res);          //显示摔倒变量
-            Draw_Font24B(120,150,BLUE,LCD_mpu6050);
+            Draw_Font24B(168,200,RED,"摔倒了");
 
             tmos_start_task(centralTaskId, START_READ_OR_WRITE_EVT, MS1_TO_SYSTEM_TIME( 200 ));
         }
         tmos_start_task(MyTaskId, MPU6050_SEND_ENT, MS1_TO_SYSTEM_TIME(50));
         return (events ^ MPU6050_SEND_ENT);
+    }
+
+    //老人摔倒检测
+    if(events & FALL_SHOW_ENT)
+    {
+            //
+
+
+        return (events ^ FALL_SHOW_ENT);
     }
 
     // Discard unknown events

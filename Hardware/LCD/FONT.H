@@ -48,7 +48,7 @@ struct typFNT_GB24
 
 
 
-#define hz24_num   13   //此处用于设定字库汉字字符的存储汉字的个数，如果添加或者减少字符，需要这里也对应修改
+#define hz24_num   14   //此处用于设定字库汉字字符的存储汉字的个数，如果添加或者减少字符，需要这里也对应修改
 
 extern const struct typFNT_GB24 hz24[];
 

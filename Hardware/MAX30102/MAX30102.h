@@ -3,7 +3,7 @@
 
 //INT
 #define INT_GPIO_PORT               GPIOB
-#define INT_GPIO_PIN                GPIO_Pin_13
+#define INT_GPIO_PIN                GPIO_Pin_6//GPIO_Pin_13
 #define INT_GPIO_CLK_ENABLE()       do{RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);}while(0)   /* PB口时钟使能 */
 #define MAX30102_INT_READ()                  GPIO_ReadInputDataBit(INT_GPIO_PORT, INT_GPIO_PIN)
 

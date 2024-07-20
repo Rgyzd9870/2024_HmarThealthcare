@@ -28,7 +28,15 @@ APP/central.o: ../APP/central.c \
  C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\SRC\Debug/debug.h \
  C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\SRC\Peripheral\inc/ch32v20x_misc.h \
  C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\Profile\include/gattprofile.h \
- C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\APP\include/central.h
+ C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\APP\include/central.h \
+ C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\Hardware\LCD/lcd.h \
+ C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\Hardware\LCD/Dis_Picture.h \
+ C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\Hardware\LCD/lcd.h \
+ C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\Hardware\LCD/Text.h \
+ C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\Hardware\LCD/font.h \
+ C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\Hardware\LCD/Picture.h \
+ C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\Hardware\LCD/Text.h \
+ C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\Hardware\GBK_LibDrive/GBK_LibDrive.h
 
 C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\HAL\include/CONFIG.h:
 
@@ -89,3 +97,19 @@ C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\SR
 C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\Profile\include/gattprofile.h:
 
 C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\APP\include/central.h:
+
+C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\Hardware\LCD/lcd.h:
+
+C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\Hardware\LCD/Dis_Picture.h:
+
+C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\Hardware\LCD/lcd.h:
+
+C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\Hardware\LCD/Text.h:
+
+C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\Hardware\LCD/font.h:
+
+C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\Hardware\LCD/Picture.h:
+
+C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\Hardware\LCD/Text.h:
+
+C:\Users\rgyzd9870\Desktop\比赛文件\比赛文件（全部能用）\智能医疗系统从机历程\Hardware\GBK_LibDrive/GBK_LibDrive.h:
